@@ -1,0 +1,481 @@
+{
+  "com.badlogic.gdx.graphics.g2d.BitmapFont": {
+    "roboto-bold-100": {
+      "file": "roboto-bold-100.fnt"
+    },
+    "roboto-bold-150": {
+      "file": "roboto-bold-150.fnt"
+    }
+  },
+  "com.badlogic.gdx.graphics.Color": {
+    "black": {
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 1
+    },
+    "blue": {
+      "r": 0.19215687,
+      "g": 0.79607844,
+      "b": 0.88235295,
+      "a": 1
+    },
+    "green": {
+      "r": 0.46666667,
+      "g": 1,
+      "b": 0.09019608,
+      "a": 1
+    },
+    "orange": {
+      "r": 0.8980392,
+      "g": 0.6784314,
+      "b": 0.16862746,
+      "a": 1
+    },
+    "purple": {
+      "r": 0.5176471,
+      "g": 0.21176471,
+      "b": 0.8980392,
+      "a": 1
+    },
+    "purple_trans": {
+      "r": 0.5176471,
+      "g": 0.21176471,
+      "b": 0.8980392,
+      "a": 0.48
+    },
+    "red": {
+      "r": 1,
+      "g": 0.27058825,
+      "b": 0.23921569,
+      "a": 1
+    },
+    "white": {
+      "r": 1,
+      "g": 1,
+      "b": 1,
+      "a": 1
+    },
+    "white_trans": {
+      "r": 1,
+      "g": 1,
+      "b": 1,
+      "a": 0.49019608
+    },
+    "white_trans_133": {
+      "r": 1,
+      "g": 1,
+      "b": 1,
+      "a": 0.37
+    }
+  },
+  "com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable": {
+    "friend_tint": {
+      "name": "friend",
+      "color": "purple_trans"
+    },
+    "computer_tint": {
+      "name": "computer",
+      "color": "purple_trans"
+    },
+    "button-bg_tint": {
+      "name": "button-bg",
+      "color": "purple_trans"
+    },
+    "center_tint": {
+      "name": "center",
+      "color": "purple_trans"
+    },
+    "center_tint_blue": {
+      "name": "center",
+      "color": "blue"
+    },
+    "setting_tint": {
+      "name": "setting",
+      "color": "white_trans"
+    },
+    "share_tint": {
+      "name": "share",
+      "color": "white_trans"
+    },
+    "more_tint": {
+      "name": "more",
+      "color": "white_trans"
+    },
+    "white800_purple": {
+      "name": "white800",
+      "color": "purple"
+    },
+    "white800_red": {
+      "name": "white800",
+      "color": "red"
+    },
+    "button-bg_tint_trans": {
+      "name": "button-bg",
+      "color": "white_trans_133"
+    },
+    "cancle_purple": {
+      "name": "cancle",
+      "color": "purple"
+    },
+    "return_tint": {
+      "name": "return",
+      "color": "white_trans"
+    },
+    "exit_tint": {
+      "name": "exit",
+      "color": "white_trans"
+    },
+    "group_tint": {
+      "name": "group",
+      "color": "white_trans"
+    },
+    "phone_phone": {
+      "name": "phone",
+      "color": "white_trans"
+    },
+    "ads_tint": {
+      "name": "ads",
+      "color": "purple_trans"
+    },
+    "plus_tint": {
+      "name": "plus",
+      "color": "white_trans"
+    },
+    "minus_tint": {
+      "name": "minus",
+      "color": "white_trans"
+    },
+    "button_tint": {
+      "name": "button",
+      "color": "white_trans"
+    },
+    "white60_orange_tint": {
+      "name": "white60",
+      "color": "orange"
+    },
+    "button-bg-orange_tint": {
+      "name": "button-bg-orange",
+      "color": "white_trans"
+    },
+    "cancel-2_tint": {
+      "name": "cancel-2",
+      "color": "white_trans"
+    },
+    "circle_tint": {
+      "name": "circle",
+      "color": "blue"
+    },
+    "change_tint": {
+      "name": "change",
+      "color": "white_trans"
+    },
+    "option_tint": {
+      "name": "option",
+      "color": "purple"
+    }
+  },
+  "com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle": {
+    "default": {
+      "up": "button-bg",
+      "down": "button-bg_tint"
+    },
+    "friend": {
+      "up": "friend",
+      "down": "friend_tint"
+    },
+    "computer": {
+      "up": "computer",
+      "down": "computer_tint"
+    },
+    "cancel": {
+      "up": "cancle",
+      "down": "cancle_purple"
+    },
+    "cancel-2": {
+      "up": "cancel-2",
+      "down": "cancel-2_tint"
+    },
+    "change": {
+      "up": "change",
+      "down": "change_tint"
+    },
+    "option": {
+      "up": "option",
+      "down": "option_tint"
+    }
+  },
+  "com.badlogic.gdx.scenes.scene2d.ui.CheckBox$CheckBoxStyle": {
+    "default": {
+      "checkboxOn": "check-on",
+      "checkboxOff": "check-off",
+      "font": "roboto-bold-100"
+    }
+  },
+  "com.badlogic.gdx.scenes.scene2d.ui.ImageButton$ImageButtonStyle": {
+    "default": {
+      "imageUp": "center",
+      "imageDown": "center_tint",
+      "imageChecked": "center_tint_blue"
+    },
+    "setting": {
+      "imageUp": "setting",
+      "imageDown": "setting_tint",
+      "up": "center"
+    },
+    "share": {
+      "imageUp": "share",
+      "imageDown": "share_tint",
+      "up": "left"
+    },
+    "more": {
+      "imageUp": "more",
+      "imageDown": "more_tint",
+      "up": "right"
+    },
+    "return": {
+      "imageUp": "return",
+      "imageDown": "return_tint",
+      "up": "button-bg"
+    },
+    "exit": {
+      "imageUp": "exit",
+      "imageDown": "exit_tint",
+      "up": "button-bg"
+    },
+    "group": {
+      "imageUp": "group",
+      "imageDown": "group_tint"
+    },
+    "phone": {
+      "imageUp": "phone",
+      "imageDown": "phone_phone"
+    },
+    "ads": {
+      "imageUp": "ads",
+      "imageDown": "ads_tint"
+    },
+    "add": {
+      "imageUp": "plus",
+      "imageDown": "plus_tint",
+      "up": "left"
+    },
+    "minus": {
+      "imageUp": "minus",
+      "imageDown": "minus_tint",
+      "up": "right"
+    },
+    "icon-1": {
+      "imageUp": "icon-1",
+      "up": "circle"
+    },
+    "icon-2": {
+      "imageUp": "icon-2",
+      "up": "circle"
+    },
+    "icon-3": {
+      "imageUp": "icon-3",
+      "up": "circle"
+    },
+    "icon-4": {
+      "imageUp": "icon-4",
+      "up": "circle"
+    },
+    "icon-5": {
+      "imageUp": "icon-5",
+      "up": "circle"
+    },
+    "icon-6": {
+      "imageUp": "icon-6",
+      "up": "circle"
+    },
+    "icon-7": {
+      "imageUp": "icon-7",
+      "up": "circle"
+    },
+    "icon-8": {
+      "imageUp": "icon-8",
+      "up": "circle"
+    },
+    "icon-9": {
+      "imageUp": "icon-9",
+      "up": "circle"
+    },
+    "change": {
+      "imageUp": "change",
+      "imageDown": "change_tint",
+      "up": "up"
+    },
+    "cancle-2": {
+      "imageUp": "cancel-2",
+      "imageDown": "cancel-2_tint",
+      "up": "up"
+    }
+  },
+  "com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton$ImageTextButtonStyle": {
+    "default": {
+      "imageUp": "cancel-2",
+      "font": "roboto-bold-100",
+      "fontColor": "orange",
+      "up": "button-bg",
+      "down": "button-bg_tint_trans"
+    },
+    "add": {
+      "imageUp": "plus",
+      "font": "roboto-bold-100",
+      "fontColor": "orange",
+      "up": "button",
+      "down": "button_tint"
+    },
+    "play": {
+      "imageUp": "play",
+      "font": "roboto-bold-100",
+      "fontColor": "red",
+      "up": "button-bg",
+      "down": "button-bg_tint_trans"
+    },
+    "next": {
+      "imageUp": "next",
+      "font": "roboto-bold-100",
+      "fontColor": "orange",
+      "up": "button-bg",
+      "down": "button-bg_tint_trans"
+    }
+  },
+  "com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle": {
+    "default": {
+      "font": "roboto-bold-100"
+    },
+    "heading": {
+      "font": "roboto-bold-150"
+    },
+    "center": {
+      "font": "roboto-bold-100",
+      "fontColor": "orange",
+      "background": "center"
+    },
+    "red": {
+      "font": "roboto-bold-100",
+      "fontColor": "red",
+      "background": "center"
+    },
+    "red-1": {
+      "font": "roboto-bold-100",
+      "fontColor": "red"
+    }
+  },
+  "com.badlogic.gdx.scenes.scene2d.ui.List$ListStyle": {
+    "default": {
+      "font": "roboto-bold-100",
+      "fontColorSelected": "orange",
+      "fontColorUnselected": "green",
+      "selection": "white800",
+      "background": "down"
+    }
+  },
+  "com.badlogic.gdx.scenes.scene2d.ui.ProgressBar$ProgressBarStyle": {
+    "default-horizontal": {
+      "background": "prog-bg",
+      "knobBefore": "prog",
+      "disabledKnobBefore": "prog"
+    },
+    "design": {
+      "background": "b",
+      "knobBefore": "afinal"
+    }
+  },
+  "com.badlogic.gdx.scenes.scene2d.ui.ScrollPane$ScrollPaneStyle": {
+    "default": {
+      "hScroll": "hori-scroll-bg",
+      "hScrollKnob": "horizontal-knob",
+      "vScroll": "vertical-scrol-bg",
+      "vScrollKnob": "vertical-knob"
+    }
+  },
+  "com.badlogic.gdx.scenes.scene2d.ui.SelectBox$SelectBoxStyle": {
+    "default": {
+      "font": "roboto-bold-100",
+      "fontColor": "orange",
+      "background": "dropdown",
+      "scrollStyle": "default",
+      "listStyle": "default"
+    }
+  },
+  "com.badlogic.gdx.scenes.scene2d.ui.Slider$SliderStyle": {
+    "default-horizontal": {
+      "background": "hori-scroll-bg",
+      "knob": "knob",
+      "knobBefore": "horizontal-knob"
+    }
+  },
+  "com.badlogic.gdx.scenes.scene2d.ui.SplitPane$SplitPaneStyle": {
+    "default-horizontal": {
+      "handle": "vertical-knob"
+    }
+  },
+  "com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle": {
+    "default": {
+      "font": "roboto-bold-100",
+      "fontColor": "orange",
+      "downFontColor": "purple_trans",
+      "up": "button-bg",
+      "down": "button-bg_tint"
+    },
+    "rainbow": {
+      "font": "roboto-bold-100",
+      "fontColor": "orange",
+      "downFontColor": "white_trans",
+      "up": "button",
+      "down": "button_tint"
+    },
+    "orange": {
+      "font": "roboto-bold-100",
+      "fontColor": "purple",
+      "downFontColor": "white_trans",
+      "up": "button-bg-orange",
+      "down": "button-bg-orange_tint"
+    },
+    "red": {
+      "font": "roboto-bold-100",
+      "fontColor": "red",
+      "downFontColor": "purple_trans",
+      "up": "button-bg",
+      "down": "button-bg_tint"
+    }
+  },
+  "com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle": {
+    "default": {
+      "font": "roboto-bold-100",
+      "fontColor": "orange",
+      "background": "textfield",
+      "cursor": "cursor",
+      "selection": "white800",
+      "messageFontColor": "red"
+    },
+    "orange": {
+      "font": "roboto-bold-100",
+      "fontColor": "purple",
+      "background": "button-bg-orange",
+      "cursor": "white800_purple"
+    }
+  },
+  "com.badlogic.gdx.scenes.scene2d.ui.TextTooltip$TextTooltipStyle": {
+    "default": {
+      "label": "default"
+    }
+  },
+  "com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle": {
+    "default": {
+      "background": "window",
+      "titleFont": "roboto-bold-150",
+      "titleFontColor": "purple",
+      "stageBackground": "white800_purple"
+    },
+    "win-notitle": {
+      "background": "button-bg-orange",
+      "titleFont": "roboto-bold-150",
+      "titleFontColor": "purple",
+      "stageBackground": "white60_orange_tint"
+    }
+  }
+}
