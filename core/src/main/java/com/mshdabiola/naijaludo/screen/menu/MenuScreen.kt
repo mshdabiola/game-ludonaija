@@ -191,17 +191,20 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
                     Gdx.app.exit()
                 }
             })
-        }).size(200f)
-        val adsImage = Image(purpleSkinn.getDrawable("white20"))
-        row1Table.add(adsImage).height(200f).growX()
-        row1Table.add(ImageButton(purpleSkinn, "group")).size(200f)
+        }).expandX().align(Align.left).size(200f)
+//        val adsImage = Image(purpleSkinn.getDrawable("white20"))
+//        row1Table.add(adsImage).height(200f).growX()
+
+        //hide the group button
+        row1Table.add(ImageButton(purpleSkinn, "group").apply { isVisible = false }).expandX().align(Align.right).size(200f)
 
 
-        val row2Table = Table()
-        row2Table.add(ImageButton(purpleSkinn, "ads")).size(200f)
-        val adsImage2 = Image(purpleSkinn.getDrawable("white20"))
-        row2Table.add(adsImage2).height(200f).growX()
-        row2Table.add(ImageButton(purpleSkinn, "phone")).size(200f)
+        //hide this table
+        val row2Table = Table().apply { isVisible = false }
+        row2Table.add(ImageButton(purpleSkinn, "ads")).expandX().align(Align.left).size(200f)
+//        val adsImage2 = Image(purpleSkinn.getDrawable("white20"))
+//        row2Table.add(adsImage2).height(200f).growX()
+        row2Table.add(ImageButton(purpleSkinn, "phone")).expandX().align(Align.right).size(200f)
 
 
         val thirdTable = Table()
@@ -258,7 +261,8 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
         buttonTable.add(computerButton).size(300f).padRight(300f)
         buttonTable.add(friendButton).size(300f)
         buttonTable.row()
-        buttonTable.add(multiplayerButton).padTop(50f).colspan(2)
+        //for version1
+//        buttonTable.add(multiplayerButton).padTop(50f).colspan(2)
 
         table.add(buttonTable).growX().height(700f).padBottom(50f)
         table.row()
