@@ -10,7 +10,6 @@ import com.mshdabiola.naijaludo.entity.Seed.Companion.MAX_MOVE
 import com.mshdabiola.naijaludo.entity.board.Board
 import com.mshdabiola.naijaludo.entity.board.Floor
 import com.mshdabiola.naijaludo.entity.player.BasePlayer
-import com.mshdabiola.naijaludo.entity.player.HumanPlayer
 import java.io.File
 
 
@@ -150,9 +149,11 @@ open class GameController {
             winnerMap[currentPlayer.id] = size
             val point = (players.size - winnerMap.size)
 
-            (players[playerId] as HumanPlayer).lastPoint = point
+            logger.debug("playerid $currentPlayer and point is $point")
+            currentPlayer.lastPoint = point
 
             currentPlayer.point += point
+
 
             currentPlayer.playerPanel.updateScore()
 

@@ -1,4 +1,4 @@
-package com.mshdabiola.naijaludo.wifipeer2peer.p2p
+package com.mshdabiola.naijaludo.android.wifipeer2peer.p2p
 
 import android.net.wifi.WpsInfo
 import android.net.wifi.p2p.WifiP2pConfig

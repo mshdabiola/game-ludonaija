@@ -5,8 +5,8 @@ import android.net.wifi.p2p.WifiP2pConfig
 import android.net.wifi.p2p.WifiP2pDevice
 import android.net.wifi.p2p.WifiP2pGroup
 import android.net.wifi.p2p.WifiP2pInfo
+import com.mshdabiola.naijaludo.android.wifipeer2peer.p2p.createConfig
 import com.mshdabiola.naijaludo.wifipeer2peer.common.BaseManager
-import com.mshdabiola.naijaludo.wifipeer2peer.p2p.createConfig
 import com.mshdabiola.naijaludo.wifipeer2peer.p2p.createGroup
 import com.mshdabiola.naijaludo.wifipeer2peer.p2p.queryGroupInfo
 import com.mshdabiola.naijaludo.wifipeer2peer.p2p.removeGroup

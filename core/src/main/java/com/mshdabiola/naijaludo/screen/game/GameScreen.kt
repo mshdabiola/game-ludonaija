@@ -350,8 +350,10 @@ class GameScreen(val naijaLudo: NaijaLudo, var gameLogic: GameLogic) : Screen, C
 
     fun scorePlayer() {
         val id = gameController.playerId
+        logger.debug("enter scorePlayer() is player human ${players[id] is HumanPlayer} is gameLogic NewGameLogic ${gameLogic is NewGameLogic} lastPoint is ${players[id].lastPoint}")
         if (gameLogic is NewGameLogic) {
             with(players[id] as HumanPlayer) {
+                logger.debug(" second enter scorePlayer() is player human ${players[id] is HumanPlayer} is gameLogic NewGameLogic ${gameLogic is NewGameLogic} lastPoint is ${lastPoint}")
                 if (lastPoint == 0 && players.size == 2) {
                     GameManager.lossOne = 1
                 }
