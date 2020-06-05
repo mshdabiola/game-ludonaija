@@ -113,6 +113,19 @@ class ServerFactory(val gameController: GameController) {
             return
         }
         playerArray.add(player)
+        reFreshList()
+//        val playerSize = playerArray.size
+//        val colors = getColors(playerSize)
+//        playerArray.forEachIndexed { index, basePlayer ->
+//            basePlayer.id = index
+//
+//            basePlayer.gamecolorsId = colors[index]
+//        }
+
+
+    }
+
+    fun reFreshList() {
         val playerSize = playerArray.size
         val colors = getColors(playerSize)
         playerArray.forEachIndexed { index, basePlayer ->
@@ -120,12 +133,11 @@ class ServerFactory(val gameController: GameController) {
 
             basePlayer.gamecolorsId = colors[index]
         }
-
-
     }
 
     fun removePlayer(removeIndex: Int) {
         playerArray.removeAt(removeIndex)
+        reFreshList()
     }
 
     suspend fun sendAllPlayerNew(): String {
