@@ -138,6 +138,8 @@ class NaijaLudo : Game(), CoroutineScope by CoroutineScope(Dispatchers.Default) 
         launch {
             delay(1000)
             connectInterfaceAnd?.startDiscoveryRegistration(record)
+
+            server.bind()
         }
 
 
@@ -149,7 +151,7 @@ class NaijaLudo : Game(), CoroutineScope by CoroutineScope(Dispatchers.Default) 
         saveNewGameLogic()
 
 //        client.close()
-        server.close()
+        server.dispose()
 //        MassetDescriptor.loadingSkin.dispose()
         assetManager.dispose()
         shapeRenderer.dispose()

@@ -12,6 +12,7 @@ class ClientGameController(val client: GameClient) : GameController() {
 
     override fun toss() {
         super.toss()
+        onlineToss()
         send = true
     }
 
@@ -24,6 +25,7 @@ class ClientGameController(val client: GameClient) : GameController() {
 
     override fun chooseDice() {
         super.chooseDice()
+        onlineChooseDice()
         send = true
     }
 
@@ -37,6 +39,7 @@ class ClientGameController(val client: GameClient) : GameController() {
 
     override fun chooseSeed() {
         super.chooseSeed()
+        onlineChooseSeed()
         send = true
     }
 
@@ -53,6 +56,10 @@ class ClientGameController(val client: GameClient) : GameController() {
             send = false
 
         }
+    }
+
+    override fun dispose() {
+        client.dispose()
     }
 
 }

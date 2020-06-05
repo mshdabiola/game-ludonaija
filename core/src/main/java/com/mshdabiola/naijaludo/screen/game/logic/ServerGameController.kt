@@ -9,10 +9,13 @@ class ServerGameController(val gameServer: GameServer) : GameController() {
     private var prevState = currentState
 
 
+
     var send = false
+
 
     override fun toss() {
         super.toss()
+        onlineToss()
         send = true
     }
 
@@ -25,6 +28,7 @@ class ServerGameController(val gameServer: GameServer) : GameController() {
 
     override fun chooseDice() {
         super.chooseDice()
+        onlineChooseDice()
         send = true
     }
 
@@ -37,6 +41,7 @@ class ServerGameController(val gameServer: GameServer) : GameController() {
 
     override fun chooseSeed() {
         super.chooseSeed()
+        onlineChooseSeed()
         send = true
     }
 
@@ -55,6 +60,11 @@ class ServerGameController(val gameServer: GameServer) : GameController() {
             gameServer.sendString(string)
             send = false
         }
+    }
+
+    override fun dispose() {
+        gameServer.dispose()
+
     }
 
 

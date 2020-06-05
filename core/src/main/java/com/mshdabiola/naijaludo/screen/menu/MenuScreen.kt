@@ -32,11 +32,9 @@ import com.mshdabiola.naijaludo.screen.game.logic.NewGameLogic
 import com.mshdabiola.naijaludo.util.GdxUtils
 import com.mshdabiola.naijaludo.util.ViewportUtils
 import com.mshdabiola.naijaludo.util.debug.DebugCameraController
-
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.actor
-import kotlinx.coroutines.launch
 
 class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by CoroutineScope(Dispatchers.Default) {
     private val logger = Logger(MenuScreen::class.java.name, Logger.DEBUG)
@@ -262,7 +260,7 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
         buttonTable.add(friendButton).size(300f)
         buttonTable.row()
         //for version1
-//        buttonTable.add(multiplayerButton).padTop(50f).colspan(2)
+        buttonTable.add(multiplayerButton).padTop(50f).colspan(2)
 
         table.add(buttonTable).growX().height(700f).padBottom(50f)
         table.row()
@@ -1680,36 +1678,37 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
 
     val multiplayerWindow = OptionWindowNew("MultiPlayer", skin = purpleSkinn).apply {
         addButton("Host") {
-            naijaLudo.launch {
+            println("host button pressed")
+//            naijaLudo.launch {
+            println("host button launch")
 
-                naijaLudo.connectInterfaceAnd?.startDiscovery()
-                naijaLudo.server.updateActor = updatePlayerActor
-                naijaLudo.server.connect()
-                addOnlinePlayer(PlayType.HUMAN)
+            naijaLudo.connectInterfaceAnd?.startDiscovery()
+            naijaLudo.server.updateActor = updatePlayerActor
+            naijaLudo.server.connect()
+            addOnlinePlayer(PlayType.HUMAN)
 
 //
 
-                changeWindow(hostWindow)
-            }
+            changeWindow(hostWindow)
+//            }
 
         }
         addButton("Join") {
 //            onlineHumanPlayer2 = OnlineHumanPlayer(0, intArrayOf(), "")
 
-            naijaLudo.launch {
+            println("join button pressed")
+//            naijaLudo.launch {
 
-                naijaLudo.connectInterfaceAnd?.discoverPeer()
-                if (Gdx.app.type == Application.ApplicationType.Desktop) {
-                    join.connect("192.168.49.1")
-                }
 
-//                onlineHumanPlayer2?.let {
-//
-//                    it.updateActor = updatePlayerActorJoin()
-//                    it.connectClient("10.90.241.36")
-//
-                changeWindow(joinWindow)
+            naijaLudo.connectInterfaceAnd?.discoverPeer()
+//                naijaLudo.launch {
+            println("join button launch")
+            if (Gdx.app.type == Application.ApplicationType.Desktop) {
+                join.connect("192.168.49.1")
             }
+//                }
+            changeWindow(joinWindow)
+//            }
 
         }
 

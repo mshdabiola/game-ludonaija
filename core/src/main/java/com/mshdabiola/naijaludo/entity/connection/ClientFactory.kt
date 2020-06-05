@@ -16,8 +16,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.launch
 
-
-class Factory(val gameController: GameController) {
+class ClientFactory(val gameController: GameController) {
     companion object {
         val currentState = "currentState"
         val currentPlayerIndex = "currentPlayerIndex"
@@ -195,7 +194,7 @@ class Factory(val gameController: GameController) {
             }
             dice1Value -> {
                 val json = jsonPool.obtain()
-                val dice1 = json.fromJson(DiceValue::class.java, strJson)
+                val dice1 = json.fromJson(Factory.DiceValue::class.java, strJson)
                 jsonPool.free(json)
                 gameController.sendDiceValue = dice1
 //                gameController.diceController.tossWithValue(dice1.dice1Value, dice1.dice2Value)

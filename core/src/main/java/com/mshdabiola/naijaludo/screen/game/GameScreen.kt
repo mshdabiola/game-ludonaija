@@ -338,6 +338,8 @@ class GameScreen(val naijaLudo: NaijaLudo, var gameLogic: GameLogic) : Screen, C
             naijaLudo.newGameLogic = gameLogic as NewGameLogic
             naijaLudo.saveNewGameLogic()
         }
+        gameController.dispose()
+        naijaLudo.connectInterfaceAnd?.disconnect()
 
         stage.dispose()
 

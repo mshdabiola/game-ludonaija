@@ -103,6 +103,7 @@ class GameClient() : Client(), CoroutineScope by CoroutineScope(Dispatchers.Defa
 
     fun processor() = actor<String> {
         for (msg in channel) {
+            log("processor $msg")
 //            delay(1000)
             factory.update(msg)
         }
@@ -112,39 +113,58 @@ class GameClient() : Client(), CoroutineScope by CoroutineScope(Dispatchers.Defa
 //        channel.receive().gameController?.let { gameController.copyDetails(it) }
 //    }
 
-    fun connect() {
+//    fun connect() {
+//
+//        start()
+//        try {
+//            connect(900, "localhost", Packets.port)
+//        } catch (e: Exception) {
+//            e.printStackTrace()
+//        }
+//
+//    }
 
-        start()
-        try {
-            connect(900, "localhost", Packets.port)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-
+    fun log(str: String) {
+        println("Client $str")
     }
 
     fun connectIP(ip: String = "localhost") {
-        start()
-        try {
-            connect(900, ip, Packets.port)
-        } catch (e: Exception) {
-            println("first time")
-            e.printStackTrace()
+        launch {
+            log("start client")
+            start()
+            delay(1000)
+            try {
+                log("connect to ip $ip")
+                connect(900, ip, Packets.port)
+                log(" connected")
+            } catch (e: Exception) {
+                log(" client fail to connected")
+                e.printStackTrace()
 
 
+            }
         }
+
 
     }
 
 
     fun sendString(str: String) {
         launch {
+            log("client send $str")
 
             sendTCP(str)
         }
     }
 
+    override fun dispose() {
+        println("dispose client")
+        super.dispose()
+        cancel()
+    }
+
     override fun stop() {
+        println("stop client")
         super.stop()
         cancel()
     }

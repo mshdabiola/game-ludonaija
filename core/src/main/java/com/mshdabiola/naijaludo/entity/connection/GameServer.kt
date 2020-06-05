@@ -46,6 +46,7 @@ class GameServer : Server(), CoroutineScope by CoroutineScope(Dispatchers.Defaul
 
                             serverFactory.addOnlinePlayer(counter)
                             it.playerId = serverFactory.getPlayerIndex()
+                            delay(2000)
                             sendToTCP(it.id, Connect(it.playerId, it.playerName!!))
                             println("CONNECTED SERVER: server register name = ${it.playerName} and id is ${it.playerId}  and send id and name to client ")
 
@@ -106,6 +107,7 @@ class GameServer : Server(), CoroutineScope by CoroutineScope(Dispatchers.Defaul
 
                 connection?.let {
                     println("DISCONNECTED SERVER: from ${(connection as NameConnection).playerName}")
+                    removeLocalPlayer(connection.id)
                 }
 
             }
@@ -116,40 +118,63 @@ class GameServer : Server(), CoroutineScope by CoroutineScope(Dispatchers.Defaul
 
     fun processor() = actor<String> {
 
+
         for (msg in channel) {
+            log(" processor: msg")
 //            delay(1000)
             serverFactory.update(msg)
         }
 
     }
 
-    fun connect() {
-
+    fun bind() {
         bind(Packets.port)
+    }
+
+    fun connect() {
+        log(" connect()")
+
+
+
         start()
         isRunning = true
     }
 
+    override fun dispose() {
+        log("dispose server")
+        super.dispose()
+        isRunning = false
+        cancel()
+    }
+
     override fun stop() {
+        log("server stop")
         super.stop()
         isRunning = false
         cancel()
     }
 
+    fun log(str: String) {
+        println("Server $str")
+    }
+
     fun addLocalPlayer(basePlayer: BasePlayer): BasePlayer {
 
+        log(" addLocalplayer $basePlayer")
         val player = serverFactory.addLocalPlayer(basePlayer)
         launch { sendToAllTCP(serverFactory.sendAllPlayerNew()) }
         return player
     }
 
     fun removeLocalPlayer(removeIndex: Int) {
-
+        log(" removelocaplayer $removeIndex")
         serverFactory.removePlayer(removeIndex)
+
         launch { sendToAllTCP(serverFactory.sendAllPlayerNew()) }
     }
 
     fun sendString(str: String) {
+        log(" sendString $str")
         launch { sendToAllTCP(str) }
     }
 

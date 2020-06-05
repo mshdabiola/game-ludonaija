@@ -1,16 +1,13 @@
 package com.mshdabiola.naijaludo.screen.game
 
 import com.badlogic.gdx.utils.Logger
-import com.esotericsoftware.kryo.Kryo
-import com.esotericsoftware.kryo.io.Input
-import com.esotericsoftware.kryo.io.Output
 import com.mshdabiola.naijaludo.config.GameState
 import com.mshdabiola.naijaludo.entity.Seed
 import com.mshdabiola.naijaludo.entity.Seed.Companion.MAX_MOVE
 import com.mshdabiola.naijaludo.entity.board.Board
 import com.mshdabiola.naijaludo.entity.board.Floor
+import com.mshdabiola.naijaludo.entity.connection.Factory
 import com.mshdabiola.naijaludo.entity.player.BasePlayer
-import java.io.File
 
 
 open class GameController {
@@ -452,24 +449,60 @@ open class GameController {
         return first as ArrayList<Seed>
     }
 
-
-    suspend fun saveObject(file: File, name: String, any: Any, kryroIO: Triple<Kryo, Input, Output>): Boolean {
-        val fiile2 = File(file, "$name.obj").apply { createNewFile() }
-        kryroIO.third.outputStream = fiile2.outputStream().buffered()
-        kryroIO.first.writeObject(kryroIO.third, any)
-        kryroIO.third.close()
-        println("object $name finished")
-        return false
+    open fun dispose() {
 
     }
 
-    suspend fun <T> readObject(file: File, name: String, t: Class<T>, kryroIO: Triple<Kryo, Input, Output>): T {
-        val fiile2 = File(file, "$name.obj").apply { createNewFile() }
-        kryroIO.second.inputStream = fiile2.inputStream().buffered()
-        val value = kryroIO.first.readObject(kryroIO.second, t)
-        kryroIO.second.close()
-        println("object $name finished reading")
-        return value
+
+    //online code and function
+
+    var sendSeed: Seed? = null
+    var sendChooseDiceIndex = -1
+    var sendDiceValue: Factory.DiceValue? = null
+    fun onlineToss() {
+        if (currentPlayerIndex != playerId && sendDiceValue != null) {
+            diceController.tossWithValue(sendDiceValue!!.dice1Value, sendDiceValue!!.dice2Value)
+            sendDiceValue = null
+            currentState = GameState.HASTOSS
+        }
     }
+
+    fun onlineChooseDice() {
+        if (currentPlayerIndex != playerId && sendChooseDiceIndex != -1) {
+            currentDiceIndex = sendChooseDiceIndex
+            currentDiceNo = diceController.getDiceValue(currentDiceIndex)
+            sendChooseDiceIndex = -1
+            currentState = GameState.HASCHOOSEDICE
+        }
+    }
+
+    fun onlineChooseSeed() {
+        if (currentPlayerIndex != playerId && sendSeed != null) {
+            currentSeed = sendSeed!!
+            sendSeed = null
+            currentState = GameState.HASCHOOSESEED
+        }
+    }
+
+
+//
+//    suspend fun saveObject(file: File, name: String, any: Any, kryroIO: Triple<Kryo, Input, Output>): Boolean {
+//        val fiile2 = File(file, "$name.obj").apply { createNewFile() }
+//        kryroIO.third.outputStream = fiile2.outputStream().buffered()
+//        kryroIO.first.writeObject(kryroIO.third, any)
+//        kryroIO.third.close()
+//        println("object $name finished")
+//        return false
+//
+//    }
+//
+//    suspend fun <T> readObject(file: File, name: String, t: Class<T>, kryroIO: Triple<Kryo, Input, Output>): T {
+//        val fiile2 = File(file, "$name.obj").apply { createNewFile() }
+//        kryroIO.second.inputStream = fiile2.inputStream().buffered()
+//        val value = kryroIO.first.readObject(kryroIO.second, t)
+//        kryroIO.second.close()
+//        println("object $name finished reading")
+//        return value
+//    }
 
 }
