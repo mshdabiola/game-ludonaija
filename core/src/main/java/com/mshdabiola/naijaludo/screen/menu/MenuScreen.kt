@@ -1727,6 +1727,7 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
                 is Factory.Message.Play -> {
                 }
                 is Factory.Message.SendPlayer -> {
+                    println("from updatePlayer Actor received ${msg.players}")
                     playerArray.clear()
                     playerArray.addAll(msg.players)
                     updateHostTable()
@@ -1746,6 +1747,7 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
 
                 }
                 is Factory.Message.SendPlayer -> {
+                    println("from updatePlayerJoin Actor received ${msg.players}")
                     playerArray.clear()
                     playerArray.addAll(msg.players)
                     updateJoinTable()

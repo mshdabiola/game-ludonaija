@@ -73,7 +73,9 @@ class GameServer : Server(), CoroutineScope by CoroutineScope(Dispatchers.Defaul
                             serverFactory.setNameOnPlayer(connection.playerId, any.name)
                             //send players to all
                             delay((connection.id * 10).toLong())
-                            launch { sendToAllTCP(serverFactory.sendAllPlayerNew()) }
+                            log("server send all player to client and menuscreen")
+                            sendString(serverFactory.sendAllPlayerNew())
+//                            launch { sendToAllTCP(serverFactory.sendAllPlayerNew()) }
                             launch { updateActor?.send(Factory.Message.SendPlayer(serverFactory.playerArray)) }
 
                         }
@@ -128,14 +130,12 @@ class GameServer : Server(), CoroutineScope by CoroutineScope(Dispatchers.Defaul
     }
 
     fun bind() {
+        log(" bind server to port")
         bind(Packets.port)
     }
 
     fun connect() {
         log(" connect()")
-
-
-
         start()
         isRunning = true
     }
@@ -162,7 +162,8 @@ class GameServer : Server(), CoroutineScope by CoroutineScope(Dispatchers.Defaul
 
         log(" addLocalplayer $basePlayer")
         val player = serverFactory.addLocalPlayer(basePlayer)
-        launch { sendToAllTCP(serverFactory.sendAllPlayerNew()) }
+        sendString(serverFactory.sendAllPlayerNew())
+//        launch { sendToAllTCP(serverFactory.sendAllPlayerNew()) }
         return player
     }
 
@@ -170,12 +171,16 @@ class GameServer : Server(), CoroutineScope by CoroutineScope(Dispatchers.Defaul
         log(" removelocaplayer $removeIndex")
         serverFactory.removePlayer(removeIndex)
 
-        launch { sendToAllTCP(serverFactory.sendAllPlayerNew()) }
+        sendString(serverFactory.sendAllPlayerNew())
+//        launch { sendToAllTCP(serverFactory.sendAllPlayerNew()) }
     }
 
     fun sendString(str: String) {
         log(" sendString $str")
-        launch { sendToAllTCP(str) }
+        launch {
+//             delay(1000)
+            sendToAllTCP(str)
+        }
     }
 
     override fun newConnection(): Connection {

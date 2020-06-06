@@ -24,7 +24,7 @@ class GameClient() : Client(), CoroutineScope by CoroutineScope(Dispatchers.Defa
     var isPause = false
     var playerName = player?.name ?: "Player ${(Math.random() * 10).toInt()}"
     val clientGameController = ClientGameController(this)
-    val factory = Factory(clientGameController)
+    val clientFactory = ClientFactory(clientGameController)
 
 
     lateinit var players: Array<BasePlayer>
@@ -34,12 +34,9 @@ class GameClient() : Client(), CoroutineScope by CoroutineScope(Dispatchers.Defa
     init {
         Packets.registerPacketFor(this)
 
-
-
-
         addListener(object : Listener() {
             override fun connected(p0: Connection?) {
-                factory.myPlayer = player ?: HumanPlayer(0, intArrayOf())
+                clientFactory.myPlayer = player ?: HumanPlayer(0, intArrayOf())
                 println("CONNECTED ClIENT: from ${playerName}")
                 println("CONNECTED ClIENT: send name ${playerName}")
 
@@ -105,24 +102,9 @@ class GameClient() : Client(), CoroutineScope by CoroutineScope(Dispatchers.Defa
         for (msg in channel) {
             log("processor $msg")
 //            delay(1000)
-            factory.update(msg)
+            clientFactory.update(msg)
         }
     }
-
-//    fun CoroutineScope.actorP() = actor<GameControllerPacket> {
-//        channel.receive().gameController?.let { gameController.copyDetails(it) }
-//    }
-
-//    fun connect() {
-//
-//        start()
-//        try {
-//            connect(900, "localhost", Packets.port)
-//        } catch (e: Exception) {
-//            e.printStackTrace()
-//        }
-//
-//    }
 
     fun log(str: String) {
         println("Client $str")
@@ -145,14 +127,13 @@ class GameClient() : Client(), CoroutineScope by CoroutineScope(Dispatchers.Defa
             }
         }
 
-
     }
 
 
     fun sendString(str: String) {
         launch {
             log("client send $str")
-
+//            delay(1000)
             sendTCP(str)
         }
     }

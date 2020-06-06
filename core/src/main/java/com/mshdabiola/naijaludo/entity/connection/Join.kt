@@ -15,6 +15,6 @@ class Join(val humanPlayer: HumanPlayer) {
     }
 
     fun setPlayerListUpdate(actor: SendChannel<Factory.Message>) {
-        client.factory.updateActor = actor
+        client.clientFactory.updateActor = actor
     }
 }
