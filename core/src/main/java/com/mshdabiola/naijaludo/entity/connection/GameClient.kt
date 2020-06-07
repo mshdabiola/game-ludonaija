@@ -101,7 +101,7 @@ class GameClient() : Client(), CoroutineScope by CoroutineScope(Dispatchers.Defa
     fun processor() = actor<String> {
         for (msg in channel) {
             log("processor $msg")
-//            delay(1000)
+            delay(500)
             clientFactory.update(msg)
         }
     }

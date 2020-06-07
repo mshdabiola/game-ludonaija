@@ -123,7 +123,7 @@ class GameServer : Server(), CoroutineScope by CoroutineScope(Dispatchers.Defaul
 
         for (msg in channel) {
             log(" processor: msg")
-//            delay(1000)
+            delay(500)
             serverFactory.update(msg)
         }
 
@@ -173,6 +173,10 @@ class GameServer : Server(), CoroutineScope by CoroutineScope(Dispatchers.Defaul
 
         sendString(serverFactory.sendAllPlayerNew())
 //        launch { sendToAllTCP(serverFactory.sendAllPlayerNew()) }
+    }
+
+    fun sendPlay() {
+        sendString(serverFactory.playStr())
     }
 
     fun sendString(str: String) {

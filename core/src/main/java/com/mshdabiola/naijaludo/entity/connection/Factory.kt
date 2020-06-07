@@ -99,13 +99,19 @@ open class Factory(val gameController: GameController) {
                 }
 
             }
+            "play" -> {
+                log("update receive play")
+
+                GlobalScope.launch { updateActor?.send(Message.Play) }
+
+            }
             "ids" -> {
                 val json = jsonPool.obtain()
                 log("receive seeds is $strJson")
                 val seedToSend = json.fromJson(SeedToSend::class.java, strJson)
-                val seed = gameController.currentPlayer.homeSeed.find { it.playerId == seedToSend.ids[0] && it.colorId == seedToSend.ids[1] && it.id == seedToSend.ids[2] }!!
-                gameController.sendSeed = seed
-//                gameController.currentSeed = seed
+//                val seed = gameController.currentPlayer.homeSeed.find { it.playerId == seedToSend.ids[0] && it.colorId == seedToSend.ids[1] && it.id == seedToSend.ids[2] }!!
+//                gameController.sendSeed = seed
+                gameController.seedToSend = seedToSend
 //                gameController.currentState = GameState.HASCHOOSESEED
             }
 
@@ -155,7 +161,7 @@ open class Factory(val gameController: GameController) {
         println("Factory: $str")
     }
 
-    fun play(): String {
+    fun playStr(): String {
         val play = Play(true)
         val json = jsonPool.obtain()
         val str = json.toJson(play)

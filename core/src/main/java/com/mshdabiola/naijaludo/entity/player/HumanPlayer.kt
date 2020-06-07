@@ -48,6 +48,7 @@ open class HumanPlayer(id: Int, gameColor: IntArray, name: String = "") : BasePl
             diceController.toss {
                 diceController.diceTouchable(false)
                 gameController.currentState = GameState.HASTOSS
+
             }
 
         }
@@ -79,7 +80,10 @@ open class HumanPlayer(id: Int, gameColor: IntArray, name: String = "") : BasePl
     }
 
     override fun toss() {
-        diceController.diceTouchable(true)
+        if (gameController.diceController.tossDice) {
+            diceController.diceTouchable(true)
+        }
+//        diceController.diceTouchable(true)
     }
 
     override fun createUi() {

@@ -66,6 +66,7 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
 
     val windowTable = Table()
     var change = Pair<Boolean, Screen>(false, this)
+    var changeClientScreen = false
 
     val debugCameraController = DebugCameraController().apply {
         setStartPosition(Config.WORDLD_WIDTH_HALF, Config.WORLD_HEIGHT_HALF)
@@ -127,6 +128,9 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
         stage.draw()
 
 //        ViewportUtils.drawGrid(viewport, naijaLudo.shapeRenderer, 100)
+        if (changeClientScreen) {
+            changeScreenToClientGameScreen()
+        }
 
         if (change.first) {
             naijaLudo.screen = change.second
@@ -1303,7 +1307,7 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
                     playerArray[it]
                 }
                 change = Pair(true, GameScreen(naijaLudo, NewGameLogic(players = players, gameController = naijaLudo.server.serverGameController)))
-
+                naijaLudo.server.sendPlay()
             }
 
 
@@ -1740,10 +1744,13 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
     }
 
     fun CoroutineScope.updatePlayerActorJoin() = actor<Factory.Message> {
-        println("from updatePlayer Actror join")
+        println("from updatePlayerJoin Actor join")
         for (msg in channel) {
             when (msg) {
                 is Factory.Message.Play -> {
+                    println("from updateplayerJoin Play message")
+
+                    changeClientScreen = true
 
                 }
                 is Factory.Message.SendPlayer -> {
@@ -1757,5 +1764,14 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
         }
 
     }
+
+    fun changeScreenToClientGameScreen() {
+        val players = Array(playerArray.size) {
+            playerArray[it]
+        }
+        change = Pair(true, GameScreen(naijaLudo, NewGameLogic(players = players, gameController = join.client.clientGameController)))
+
+    }
+
 
 }

@@ -52,6 +52,7 @@ class ClientGameController(val client: GameClient) : GameController() {
 
     fun sendString(string: String) {
         if (currentPlayerIndex == playerId && send) {
+            println("${this::class.java.name} sendString() message is $string")
             client.sendString(string)
             send = false
 
