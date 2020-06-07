@@ -75,8 +75,10 @@ open class GameController {
 
     fun update(delta: Float) {
         if (currentState != prevState) {
+
             logger.debug("current state ${currentState}")
             logger.debug("current player index ${currentPlayerIndex}")
+
             prevState = currentState
         }
 
@@ -136,6 +138,9 @@ open class GameController {
         diceController.diceTouchable(false)
         deactivateSeed()
         currentState = GameState.TOSS
+//        if(currentPlayer is HumanPlayer){
+//            diceController.diceTouchable(true)
+//        }
     }
 
     open fun hasPlay() {
@@ -182,6 +187,7 @@ open class GameController {
     }
 
     open fun hasToss() {
+        diceController.tossDice = true
 
 //                GameConfig.log.debug("dice1 " + diceController.getValue(0) + " dice 2 " + diceController.getValue(1));
         currentState = if (somethingToDo(diceController.getDiceValue(0)) || somethingToDo(diceController.getDiceValue(1))) {
@@ -218,6 +224,7 @@ open class GameController {
     }
 
     open fun chooseSeed() {
+
         if (assistant && noSeedActivated == 1) {
             currentSeed = getOneSeed(currentDiceNo).apply {
                 actor.toFront()
@@ -246,6 +253,7 @@ open class GameController {
         } else {
             //count other dices
             diceController.countDice(currentDiceIndex)
+            diceController.diceMoveToFront()
             moveTo(currentDiceNo)
             GameState.HASCOUNT
         }
@@ -264,6 +272,7 @@ open class GameController {
                 currentPlayer.homeSeed.remove(currentSeed)
                 currentPlayer.seedOut.add(currentSeed)
                 currentPlayer.playerPanel.addSeedOut(currentSeed)
+
             }
             //check seed kill
             checkKillTest()
@@ -302,13 +311,18 @@ open class GameController {
             if (seedSend != null) {
                 seedSend.actor.toFront()
                 seedSend.setText("$num")
+                seeds.frontNumber = num
             } else {
                 seeds.actor.toFront()
                 seeds.setText("$num")
+                seeds.frontNumber = num
             }
         } else if (num == 1) {
             currentPlayer.homeSeed.filter { it.currentFloor == floor }
-                    .onEach { it.setText() }
+                    .onEach {
+                        it.setText()
+                        it.frontNumber = 1
+                    }
         }
     }
 
@@ -413,24 +427,83 @@ open class GameController {
 
     fun checkKillTest() {
 
-        getFlatenPlayerSeed()
+        val list = getFlatenPlayerSeed()
+                .filter { it.playerId != currentPlayer.id && it.currentFloor == currentSeed.currentFloor }
+                .sortedBy { -it.frontNumber }
+        logger.debug("checkKillTest list is  $list")
+        if (list.size == 1) {
+            list[0].let {
+                somethingToDo(diceController.getSecondDiceValue(currentDiceIndex))
+                if (!diceController.hasCountFinished() && noSeedActivated == 1)
+                    return
 
-                .firstOrNull { it.playerId != currentPlayer.id && it.currentFloor == currentSeed.currentFloor }
-                ?.let {
-                    somethingToDo(diceController.getSecondDiceValue(currentDiceIndex))
-                    if (!diceController.hasCountFinished() && noSeedActivated == 1)
-                        return
+                currentPlayer.homeSeed.remove(currentSeed)
+                currentPlayer.seedOut.add(currentSeed)
+                it.setText()
 
-                    currentPlayer.homeSeed.remove(currentSeed)
-                    currentPlayer.seedOut.add(currentSeed)
-                    it.setText()
+                currentSeed.kill(it)
+                diceController.diceMoveToFront()
 
-                    currentSeed.kill(it)
-                    diceController.dice1.actor.toFront()
-                    diceController.dice2.actor.toFront()
-                    textSeedInFloorArea(it.preFloor, null)
-                    currentPlayer.playerPanel.addSeedOut(currentSeed)
-                }
+                textSeedInFloorArea(it.preFloor, null)
+                currentPlayer.playerPanel.addSeedOut(currentSeed)
+            }
+        } else if (list.size == 2) {
+            list[0].let {
+                somethingToDo(diceController.getSecondDiceValue(currentDiceIndex))
+                if (!diceController.hasCountFinished() && noSeedActivated == 1)
+                    return
+
+                currentPlayer.homeSeed.remove(currentSeed)
+                currentPlayer.seedOut.add(currentSeed)
+                it.setText()
+
+                currentSeed.kill(it)
+                diceController.diceMoveToFront()
+
+                list[1].frontNumber = list.size - 1
+                list[1].setText("")
+                list[1].actor.toFront()
+
+                currentPlayer.playerPanel.addSeedOut(currentSeed)
+            }
+        } else if (list.size > 2) {
+            list[0].let {
+                somethingToDo(diceController.getSecondDiceValue(currentDiceIndex))
+                if (!diceController.hasCountFinished() && noSeedActivated == 1)
+                    return
+
+                currentPlayer.homeSeed.remove(currentSeed)
+                currentPlayer.seedOut.add(currentSeed)
+                it.setText()
+
+                currentSeed.kill(it)
+                diceController.diceMoveToFront()
+
+                list[1].frontNumber = list.size - 1
+                list[1].setText("${list.size - 1}")
+                list[1].actor.toFront()
+                currentPlayer.playerPanel.addSeedOut(currentSeed)
+            }
+        }
+
+//        getFlatenPlayerSeed()
+//
+//                .firstOrNull { it.playerId != currentPlayer.id && it.currentFloor == currentSeed.currentFloor }
+//                ?.let {
+//                    somethingToDo(diceController.getSecondDiceValue(currentDiceIndex))
+//                    if (!diceController.hasCountFinished() && noSeedActivated == 1)
+//                        return
+//
+//                    currentPlayer.homeSeed.remove(currentSeed)
+//                    currentPlayer.seedOut.add(currentSeed)
+//                    it.setText()
+//
+//                    currentSeed.kill(it)
+//                    diceController.diceMoveToFront()
+//
+//                    textSeedInFloorArea(it.preFloor, null)
+//                    currentPlayer.playerPanel.addSeedOut(currentSeed)
+//                }
 //
     }
 
@@ -456,7 +529,9 @@ open class GameController {
 
     //online code and function
 
-    var sendSeed: Seed? = null
+
+    var seedToSend: Factory.SeedToSend? = null
+
     var sendChooseDiceIndex = -1
     var sendDiceValue: Factory.DiceValue? = null
     fun onlineToss() {
@@ -477,32 +552,14 @@ open class GameController {
     }
 
     fun onlineChooseSeed() {
-        if (currentPlayerIndex != playerId && sendSeed != null) {
-            currentSeed = sendSeed!!
-            sendSeed = null
+        println("onlinechooseSeed() ")
+        if (currentPlayerIndex != playerId && seedToSend != null) {
+
+            currentSeed = currentPlayer.homeSeed.find { it.playerId == seedToSend!!.ids[0] && it.colorId == seedToSend!!.ids[1] && it.id == seedToSend!!.ids[2] }!!
+            seedToSend = null
             currentState = GameState.HASCHOOSESEED
         }
     }
 
-
-//
-//    suspend fun saveObject(file: File, name: String, any: Any, kryroIO: Triple<Kryo, Input, Output>): Boolean {
-//        val fiile2 = File(file, "$name.obj").apply { createNewFile() }
-//        kryroIO.third.outputStream = fiile2.outputStream().buffered()
-//        kryroIO.first.writeObject(kryroIO.third, any)
-//        kryroIO.third.close()
-//        println("object $name finished")
-//        return false
-//
-//    }
-//
-//    suspend fun <T> readObject(file: File, name: String, t: Class<T>, kryroIO: Triple<Kryo, Input, Output>): T {
-//        val fiile2 = File(file, "$name.obj").apply { createNewFile() }
-//        kryroIO.second.inputStream = fiile2.inputStream().buffered()
-//        val value = kryroIO.first.readObject(kryroIO.second, t)
-//        kryroIO.second.close()
-//        println("object $name finished reading")
-//        return value
-//    }
 
 }

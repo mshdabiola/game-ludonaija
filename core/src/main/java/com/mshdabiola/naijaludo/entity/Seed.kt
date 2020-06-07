@@ -57,6 +57,7 @@ class Seed(var colorId:
     var previousFloors: Array<Floor>
 
     lateinit var preFloor: Floor
+    var frontNumber = 1
 
     override fun createUi() {
 
@@ -206,6 +207,7 @@ class Seed(var colorId:
     fun kill(s: Seed) {
         actor.addAction(Actions.moveTo(Config.lastFloor.coord.x, Config.lastFloor.coord.y))
         moveRemain = 0
+
         s.movehome()
     }
 
@@ -216,6 +218,7 @@ class Seed(var colorId:
         preFloor = currentFloor
         currentFloor = homeFloor
         moveRemain = MAX_MOVE
+        frontNumber = 1
         actor.setPosition(currentFloor.coord.x, currentFloor.coord.y)
         animActor.setPosition(currentFloor.coord.x - 10, currentFloor.coord.y - 10)
         bgActor.addAction(Actions.fadeIn(0f))
@@ -246,7 +249,7 @@ class Seed(var colorId:
 
 
     override fun toString(): String { // TODO: Implement this method
-        return if (!Config.isTest) "\n color $color id $id current floor $currentFloor " else "\n color $color id $id "
+        return if (!Config.isTest) "\n color $color id $id current floor $currentFloor frontNumber $frontNumber " else "\n color $color id $id frontNumber $frontNumber"
     }
 
 
