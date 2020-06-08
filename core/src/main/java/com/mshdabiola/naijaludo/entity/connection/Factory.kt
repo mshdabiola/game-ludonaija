@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 open class Factory(val gameController: GameController) {
     companion object {
 
-        val currentPlayerIndex = "currentPlayerIndex"
+//        val currentPlayerIndex = "currentPlayerIndex"
         val currentDiceIndex = "currentDiceIndex"
         val diceValue = "diceValue"
         val dice1Value = "dice1Value"
@@ -36,7 +36,7 @@ open class Factory(val gameController: GameController) {
 
         fun currentSeedToSendJson(gameController: GameController): String {
             val json = jsonPool.obtain()
-            val seedToSend = SeedToSend(gameController.currentSeed)
+            val seedToSend = SeedToSend(gameController.currentSeed, gameController.currentDiceIndex)
             val str = json.toJson(seedToSend)
             jsonPool.free(json)
             return str
@@ -53,6 +53,17 @@ open class Factory(val gameController: GameController) {
 
 
         }
+
+//        fun currentPlayerIndexToJson(gameController: GameController): String {
+//            val json = jsonPool.obtain()
+//            val str = json.toJson(GameController().apply {
+//                currentDiceIndex = gameController.currentPlayerIndex
+//            })
+//            jsonPool.free(json)
+//            return str
+//
+//
+//        }
 
         fun diceValueToJson(gameController: GameController): String {
             val json = jsonPool.obtain()
@@ -92,13 +103,13 @@ open class Factory(val gameController: GameController) {
         when (getKeyFromJson(strJson)) {
 
 
-            currentPlayerIndex -> {
-                with(gameController) {
-                    currentPlayerIndex = getTempGameController(strJson).currentPlayerIndex
-
-                }
-
-            }
+//            currentPlayerIndex -> {
+//                with(gameController) {
+//                    currentPlayerIndex = getTempGameController(strJson).currentPlayerIndex
+//
+//                }
+//
+//            }
             "play" -> {
                 log("update receive play")
 
@@ -199,12 +210,16 @@ open class Factory(val gameController: GameController) {
     }
 
     class SeedToSend(var ids: IntArray) {
-        constructor() : this(intArrayOf())
-        constructor(seed: Seed) : this(intArrayOf()) {
-            ids = intArrayOf(seed.playerId, seed.colorId, seed.id)
+        constructor() : this(intArrayOf(0, 0, 0, 0))
+        constructor(seed: Seed, currentDiceIndex: Int) : this(intArrayOf(0, 0, 0, 0)) {
+            ids = intArrayOf(seed.playerId, seed.colorId, seed.id, currentDiceIndex)
         }
 
 
+    }
+
+    class CurrentPlayerToSend(val currentPlayerIndex: Int) {
+        constructor() : this(0)
     }
 
     sealed class Message {

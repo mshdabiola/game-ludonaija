@@ -16,6 +16,8 @@ import com.mshdabiola.naijaludo.entity.Seed
 import com.mshdabiola.naijaludo.entity.board.Floor
 import com.mshdabiola.naijaludo.entity.dice.DiceOutcome
 import com.mshdabiola.naijaludo.screen.game.GameController
+import com.mshdabiola.naijaludo.screen.game.logic.ClientGameController
+import com.mshdabiola.naijaludo.screen.game.logic.ServerGameController
 
 
 open class HumanPlayer(id: Int, gameColor: IntArray, name: String = "") : BasePlayer(name, id, gameColor) {
@@ -47,6 +49,7 @@ open class HumanPlayer(id: Int, gameColor: IntArray, name: String = "") : BasePl
         override fun clicked(event: InputEvent?, x: Float, y: Float) {
             diceController.toss {
                 diceController.diceTouchable(false)
+                sendMessageToClient()
                 gameController.currentState = GameState.HASTOSS
 
             }
@@ -61,7 +64,7 @@ open class HumanPlayer(id: Int, gameColor: IntArray, name: String = "") : BasePl
             gameController.currentDiceNo = diceController.getDiceValue(index)
             gameController.currentDiceIndex = index
             diceController.diceDisplayTouchable(false)
-
+            sendMessageToClient()
             gameController.currentState = GameState.HASCHOOSEDICE
         }
     }
@@ -74,6 +77,7 @@ open class HumanPlayer(id: Int, gameColor: IntArray, name: String = "") : BasePl
 
 
     override fun chooseSeed() {
+
         gameController.activateSeedNew(gameController.currentDiceNo)
 //        homeSeed.forEach { it.actor.touchable = Touchable.enabled }
 
@@ -131,6 +135,7 @@ open class HumanPlayer(id: Int, gameColor: IntArray, name: String = "") : BasePl
                         gameController.currentSeed = it
 
                         gameController.deactivateSeed()
+                        sendMessageToClient()
                         gameController.currentState = GameState.HASCHOOSESEED
                     }
 
@@ -193,6 +198,7 @@ open class HumanPlayer(id: Int, gameColor: IntArray, name: String = "") : BasePl
                         gameController.currentSeed = it
 
                         gameController.deactivateSeed()
+                        sendMessageToClient()
                         gameController.currentState = GameState.HASCHOOSESEED
                     }
                 }
@@ -203,6 +209,15 @@ open class HumanPlayer(id: Int, gameColor: IntArray, name: String = "") : BasePl
 
         table.addActor(manySeedTable)
         manySeedTable.addAction(Actions.fadeOut(0f))
+    }
+
+    fun sendMessageToClient() {
+        if (gameController is ClientGameController) {
+            (gameController as ClientGameController).send = true
+        }
+        if (gameController is ServerGameController) {
+            (gameController as ServerGameController).send = true
+        }
     }
 
 

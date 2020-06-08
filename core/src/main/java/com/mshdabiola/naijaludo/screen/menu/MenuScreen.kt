@@ -35,6 +35,7 @@ import com.mshdabiola.naijaludo.util.debug.DebugCameraController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.actor
+import ktx.actors.onClick
 
 class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by CoroutineScope(Dispatchers.Default) {
     private val logger = Logger(MenuScreen::class.java.name, Logger.DEBUG)
@@ -89,10 +90,6 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
 
 //        stage.isDebugAll = true
         Gdx.input.inputProcessor = stage
-
-
-
-
 
         newInitUi()
 
@@ -277,7 +274,11 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
                 changeWindow(newSettingWindow)
             }
         })
-        val share = ImageButton(purpleSkinn, "share")
+        val share = ImageButton(purpleSkinn, "share").apply {
+            onClick {
+                naijaLudo.connectInterfaceAnd?.shareApp("Download best ludo game ever, LUDONAIJA \n https://play.google.com/store/apps/details?id=com.mshdabiola.naijaludo", false)
+            }
+        }
         val more = ImageButton(purpleSkinn, "more")
         lastTable.defaults().size(200f)
         lastTable.add(share)
@@ -381,8 +382,9 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
     fun changeWindow(win: Window) {
 
         windowTable.clear()
-        windowTable.add(win).width(1200f).maxHeight(2200f)
+        windowTable.add(win).width(1200f).maxHeight(2400f)
         win.isVisible = true
+//        windowTable.addAction(SequenceAction(Actions.fadeIn(10000f, Interpolation.pow2In)))
     }
 
     fun getPlayerThumbnail(playerType: PlayType): ImageButton {
@@ -1052,6 +1054,7 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
             }
 
             clearButtonTable()
+
             addReturnButton()
             if (playerArray.size > 1) {
                 addPlayButton("PLAY") {

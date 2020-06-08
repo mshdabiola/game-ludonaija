@@ -1,5 +1,6 @@
 package com.mshdabiola.naijaludo.android
 
+import android.content.Intent
 import android.net.wifi.p2p.WifiP2pDevice
 import android.net.wifi.p2p.WifiP2pGroup
 import android.net.wifi.p2p.WifiP2pInfo
@@ -65,6 +66,11 @@ class AndroidLauncher : AndroidApplication() {
         override fun discoverPeer() {
             log("discover peer")
             p2pServiceFinder.discoverPeer()
+        }
+
+        override fun shareApp(str: String, shareImage: Boolean) {
+
+            shareGame(str, shareImage)
         }
 
 
@@ -206,6 +212,14 @@ class AndroidLauncher : AndroidApplication() {
         groupOwnerManager.stop()
         p2pServiceFinder.stop()
         log("on destroy")
+    }
+
+    fun shareGame(str: String, shareImage: Boolean) {
+        val intent = Intent(Intent.ACTION_SEND)
+        intent.type = "text/plain"
+        intent.putExtra(Intent.EXTRA_TEXT, str)
+//        intent.data=
+        startActivity(intent)
     }
 
 }

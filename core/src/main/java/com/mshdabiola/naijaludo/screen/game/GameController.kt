@@ -531,10 +531,12 @@ open class GameController {
 
 
     var seedToSend: Factory.SeedToSend? = null
+    var sendCurrentPlayerIndex = -1
 
     var sendChooseDiceIndex = -1
     var sendDiceValue: Factory.DiceValue? = null
     fun onlineToss() {
+        logger.debug("currentPlayer ${currentPlayer.name} index $currentPlayerIndex sendDiceValue ${sendDiceValue != null}")
         if (currentPlayerIndex != playerId && sendDiceValue != null) {
             diceController.tossWithValue(sendDiceValue!!.dice1Value, sendDiceValue!!.dice2Value)
             sendDiceValue = null
@@ -543,6 +545,7 @@ open class GameController {
     }
 
     fun onlineChooseDice() {
+        logger.debug("currentPlayer ${currentPlayer.name} index $currentPlayerIndex sendChooseDiceIndex ${sendChooseDiceIndex}")
         if (currentPlayerIndex != playerId && sendChooseDiceIndex != -1) {
             currentDiceIndex = sendChooseDiceIndex
             currentDiceNo = diceController.getDiceValue(currentDiceIndex)
@@ -552,10 +555,11 @@ open class GameController {
     }
 
     fun onlineChooseSeed() {
-        println("onlinechooseSeed() ")
+        logger.debug("currentPlayer ${currentPlayer.name} index $currentPlayerIndex seedTosend ${seedToSend}")
         if (currentPlayerIndex != playerId && seedToSend != null) {
-
+            println("onlinechooseSeed() ")
             currentSeed = currentPlayer.homeSeed.find { it.playerId == seedToSend!!.ids[0] && it.colorId == seedToSend!!.ids[1] && it.id == seedToSend!!.ids[2] }!!
+            println("onlinechooseseed $currentSeed")
             seedToSend = null
             currentState = GameState.HASCHOOSESEED
         }

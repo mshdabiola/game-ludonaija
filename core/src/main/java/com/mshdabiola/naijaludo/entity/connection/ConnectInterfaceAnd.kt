@@ -8,4 +8,6 @@ interface ConnectInterfaceAnd {
     fun getGroupInfo(): P2pGroup?
     fun getGroupForm(): P2pInfo?
     fun discoverPeer()
+    fun shareApp(str: String, shareImage: Boolean)
+
 }

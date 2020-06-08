@@ -16,7 +16,7 @@ class ServerGameController(val gameServer: GameServer) : GameController() {
     override fun toss() {
         super.toss()
         onlineToss()
-        send = true
+//        send = true
     }
 
     override fun hasToss() {
@@ -29,12 +29,11 @@ class ServerGameController(val gameServer: GameServer) : GameController() {
     override fun chooseDice() {
         super.chooseDice()
         onlineChooseDice()
-        send = true
+//        send = true
     }
 
     override fun hasChooseDice() {
         sendString(Factory.currentDiceIndexToJson(this))
-
         super.hasChooseDice()
 
     }
@@ -42,7 +41,7 @@ class ServerGameController(val gameServer: GameServer) : GameController() {
     override fun chooseSeed() {
         super.chooseSeed()
         onlineChooseSeed()
-        send = true
+//        send = true
     }
 
     override fun hasChooseSeed() {

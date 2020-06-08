@@ -81,7 +81,7 @@ class DiceController : Ui {
         dice2.actor.toFront()
 
         for (i in 0..1) {
-            value[i] = MathUtils.random(4, 6)
+            value[i] = MathUtils.random(1, 6)
             valueHolder[i] = value[i]
         }
         value[2] = value[0] + value[1]
