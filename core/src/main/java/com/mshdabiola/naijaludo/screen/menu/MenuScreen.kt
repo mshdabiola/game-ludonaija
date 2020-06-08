@@ -1304,11 +1304,13 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
             }
             addReturnButton()
             addPlayButton("PLAY") {
-                val players = Array(playerArray.size) {
-                    playerArray[it]
+                if (playerArray.size > 1) {
+                    val players = Array(playerArray.size) {
+                        playerArray[it]
+                    }
+                    change = Pair(true, GameScreen(naijaLudo, NewGameLogic(players = players, gameController = naijaLudo.server.serverGameController)))
+                    naijaLudo.server.sendPlay()
                 }
-                change = Pair(true, GameScreen(naijaLudo, NewGameLogic(players = players, gameController = naijaLudo.server.serverGameController)))
-                naijaLudo.server.sendPlay()
             }
 
 
@@ -1452,13 +1454,13 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
                 join.disconnected()
                 isVisible = false
             }
-            addPlayButton("PLAY") {
-                val players = Array(playerArray.size) {
-                    playerArray[it]
-                }
-                change = Pair(true, GameScreen(naijaLudo, NewGameLogic(players = players, gameController = join.client.clientGameController)))
-
-            }
+//            addPlayButton("PLAY") {
+//                val players = Array(playerArray.size) {
+//                    playerArray[it]
+//                }
+//                change = Pair(true, GameScreen(naijaLudo, NewGameLogic(players = players, gameController = join.client.clientGameController)))
+//
+//            }
 
         }
 
