@@ -128,6 +128,7 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
         stage.draw()
 
 //        ViewportUtils.drawGrid(viewport, naijaLudo.shapeRenderer, 100)
+        if (OptionWindowNew.iVisible) table.touchable = Touchable.disabled else table.touchable = Touchable.enabled
         if (changeClientScreen) {
             changeScreenToClientGameScreen()
         }

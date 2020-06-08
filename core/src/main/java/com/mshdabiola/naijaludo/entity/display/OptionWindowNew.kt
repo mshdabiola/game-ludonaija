@@ -6,6 +6,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
 
 
 open class OptionWindowNew(name: String, val table: Table = Table(), skin: Skin) : Window(name, skin) {
+    companion object {
+        var iVisible = false
+    }
+
     private val bottomTable = Table()
 
     var cancelButtonFunction: () -> Unit = { isVisible = false }
@@ -28,6 +32,8 @@ open class OptionWindowNew(name: String, val table: Table = Table(), skin: Skin)
         table.defaults().padBottom(50f).uniform().fillX()
         table.skin = skin
 
+
+
         isMovable = false
 
 
@@ -44,6 +50,11 @@ open class OptionWindowNew(name: String, val table: Table = Table(), skin: Skin)
 
     }
 
+    override fun setVisible(visible: Boolean) {
+        super.setVisible(visible)
+        iVisible = visible
+    }
+
     fun clearButtonTable() {
         bottomTable.clear()
     }
@@ -55,7 +66,7 @@ open class OptionWindowNew(name: String, val table: Table = Table(), skin: Skin)
                 cancelButtonFunction()
             }
         })
-        bottomTable.add(returnButton).width(200f)
+        bottomTable.add(returnButton).width(200f).padBottom(50f).padTop(50f)
     }
 
     fun addButton(buttonName: String, type: String = "rainbow", func: () -> Unit): TextButton {
