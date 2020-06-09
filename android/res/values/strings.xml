@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">LudoNaija</string>
+    <string name="admob_key_banner">ca-app-pub-6629038423064076/1833588821</string>
+
+
+    <string name="admob_key">ca-app-pub-6629038423064076~7317069542</string>
 </resources>

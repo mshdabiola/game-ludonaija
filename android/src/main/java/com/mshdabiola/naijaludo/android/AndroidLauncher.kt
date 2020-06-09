@@ -1,6 +1,8 @@
 package com.mshdabiola.naijaludo.android
 
+import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.net.wifi.p2p.WifiP2pDevice
 import android.net.wifi.p2p.WifiP2pGroup
 import android.net.wifi.p2p.WifiP2pInfo
@@ -8,6 +10,9 @@ import android.os.Bundle
 import android.util.Log
 import com.badlogic.gdx.backends.android.AndroidApplication
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration
+import com.badlogic.gdx.files.FileHandle
+import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.appinvite.AppInviteInvitation
 import com.mshdabiola.naijaludo.entity.connection.*
 import com.mshdabiola.naijaludo.screen.NaijaLudo
 import com.mshdabiola.naijaludo.wifipeer2peer.GroupOwnerManager
@@ -15,6 +20,7 @@ import com.mshdabiola.naijaludo.wifipeer2peer.P2pServiceFinder
 import kotlin.properties.Delegates
 
 class AndroidLauncher : AndroidApplication() {
+
 
     private var naijaludo: NaijaLudo by Delegates.notNull()
     private var p2pServiceFinder by Delegates.notNull<P2pServiceFinder>()
@@ -177,6 +183,7 @@ class AndroidLauncher : AndroidApplication() {
         config.useWakelock = true
         config.useImmersiveMode = true
 
+        MobileAds.initialize(this)
 
         naijaludo = NaijaLudo()
         initialize(naijaludo, config)
@@ -215,11 +222,33 @@ class AndroidLauncher : AndroidApplication() {
     }
 
     fun shareGame(str: String, shareImage: Boolean) {
+        val iconFile = FileHandle("icon.png")
+
+
+        val i = AppInviteInvitation.IntentBuilder("Install best game LUDONAIJA")
+                .setCallToActionText("INSTALL")
+                .setMessage("Install best Ludo game on Play store ")
+
+        if (iconFile.exists()) {
+            log("iconfile exists")
+            i.setCustomImage(Uri.parse(iconFile.path()))
+        }
+        startActivityForResult(i.build(), 1000)
+
+//        startActivity(i.build())
+
         val intent = Intent(Intent.ACTION_SEND)
         intent.type = "text/plain"
         intent.putExtra(Intent.EXTRA_TEXT, str)
 //        intent.data=
-        startActivity(intent)
+//        startActivity(intent)
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 1000 && resultCode == Activity.RESULT_OK) {
+            log("send invitation")
+        }
+
+    }
 }

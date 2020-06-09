@@ -16,6 +16,9 @@
         android:isGame="true"
         android:label="@string/app_name"
         android:theme="@style/GdxTheme">
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="@string/admob_key" />
         <activity
             android:name="com.mshdabiola.naijaludo.android.AndroidLauncher"
             android:configChanges="keyboard|keyboardHidden|navigation|orientation|screenSize|screenLayout"
