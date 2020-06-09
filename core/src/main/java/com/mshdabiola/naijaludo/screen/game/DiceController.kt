@@ -92,7 +92,7 @@ class DiceController : Ui {
                 dice1.actor.addAction(
                         Actions.sequence(
                                 getAction(),
-                                getAction(),
+
                                 getAction(dice1.loc1),
                                 Actions.run {
                                     dice1.value = value[0]
@@ -106,7 +106,7 @@ class DiceController : Ui {
                 dice2.actor.addAction(
                         Actions.sequence(
                                 getAction(),
-                                getAction(),
+
                                 getAction(dice2.loc2),
                                 Actions.run {
 
@@ -258,8 +258,7 @@ class DiceController : Ui {
         value[1] = 0
         value[2] = 0
         updateDiceOutCome()
-//        outcomeDiceOutcome.outComeTotal.removeRotate()
-//        outcomeDiceOutcome.outComeTotal.indictor.actions.clear()
+
         return v
     }
 

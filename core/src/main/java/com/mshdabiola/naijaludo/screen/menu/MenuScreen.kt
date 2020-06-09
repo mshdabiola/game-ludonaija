@@ -90,6 +90,7 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
 
 //        stage.isDebugAll = true
         Gdx.input.inputProcessor = stage
+        OptionWindowNew.iVisible = false
 
         newInitUi()
 
