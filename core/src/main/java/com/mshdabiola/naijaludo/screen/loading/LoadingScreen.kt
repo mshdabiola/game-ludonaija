@@ -2,6 +2,7 @@ package com.mshdabiola.naijaludo.screen.loading
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Screen
+import com.badlogic.gdx.audio.Sound
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.Image
@@ -13,6 +14,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport
 import com.mshdabiola.naijaludo.asset.AssetName
 import com.mshdabiola.naijaludo.asset.MassetDescriptor
 import com.mshdabiola.naijaludo.config.Config
+import com.mshdabiola.naijaludo.config.GameManager
 import com.mshdabiola.naijaludo.screen.NaijaLudo
 import com.mshdabiola.naijaludo.screen.menu.MenuScreen
 import com.mshdabiola.naijaludo.util.GdxUtils
@@ -65,6 +67,7 @@ class LoadingScreen(val naijaLudo: NaijaLudo) : Screen {
 //        assetManager.load(MassetDescriptor.gameSkinn)
         assetManager.load(MassetDescriptor.purpleSkin)
 
+
     }
 
     override fun show() {
@@ -97,12 +100,22 @@ class LoadingScreen(val naijaLudo: NaijaLudo) : Screen {
 //            MassetDescriptor.loadingSkin = Skin(Gdx.files.internal(AssetName.loadingSkin))
             MassetDescriptor.purpleSkinn = naijaLudo.assetManager[MassetDescriptor.purpleSkin]
             MassetDescriptor.gameSkin2 = naijaLudo.assetManager[MassetDescriptor.gameSkinn2]
-
+            GameManager.loadMusic()
+            MassetDescriptor.moveOutSound = getSound("moveOut")
+            MassetDescriptor.moveSound = getSound("moving")
+            MassetDescriptor.diceSound = getSound("dice")
+            MassetDescriptor.selectSound = getSound("select")
+            MassetDescriptor.killSound = getSound("kill")
             naijaLudo.screen = MenuScreen(naijaLudo)
         }
 
 
     }
+
+    fun getSound(str: String): Sound {
+        return Gdx.audio.newSound(Gdx.files.internal("sound/$str.wav"))
+    }
+
 
     private fun update(delta: Float) {
         waitFor(0)

@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.Pool
 import com.mshdabiola.naijaludo.asset.MassetDescriptor
 import com.mshdabiola.naijaludo.config.Config
 import com.mshdabiola.naijaludo.config.GameColor
+import com.mshdabiola.naijaludo.config.GameManager
 import com.mshdabiola.naijaludo.entity.board.Board
 import com.mshdabiola.naijaludo.entity.board.Floor
 
@@ -176,7 +177,8 @@ class Seed(var colorId:
         val acts = arrayOfNulls<Action>(floors.size)
         for (i in floors.indices) {
             val v = floors[i].coord
-            acts[i] = Actions.moveTo(v.x, v.y, 0.1f - (speed / 100), Interpolation.slowFast)
+            acts[i] = Actions.parallel(Actions.moveTo(v.x, v.y, 0.1f - (speed / 100), Interpolation.slowFast), Actions.run { GameManager.playMove() })
+//            acts[i] = Actions.moveTo(v.x, v.y, 0.1f - (speed / 100), Interpolation.slowFast)
         }
         val sa = Actions.sequence(*acts)
         actor.addAction(sa)
@@ -191,6 +193,7 @@ class Seed(var colorId:
 //        actor.setPosition(currentFloor.coord.x, currentFloor.coord.y)
 
         actor.setPosition(currentFloor.coord.x, currentFloor.coord.y)
+        GameManager.playMove()
         animActor.setPosition(currentFloor.coord.x - 10, currentFloor.coord.y - 10)
     }
 
@@ -231,7 +234,7 @@ class Seed(var colorId:
         actor.setPosition(startFloor.coord.x, startFloor.coord.y)
         animActor.setPosition(currentFloor.coord.x - 10, currentFloor.coord.y - 10)
         bgActor.addAction(Actions.fadeOut(0f))
-        // TODO: Implement this method
+        GameManager.playMoveOut()
     }
 
     fun clone(): Seed {

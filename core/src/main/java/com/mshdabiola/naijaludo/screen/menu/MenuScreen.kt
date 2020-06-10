@@ -116,6 +116,9 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
             GameManager.isFirst = false
         }
 
+        if (GameManager.music) {
+            GameManager.playMusic()
+        }
     }
 
     override fun render(delta: Float) {
@@ -381,6 +384,7 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
     }
 
     fun changeWindow(win: Window) {
+        GameManager.playSelect()
 
         windowTable.clear()
         windowTable.add(win).width(1200f).maxHeight(2400f)

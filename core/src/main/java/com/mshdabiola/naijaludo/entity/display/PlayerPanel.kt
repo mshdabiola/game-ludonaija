@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.utils.Align
 import com.mshdabiola.naijaludo.asset.MassetDescriptor
 import com.mshdabiola.naijaludo.asset.MassetDescriptor.purpleSkinn
+import com.mshdabiola.naijaludo.config.GameManager
 import com.mshdabiola.naijaludo.entity.Seed
 import com.mshdabiola.naijaludo.entity.player.BasePlayer
 import com.mshdabiola.naijaludo.entity.player.HumanPlayer
@@ -135,6 +136,7 @@ class PlayerPanel(val player: BasePlayer) : Table(MassetDescriptor.gameSkin2) {
     fun addSeedOut(seed: Seed) {
 //        player.seedOut.add(seed)
         val image = Button(skin, "seed-out")
+        GameManager.playKill()
         image.color = seed.color.color
         horizontalSeeds.add(image).width(50f).height(50f).padLeft(5f).padRight(5f)
     }

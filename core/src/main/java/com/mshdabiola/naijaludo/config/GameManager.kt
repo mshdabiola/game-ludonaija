@@ -3,6 +3,7 @@ package com.mshdabiola.naijaludo.config
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.Logger
+import com.mshdabiola.naijaludo.asset.MassetDescriptor
 
 object GameManager {
     private val logger = Logger(GameManager::class.java.name, Logger.DEBUG)
@@ -24,6 +25,8 @@ object GameManager {
     val assistantS = "assistant"
     val musicS = "music"
     val soundS = "sound"
+    val musicNumbers = "musicNumber"
+
     val winOneS = "winOne"
     val lossOneS = "lossOne"
     val winManyS = "winMany"
@@ -120,7 +123,17 @@ object GameManager {
             pref.flush()
         }
         get() = pref.getBoolean(musicS, false)
+    var musicNumber: Int
+        set(value) {
+            pref.putInteger(musicNumbers, value)
 
+            MassetDescriptor.music.stop()
+            pref.flush()
+            loadMusic()
+
+            playMusic()
+        }
+        get() = pref.getInteger(musicNumbers, 1)
 
     var winOne: Int
         get() = pref.getInteger(winOneS, 0)
@@ -168,5 +181,51 @@ object GameManager {
             pref.flush()
         }
 
+
+    fun loadMusic() {
+        MassetDescriptor.music = Gdx.audio.newMusic(Gdx.files.internal("sound/sound_${musicNumber + 1}.mp3"))
+    }
+
+    fun playSelect() {
+        if (sound) {
+            MassetDescriptor.selectSound.play()
+        }
+    }
+
+    fun playMove() {
+        if (sound) {
+            MassetDescriptor.moveSound.play()
+        }
+    }
+
+    fun playMoveOut() {
+        if (sound) {
+            MassetDescriptor.moveOutSound.play()
+        }
+    }
+
+    fun playDice() {
+        if (sound) {
+            MassetDescriptor.diceSound.play()
+        }
+    }
+
+    fun playKill() {
+        if (sound) {
+            MassetDescriptor.killSound.play()
+        }
+    }
+
+    fun playMusic() {
+        if (music) {
+            MassetDescriptor.music.let {
+
+                it.play()
+                it.isLooping = true
+                it.volume = 0.01f
+            }
+        }
+
+    }
 
 }

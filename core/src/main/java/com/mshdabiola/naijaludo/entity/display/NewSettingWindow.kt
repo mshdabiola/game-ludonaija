@@ -3,6 +3,7 @@ package com.mshdabiola.naijaludo.entity.display
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.ui.*
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
+import com.mshdabiola.naijaludo.asset.MassetDescriptor
 import com.mshdabiola.naijaludo.config.GameManager
 
 class NewSettingWindow(name: String, skin: Skin) : OptionWindowNew(name, skin = skin) {
@@ -117,6 +118,24 @@ class NewSettingWindow(name: String, skin: Skin) : OptionWindowNew(name, skin = 
             addListener(object : ChangeListener() {
                 override fun changed(event: ChangeEvent?, actor: Actor?) {
                     GameManager.music = isChecked
+                    if (isChecked) {
+                        GameManager.playMusic()
+
+                    } else {
+                        MassetDescriptor.music.stop()
+                    }
+                }
+            })
+        })
+        val type = getTableRow("Type", SelectBox<String>(skin).apply {
+            val array = Array(7) {
+                "Sound ${it + 1}"
+            }
+            setItems(*array)
+            selectedIndex = GameManager.musicNumber
+            addListener(object : ChangeListener() {
+                override fun changed(event: ChangeEvent?, actor: Actor?) {
+                    GameManager.musicNumber = selectedIndex
                 }
             })
         })
@@ -124,6 +143,8 @@ class NewSettingWindow(name: String, skin: Skin) : OptionWindowNew(name, skin = 
         fifth.add(sound)
         fifth.row()
         fifth.add(music)
+        fifth.row()
+        fifth.add(type)
 
 
 //        table1.add(firstTable)

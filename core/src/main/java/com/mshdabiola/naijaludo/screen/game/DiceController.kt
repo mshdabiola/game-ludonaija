@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Touchable
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.mshdabiola.naijaludo.config.Config
+import com.mshdabiola.naijaludo.config.GameManager
 import com.mshdabiola.naijaludo.entity.Ui
 import com.mshdabiola.naijaludo.entity.dice.Dice
 import com.mshdabiola.naijaludo.entity.display.OutComeDisplayPanel
@@ -72,6 +73,7 @@ class DiceController : Ui {
 
 
     fun toss(func: () -> Unit = {}) {
+        GameManager.playDice()
         diceTouchable(false)
         tossDice = false
         dice2.value = 0

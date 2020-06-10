@@ -273,6 +273,7 @@ open class GameController {
                 currentPlayer.seedOut.add(currentSeed)
                 currentPlayer.playerPanel.addSeedOut(currentSeed)
 
+
             }
             //check seed kill
             checkKillTest()
@@ -486,25 +487,6 @@ open class GameController {
             }
         }
 
-//        getFlatenPlayerSeed()
-//
-//                .firstOrNull { it.playerId != currentPlayer.id && it.currentFloor == currentSeed.currentFloor }
-//                ?.let {
-//                    somethingToDo(diceController.getSecondDiceValue(currentDiceIndex))
-//                    if (!diceController.hasCountFinished() && noSeedActivated == 1)
-//                        return
-//
-//                    currentPlayer.homeSeed.remove(currentSeed)
-//                    currentPlayer.seedOut.add(currentSeed)
-//                    it.setText()
-//
-//                    currentSeed.kill(it)
-//                    diceController.diceMoveToFront()
-//
-//                    textSeedInFloorArea(it.preFloor, null)
-//                    currentPlayer.playerPanel.addSeedOut(currentSeed)
-//                }
-//
     }
 
     fun getNewPosition(diceNo: Int): ArrayList<Seed> {
