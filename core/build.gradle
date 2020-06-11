@@ -18,6 +18,7 @@ dependencies {
 //	api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
 	api fileTree(dir: "../libs", include: "*.jar")
 	implementation 'com.esotericsoftware:kryonet:2.22.0-RC1'
+	implementation "com.badlogicgames.gdxpay:gdx-pay-client:$gdxPayVersion"
 
 	testImplementation "junit:junit:4.12"
 	testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion"
