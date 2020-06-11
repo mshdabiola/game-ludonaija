@@ -8,12 +8,12 @@ import com.mshdabiola.naijaludo.config.BoardState
 import com.mshdabiola.naijaludo.config.Config
 import com.mshdabiola.naijaludo.config.GameColor
 import com.mshdabiola.naijaludo.entity.Seed
-import java.util.*
 
 
 class Board : Table() {
     private val logger = Logger(Board::class.java.name, Logger.DEBUG)
     val oneCell = 100f
+    var startingIndex = 0
     // val boardFloors = ArrayList<Floor>()
 
     companion object {
@@ -74,6 +74,7 @@ class Board : Table() {
         boardFloors.clear()
         createTable()
         isTransform = true
+        addPositionIdToFloor()
 
 
     }
@@ -82,7 +83,8 @@ class Board : Table() {
         super.setStage(stage)
         if (stage != null) {
             setPostion()
-//            logger.debug(" floors are "+ boardFloors.joinToString  (separator = "\n"))
+
+//            logger.debug(" floors are "+ boardFloors.sortedBy { it.positionIndex }.joinToString  (separator = "\n"))
         }
     }
 
@@ -98,11 +100,25 @@ class Board : Table() {
         }
     }
 
+    fun addPositionIdToFloor() {
+        for (color in GameColor.values()) {
+            for (id in 0..12) {
+                val floor = boardFloors.find { it.floorColor == color && it.position == id }
+                ++startingIndex
+                floor?.positionIndex = startingIndex
+
+            }
+        }
+
+    }
+
 
     fun createTable() {
         val firstRow = Table()
         val secondRow = Table()
         val thirdRow = Table()
+
+        //home, 3 column and home
 
         firstRow.add(createHome(GameColor.values()[1])).width(600f).height(600f)
         firstRow.add(createFloorOfColumn((6..11).reversed(), GameColor.values()[1]))
@@ -110,6 +126,7 @@ class Board : Table() {
         firstRow.add(createFloorOfColumn(0..5, GameColor.values()[2], 1))
         firstRow.add(createHome(GameColor.values()[2])).width(600f).height(600f)
 
+        //3 row table
         val tableGroup1 = Table()
         tableGroup1.add(createFloorOfRow(0..5, GameColor.values()[1], 1))
         tableGroup1.row()
@@ -117,6 +134,7 @@ class Board : Table() {
         tableGroup1.row()
         tableGroup1.add(createFloorOfRow((6..11).reversed(), GameColor.values()[0]))
 
+        //3 row table
         val tableGroup2 = Table()
         tableGroup2.add(createFloorOfRow((6..11), GameColor.values()[2]))
         tableGroup2.row()
@@ -124,6 +142,7 @@ class Board : Table() {
         tableGroup2.row()
         tableGroup2.add(createFloorOfRow((0..5).reversed(), GameColor.values()[3], 1))
 
+        // table1 middle space and table2
         secondRow.add(tableGroup1)
         secondRow.add(Floor(GameColor.YELLOW, lastPositionFloor).apply {
             isColorPath = false
@@ -131,6 +150,7 @@ class Board : Table() {
         }.floorTiles).width(300f).height(300f)
         secondRow.add(tableGroup2)
 
+        //home, 3 column and home
         thirdRow.add(createHome(GameColor.values()[0])).width(600f).height(600f)
         thirdRow.add(createFloorOfColumn((0..5).reversed(), GameColor.values()[0], 1))
         thirdRow.add(createFloorOfColumn((12..17).reversed(), GameColor.values()[0], 13, 14, 15, 16, 17))
