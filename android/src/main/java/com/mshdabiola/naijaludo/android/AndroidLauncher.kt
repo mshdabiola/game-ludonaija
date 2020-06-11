@@ -2,21 +2,30 @@ package com.mshdabiola.naijaludo.android
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.net.wifi.p2p.WifiP2pDevice
 import android.net.wifi.p2p.WifiP2pGroup
 import android.net.wifi.p2p.WifiP2pInfo
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
+import android.view.ViewGroup
+import android.widget.Button
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.badlogic.gdx.backends.android.AndroidApplication
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration
 import com.badlogic.gdx.files.FileHandle
-import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.*
 import com.google.android.gms.appinvite.AppInviteInvitation
+import com.mshdabiola.naijaludo.R
 import com.mshdabiola.naijaludo.entity.connection.*
 import com.mshdabiola.naijaludo.screen.NaijaLudo
 import com.mshdabiola.naijaludo.wifipeer2peer.GroupOwnerManager
 import com.mshdabiola.naijaludo.wifipeer2peer.P2pServiceFinder
+import java.util.*
 import kotlin.properties.Delegates
 
 class AndroidLauncher : AndroidApplication() {
@@ -26,6 +35,8 @@ class AndroidLauncher : AndroidApplication() {
     private var p2pServiceFinder by Delegates.notNull<P2pServiceFinder>()
     private var groupOwnerManager by Delegates.notNull<GroupOwnerManager>()
 
+    var coordinatorLayout: CoordinatorLayout? = null
+    val testDevice = Arrays.asList("E5E6F4890A489D152144C2B40672C646")
     fun log(str: String) {
         Log.e(this::class.java.name, "android log $str")
 //        Toast.makeText(this, str, Toast.LENGTH_SHORT).show()
@@ -184,9 +195,13 @@ class AndroidLauncher : AndroidApplication() {
         config.useImmersiveMode = true
 
         MobileAds.initialize(this)
+        MobileAds.setRequestConfiguration(RequestConfiguration.Builder().setTestDeviceIds(testDevice).build())
 
         naijaludo = NaijaLudo()
-        initialize(naijaludo, config)
+
+//        setContentView(R.layout.activity_main)
+
+//        initialize(naijaludo, config)
 
         connectInterface = naijaludo.connectInterface
 
@@ -195,6 +210,8 @@ class AndroidLauncher : AndroidApplication() {
         p2pServiceFinder = P2pServiceFinder(this, discoveryCallback)
         groupOwnerManager = GroupOwnerManager(this, ownerCallback)
 
+
+        setUpLayout(naijaludo, config)
 
         log("finished on create")
     }
@@ -212,6 +229,8 @@ class AndroidLauncher : AndroidApplication() {
 //        p2pServiceFinder.register()
         groupOwnerManager.register()
         log("on resume")
+//        Snackbar.make(coordinatorLayout,"Resume",Snackbar.LENGTH_LONG)
+
     }
 
     override fun onDestroy() {
@@ -250,5 +269,60 @@ class AndroidLauncher : AndroidApplication() {
             log("send invitation")
         }
 
+    }
+
+    fun setUpLayout(naijaLudo: NaijaLudo, cofig: AndroidApplicationConfiguration) {
+
+        coordinatorLayout = CoordinatorLayout(this)
+        coordinatorLayout!!.setBackgroundColor(Color.BLUE)
+
+        val layout = ConstraintLayout(this)
+        val set = ConstraintSet()
+        val naijaLudoView = initializeForView(naijaLudo, cofig)
+        naijaLudoView.id = R.id.ludo
+
+        val testBanner = "ca-app-pub-3940256099942544/6300978111"
+        val banner = AdView(this)
+        banner.id = R.id.banner
+        banner.adSize = AdSize.BANNER
+
+        banner.adUnitId = testBanner
+        val adRequest = AdRequest.Builder().build()
+        val isTest = adRequest.isTestDevice(this)
+        log("is this device test $isTest")
+        banner.loadAd(adRequest)
+
+        val button = Button(this)
+        button.id = R.id.button
+
+
+        coordinatorLayout!!.addView(layout, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+//        coordinatorLayout!!.addView(banner,ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT)
+        setContentView(coordinatorLayout)
+        set.constrainHeight(R.id.ludo, ConstraintSet.WRAP_CONTENT)
+        set.constrainWidth(R.id.ludo, ConstraintSet.MATCH_CONSTRAINT)
+
+        set.connect(R.id.ludo, ConstraintSet.TOP,
+                ConstraintSet.PARENT_ID, ConstraintSet.TOP, 0)
+
+        set.connect(R.id.ludo, ConstraintSet.END,
+                ConstraintSet.PARENT_ID, ConstraintSet.END, 0)
+        set.connect(R.id.ludo, ConstraintSet.START,
+                ConstraintSet.PARENT_ID, ConstraintSet.START, 0)
+        set.connect(R.id.ludo, ConstraintSet.BOTTOM,
+                ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM, 0)
+
+
+        val paras = CoordinatorLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        paras.gravity = Gravity.BOTTOM
+//        banner.layoutParams= paras
+
+        coordinatorLayout!!.addView(banner, paras)
+
+        log("coordinator height ${coordinatorLayout!!.measuredHeight} width ${coordinatorLayout!!.measuredWidth} naijaview height ${naijaLudoView.measuredHeight} width ${naijaLudoView.measuredWidth}")
+
+
+        layout.addView(naijaLudoView)
+        set.applyTo(layout)
     }
 }

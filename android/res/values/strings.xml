@@ -1,8 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">LudoNaija</string>
-    <string name="admob_key_banner">ca-app-pub-6629038423064076/1833588821</string>
 
 
+    <string name="admob_key_banner">ca-app-pub-6629038423064076/7955186188</string>
+    <string name="banner">ca-app-pub-6629038423064076/2729590293</string>
+    <string name="firstBanner">ca-app-pub-6629038423064076/1833588821</string>
     <string name="admob_key">ca-app-pub-6629038423064076~7317069542</string>
+    <string name="title_activity_main">MainActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 </resources>
