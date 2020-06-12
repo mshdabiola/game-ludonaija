@@ -8,10 +8,7 @@ class ServerGameController(val gameServer: GameServer) : GameController() {
 
     private var prevState = currentState
 
-
-
     var send = false
-
 
     override fun toss() {
         super.toss()

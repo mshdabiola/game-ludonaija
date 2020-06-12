@@ -7,7 +7,6 @@ import com.mshdabiola.naijaludo.screen.game.GameController
 class ClientGameController(val client: GameClient) : GameController() {
 
     private var prevState = currentState
-
     var send = false
 
     override fun toss() {
