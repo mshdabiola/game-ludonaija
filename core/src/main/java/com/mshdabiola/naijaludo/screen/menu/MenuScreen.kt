@@ -68,6 +68,8 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
     val windowTable = Table()
     var change = Pair<Boolean, Screen>(false, this)
     var changeClientScreen = false
+    var updateHost = false
+    var updateJoin = false
 
     val debugCameraController = DebugCameraController().apply {
         setStartPosition(Config.WORDLD_WIDTH_HALF, Config.WORLD_HEIGHT_HALF)
@@ -136,6 +138,14 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
 
         if (change.first) {
             naijaLudo.screen = change.second
+        }
+        if (updateHost) {
+            updateHostTable()
+            updateHost = false
+        }
+        if (updateJoin) {
+            updateJoinTable()
+            updateJoin = false
         }
     }
 
@@ -1745,7 +1755,7 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
                     println("from updatePlayer Actor received ${msg.players}")
                     playerArray.clear()
                     playerArray.addAll(msg.players)
-                    updateHostTable()
+                    updateHost = true
                 }
             }
 
@@ -1768,7 +1778,8 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
                     println("from updatePlayerJoin Actor received ${msg.players}")
                     playerArray.clear()
                     playerArray.addAll(msg.players)
-                    updateJoinTable()
+//                    updateJoinTable()
+                    updateJoin = true
                 }
             }
 

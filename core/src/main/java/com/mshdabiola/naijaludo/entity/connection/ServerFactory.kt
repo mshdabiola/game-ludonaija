@@ -11,6 +11,7 @@ class ServerFactory(gameController: GameController) : Factory(gameController) {
         isServer = true
     }
 
+
     fun changePlayerToOnlinePlayer(player: BasePlayer): OnlinePlayer {
         return OnlinePlayer(player.id, player.gamecolorsId, player.name).apply {
 
@@ -18,8 +19,13 @@ class ServerFactory(gameController: GameController) : Factory(gameController) {
         }
     }
 
+
     fun addOnlinePlayer(id: Int) {
         addPlayer(OnlinePlayer(id, intArrayOf(), ""))
+    }
+
+    fun addOnlinePlayer(id: Int, playerName: String) {
+        addPlayer(OnlinePlayer(id, intArrayOf(), playerName))
     }
 
     fun getPlayerIndex() = playerArray.size - 1
@@ -36,6 +42,7 @@ class ServerFactory(gameController: GameController) : Factory(gameController) {
     }
 
     fun addPlayer(player: BasePlayer) {
+
         println("add player ${player.id}")
         if (playerArray.size == 4) {
             return
@@ -52,9 +59,11 @@ class ServerFactory(gameController: GameController) : Factory(gameController) {
 
             basePlayer.gamecolorsId = colors[index]
         }
+
     }
 
     fun removePlayer(removeIndex: Int) {
+
         playerArray.removeAt(removeIndex)
         reFreshList()
     }
@@ -68,6 +77,27 @@ class ServerFactory(gameController: GameController) : Factory(gameController) {
         jsonPool.free(jsonP)
 //        println("Send all player $str")
         return str
+    }
+
+    fun sendPlayerId(playerId: Int): String {
+
+
+        val playerId = PlayerId(playerId)
+        val jsonP = jsonPool.obtain()
+        val str = jsonP.toJson(playerId)
+        jsonPool.free(jsonP)
+
+        return str
+    }
+
+    fun getPlayerName(strJson: String): PlayerName {
+
+
+        val jsonP = jsonPool.obtain()
+        val playerName = jsonP.fromJson(PlayerName::class.java, strJson)
+
+        jsonPool.free(jsonP)
+        return playerName
     }
 
     fun getColors(playerSize: Int): Array<IntArray> {

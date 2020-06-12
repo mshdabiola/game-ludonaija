@@ -99,8 +99,8 @@ open class Factory(val gameController: GameController) {
 
     }
 
-    fun update(strJson: String) {
-        when (getKeyFromJson(strJson)) {
+   open fun update(strJson: String) {
+       when (getKeyFromJson(strJson)) {
 
 
 //            currentPlayerIndex -> {
@@ -162,9 +162,26 @@ open class Factory(val gameController: GameController) {
                 }
 //
             }
+           "playerId" -> {
+               if (!isServer) {
+                   println(strJson)
+                   val json = jsonPool.obtain()
+                   val playerId = json.fromJson(PlayerId::class.java, strJson)
+                   jsonPool.free(json)
 
 
-        }
+                   myPlayer.let {
+                       it.id = playerId.playerId
+                       gameController.playerId = playerId.playerId
+
+                   }
+
+
+               }
+           }
+
+
+       }
 
     }
 
@@ -199,6 +216,14 @@ open class Factory(val gameController: GameController) {
 
     class DiceValue(var dice1Value: Int, var dice2Value: Int) {
         constructor() : this(0, 0)
+    }
+
+    class PlayerName(var playerName: String) {
+        constructor() : this("player")
+    }
+
+    class PlayerId(var playerId: Int) {
+        constructor() : this(-1)
     }
 
     class SendPlayers(var createPlayers: List<OnlinePlayer>) {

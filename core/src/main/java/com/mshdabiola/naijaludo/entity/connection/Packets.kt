@@ -59,8 +59,9 @@ class SeedData(
 object Packets {
 
     val port = 8888
-    val port2 = 888
 
+    val port2 = 8579
+    val port3 = 1289
     fun registerPacketFor(endPoint: EndPoint) {
 //        if (endPoint is Client) {
         with(endPoint.kryo) {

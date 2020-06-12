@@ -54,6 +54,7 @@ class AndroidLauncher : AndroidApplication() {
             log("register discovery")
         }
 
+
         override fun connect(mac: String) {
             log("connect $mac")
             p2pServiceFinder.connect(mac)

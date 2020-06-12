@@ -5,15 +5,22 @@ import com.esotericsoftware.kryonet.Listener
 import com.esotericsoftware.kryonet.Server
 import com.mshdabiola.naijaludo.entity.player.BasePlayer
 import com.mshdabiola.naijaludo.screen.game.logic.ServerGameController
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.channels.actor
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import java.io.IOException
+import java.net.DatagramSocket
+import java.net.ServerSocket
 
 class GameServer : Server(), CoroutineScope by CoroutineScope(Dispatchers.Default) {
 
 
     var message = ""
     var isRunning = false
+    var port = 0
 
     var isPause = false
     var updateActor: SendChannel<Factory.Message>? = null
@@ -33,28 +40,6 @@ class GameServer : Server(), CoroutineScope by CoroutineScope(Dispatchers.Defaul
             override fun connected(connection: Connection?) {
                 (connection as NameConnection)
 
-                launch {
-
-
-                    connection.let {
-                        if (!mapConnection.containsKey(it.playerId)) {
-                            val counter = connection.id
-                            it.playerName = "player $counter"
-
-
-                            mapConnection[counter] = it
-
-                            serverFactory.addOnlinePlayer(counter)
-                            it.playerId = serverFactory.getPlayerIndex()
-                            delay(2000)
-                            sendToTCP(it.id, Connect(it.playerId, it.playerName!!))
-                            println("CONNECTED SERVER: server register name = ${it.playerName} and id is ${it.playerId}  and send id and name to client ")
-
-                        }
-                    }
-                }
-
-
             }
 
             override fun received(connection: Connection?, any: Any?) {
@@ -64,43 +49,25 @@ class GameServer : Server(), CoroutineScope by CoroutineScope(Dispatchers.Defaul
                 }
 
                 when (any) {
-                    is SendName -> {
-                        launch {
 
-                            println("SEND NAME SERVER: from ${connection.playerName} id ${connection.playerId}")
-
-                            connection.playerName = any.name
-                            serverFactory.setNameOnPlayer(connection.playerId, any.name)
-                            //send players to all
-                            delay((connection.id * 10).toLong())
-                            log("server send all player to client and menuscreen")
-                            sendString(serverFactory.sendAllPlayerNew())
-//                            launch { sendToAllTCP(serverFactory.sendAllPlayerNew()) }
-                            launch { updateActor?.send(Factory.Message.SendPlayer(serverFactory.playerArray)) }
-
-                        }
-                    }
-//
                     is String -> {
                         println("STRING SERVER: from name ${connection.playerName} id ${connection.playerId}")
                         println("STRING SERVER MESSAGE $any")
 
-                        launch { sendToAllExceptTCP(connection.id, any) }
-                        launch { processor().send(any) }
+
+                        if (serverFactory.getKeyFromJson(any) == "playerName") {
+                            val playerName = serverFactory.getPlayerName(any)
+                            playerConnected(connection, playerName)
+
+                        } else {
+                            launch { sendToAllExceptTCP(connection.id, any) }
+                            launch { processor().send(any) }
+                        }
 
 
                     }
 
 
-                    is Resume -> {
-                        println("RESUME SERVER: from ${connection.playerName} id ${connection.playerId}")
-                        launch { isPause = false }
-                    }
-
-                    is Pause -> {
-                        println("PAUSE SERVER: from ${connection.playerName} id ${connection.playerId}")
-                        launch { isPause = true }
-                    }
                 }
             }
 
@@ -130,8 +97,44 @@ class GameServer : Server(), CoroutineScope by CoroutineScope(Dispatchers.Defaul
     }
 
     fun bind() {
-        log(" bind server to port")
-        bind(Packets.port)
+        port = getServerPort()
+        log(" bind server to port $port")
+        bind(port)
+    }
+
+    fun getServerPort(): Int {
+        log("checking server availability")
+        return if (available(Packets.port)) {
+            Packets.port
+        } else if (available(Packets.port2)) {
+            Packets.port2
+        } else {
+            Packets.port2
+        }
+    }
+
+    fun playerConnected(connection: NameConnection, playerName: Factory.PlayerName) {
+        launch {
+            connection.let {
+                if (!mapConnection.containsKey(it.playerId)) {
+                    val counter = connection.id
+                    it.playerName = playerName.playerName
+                    mapConnection[counter] = it
+
+                    serverFactory.addOnlinePlayer(counter, playerName.playerName)
+                    it.playerId = serverFactory.getPlayerIndex()
+                    delay(1000)
+                    sendToTCP(it.id, serverFactory.sendPlayerId(it.playerId))
+                    delay(1000)
+                    sendString(serverFactory.sendAllPlayerNew())
+                    //send player to server
+                    updateActor?.send(Factory.Message.SendPlayer(serverFactory.playerArray))
+                    println("CONNECTED SERVER: server register name = ${it.playerName} and id is ${it.playerId}  and send id and name to client ")
+
+                }
+            }
+
+        }
     }
 
     fun connect() {
@@ -144,14 +147,14 @@ class GameServer : Server(), CoroutineScope by CoroutineScope(Dispatchers.Defaul
         log("dispose server")
         super.dispose()
         isRunning = false
-        cancel()
+
     }
 
     override fun stop() {
         log("server stop")
         super.stop()
         isRunning = false
-        cancel()
+
     }
 
     fun log(str: String) {
@@ -198,6 +201,34 @@ class GameServer : Server(), CoroutineScope by CoroutineScope(Dispatchers.Defaul
         var playerId = -1
         var idTest = id - 1
         var playerStatus: String? = null
+    }
+
+    fun available(port: Int): Boolean {
+        var serverSocket: ServerSocket? = null
+        var dataGramSocket: DatagramSocket? = null
+        try {
+            serverSocket = ServerSocket(port)
+            serverSocket.reuseAddress = true
+            dataGramSocket = DatagramSocket(port)
+            dataGramSocket.reuseAddress = true
+
+            return true
+        } catch (e: IOException) {
+
+        } finally {
+            dataGramSocket?.let {
+                it.close()
+            }
+            serverSocket?.let {
+                try {
+                    it.close()
+                } catch (e: IOException) {
+
+                }
+            }
+        }
+        return false
+
     }
 
 }

@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.GdxRuntimeException
 import com.badlogic.gdx.utils.Json
 import com.badlogic.gdx.utils.JsonWriter
 import com.badlogic.gdx.utils.Logger
+import com.mshdabiola.naijaludo.config.GameManager
 import com.mshdabiola.naijaludo.entity.connection.*
 import com.mshdabiola.naijaludo.screen.game.logic.NewGameLogic
 import com.mshdabiola.naijaludo.screen.loading.LoadingScreen
@@ -35,7 +36,7 @@ class NaijaLudo : Game(), CoroutineScope by CoroutineScope(Dispatchers.Default) 
     val path = "Ludo\\"
     val fileName = "NewGameLogic.json"
 
-    val record = mutableMapOf(
+    var record = mutableMapOf(
             "port" to (5555).toString(),
             "name" to "player",
             "available" to "visible",
@@ -137,9 +138,16 @@ class NaijaLudo : Game(), CoroutineScope by CoroutineScope(Dispatchers.Default) 
 
         launch {
             delay(1000)
-            connectInterfaceAnd?.startDiscoveryRegistration(record)
 
+            log("bind port")
             server.bind()
+            record = mutableMapOf(
+                    "port" to server.port.toString(),
+                    "name" to GameManager.name,
+                    "available" to "visible",
+                    "isServer" to "false"
+            )
+            connectInterfaceAnd?.startDiscoveryRegistration(record)
         }
 
 

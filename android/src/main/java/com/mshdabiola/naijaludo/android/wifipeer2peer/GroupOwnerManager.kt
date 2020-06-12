@@ -33,6 +33,7 @@ class GroupOwnerManager(
 
     override fun start() {
         super.start()
+        enable()
         if (isWifiP2pEnabled()) {
             startGroup()
         } else {

@@ -7,8 +7,11 @@ import com.mshdabiola.naijaludo.entity.player.BasePlayer
 import com.mshdabiola.naijaludo.entity.player.HumanPlayer
 import com.mshdabiola.naijaludo.screen.game.DiceController
 import com.mshdabiola.naijaludo.screen.game.logic.ClientGameController
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.actor
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 class GameClient() : Client(), CoroutineScope by CoroutineScope(Dispatchers.Default) {
@@ -39,6 +42,14 @@ class GameClient() : Client(), CoroutineScope by CoroutineScope(Dispatchers.Defa
                 clientFactory.myPlayer = player ?: HumanPlayer(0, intArrayOf())
                 println("CONNECTED ClIENT: from ${playerName}")
                 println("CONNECTED ClIENT: send name ${playerName}")
+                launch {
+                    delay(500)
+
+                    clientFactory.myPlayer.let {
+                        sendString(clientFactory.sendPlayerName(it.name))
+                    }
+
+                }
 
             }
 
@@ -60,35 +71,9 @@ class GameClient() : Client(), CoroutineScope by CoroutineScope(Dispatchers.Defa
 
                 when (any) {
 
-                    is Connect -> {
-                        println("CONNECT ClIENT: from ${playerName} CHANGED NAME TO ${any.name}")
-                        GlobalScope.launch {
-//                            playerName = any.name
-                            player?.let {
-                                it.id = any.ids
-                                clientGameController.playerId = any.ids
-                                playerName = it.name
-                                println("name is ${it.name}")
-//                                playerName="abiola"
-                            }
-
-                            delay(20)
-                            sendTCP(SendName(playerName))
-                        }
-
-                    }
-                    is Pause -> {
-                        println("PAUSE ClIENT:  from ${playerName} ")
-                        GlobalScope.launch { isPause = true }
-                    }
                     is String -> {
                         println("String ClIENT $playerName:  from $any ")
                         launch { processor().send(any) }
-                    }
-
-                    is Resume -> {
-                        println("RESUME ClIENT: from ${playerName}")
-                        GlobalScope.launch { isPause = false }
                     }
 
                 }
@@ -141,13 +126,13 @@ class GameClient() : Client(), CoroutineScope by CoroutineScope(Dispatchers.Defa
     override fun dispose() {
         println("dispose client")
         super.dispose()
-        cancel()
+
     }
 
     override fun stop() {
         println("stop client")
         super.stop()
-        cancel()
+
     }
 
     fun pause() {
