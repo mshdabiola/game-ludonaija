@@ -21,10 +21,10 @@ import com.badlogic.gdx.files.FileHandle
 import com.google.android.gms.ads.*
 import com.google.android.gms.appinvite.AppInviteInvitation
 import com.mshdabiola.naijaludo.R
+import com.mshdabiola.naijaludo.android.wifipeer2peer.P2pServiceFinder
 import com.mshdabiola.naijaludo.entity.connection.*
 import com.mshdabiola.naijaludo.screen.NaijaLudo
 import com.mshdabiola.naijaludo.wifipeer2peer.GroupOwnerManager
-import com.mshdabiola.naijaludo.wifipeer2peer.P2pServiceFinder
 import java.util.*
 import kotlin.properties.Delegates
 
@@ -44,8 +44,8 @@ class AndroidLauncher : AndroidApplication() {
 
     val connectInterfaceAnd = object : ConnectInterfaceAnd {
         override fun startDiscovery() {
-//            p2pServiceFinder.startDiscovery()
-            groupOwnerManager.start()
+            p2pServiceFinder.startDiscovery()
+//            groupOwnerManager.start()
             log("start discovery")
         }
 
@@ -82,8 +82,8 @@ class AndroidLauncher : AndroidApplication() {
         }
 
         override fun discoverPeer() {
-            log("discover peer")
-            p2pServiceFinder.discoverPeer()
+//            log("discover peer")
+//            p2pServiceFinder.discoverPeer()
         }
 
         override fun shareApp(str: String, shareImage: Boolean) {
@@ -135,11 +135,27 @@ class AndroidLauncher : AndroidApplication() {
 
         override fun onPeersList(peers: List<WifiP2pDevice>) {
             log("on peer list")
+            log("clients list ${peers.size}")
+            val peerss = peers.map { Pair(it.deviceName, it.deviceAddress) }
+            connectInterface.onPeerDevicesChanged(peerss)
 
         }
 
         override fun onGroupInfo(group: WifiP2pGroup?) {
             log("on group info")
+            group?.let {
+                log("groupName: ${it.networkName}")
+                log("password: ${it.passphrase}")
+                log("isOwner: ${it.isGroupOwner}")
+                log("ownerName: ${it.owner.deviceName}")
+                log("owner Address: ${it.owner.deviceAddress}")
+                log("owner primary Device: ${it.owner.primaryDeviceType}")
+                log("owner secondary Device: ${it.owner.secondaryDeviceType}")
+                log("owner status: ${it.owner.status}")
+                log("interface: ${it.`interface`}")
+                log("clientList: ${it.clientList}")
+
+            }
             group?.let {
 
                 connectInterface.onGroupInfo(P2pGroup(it.passphrase, it.networkName, it.isGroupOwner))
@@ -203,6 +219,7 @@ class AndroidLauncher : AndroidApplication() {
 //        setContentView(R.layout.activity_main)
 
 //        initialize(naijaludo, config)
+        setUpLayout(naijaludo, config)
 
         connectInterface = naijaludo.connectInterface
 
@@ -212,7 +229,7 @@ class AndroidLauncher : AndroidApplication() {
         groupOwnerManager = GroupOwnerManager(this, ownerCallback)
 
 
-        setUpLayout(naijaludo, config)
+
 
         log("finished on create")
     }
@@ -220,15 +237,15 @@ class AndroidLauncher : AndroidApplication() {
 
     override fun onPause() {
         super.onPause()
-//        p2pServiceFinder.unRegister()
-        groupOwnerManager.unRegister()
+        p2pServiceFinder.unRegister()
+//        groupOwnerManager.unRegister()
         log("on pause")
     }
 
     override fun onResume() {
         super.onResume()
-//        p2pServiceFinder.register()
-        groupOwnerManager.register()
+        p2pServiceFinder.register()
+//        groupOwnerManager.register()
         log("on resume")
 //        Snackbar.make(coordinatorLayout,"Resume",Snackbar.LENGTH_LONG)
 
@@ -236,7 +253,7 @@ class AndroidLauncher : AndroidApplication() {
 
     override fun onDestroy() {
         super.onDestroy()
-        groupOwnerManager.stop()
+//        groupOwnerManager.stop()
         p2pServiceFinder.stop()
         log("on destroy")
     }
@@ -299,6 +316,7 @@ class AndroidLauncher : AndroidApplication() {
 
         coordinatorLayout!!.addView(layout, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
 //        coordinatorLayout!!.addView(banner,ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT)
+        layout.addView(naijaLudoView)
         setContentView(coordinatorLayout)
         set.constrainHeight(R.id.ludo, ConstraintSet.WRAP_CONTENT)
         set.constrainWidth(R.id.ludo, ConstraintSet.MATCH_CONSTRAINT)
@@ -323,7 +341,7 @@ class AndroidLauncher : AndroidApplication() {
         log("coordinator height ${coordinatorLayout!!.measuredHeight} width ${coordinatorLayout!!.measuredWidth} naijaview height ${naijaLudoView.measuredHeight} width ${naijaLudoView.measuredWidth}")
 
 
-        layout.addView(naijaLudoView)
+
         set.applyTo(layout)
     }
 }

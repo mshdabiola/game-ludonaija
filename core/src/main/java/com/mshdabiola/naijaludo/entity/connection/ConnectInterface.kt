@@ -12,6 +12,7 @@ interface ConnectInterface {
     fun onGroupFormed(form: P2pInfo?)
     fun onGroupInfo(info: P2pGroup?)
     fun onDiscovery(start: Boolean)
+    fun onPeerDevicesChanged(peerDevices: List<Pair<String, String>>)
 
 
 }

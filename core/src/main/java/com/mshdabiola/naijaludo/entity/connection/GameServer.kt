@@ -154,6 +154,7 @@ class GameServer : Server(), CoroutineScope by CoroutineScope(Dispatchers.Defaul
         log("server stop")
         super.stop()
         isRunning = false
+        serverFactory.playerArray.clear()
 
     }
 

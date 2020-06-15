@@ -108,6 +108,7 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
                 join.connect(ip)
             }
         }
+        naijaLudo.discoveryButton = TextButton("Search Device", purpleSkinn)
 
         windowTable.setFillParent(true)
 
@@ -146,6 +147,14 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
         if (updateJoin) {
             updateJoinTable()
             updateJoin = false
+        }
+//        if(naijaLudo.isConnected){
+//            naijaLudo.isConnected=false
+//            changeOnlineWindow()
+//        }
+        if (naijaLudo.peerDevicesChanged && devicesWindow.isVisible) {
+            naijaLudo.peerDevicesChanged = false
+            updateDeviceWindow()
         }
     }
 
@@ -1484,6 +1493,72 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
 
     }
 
+    fun updateDeviceWindow() {
+        with(devicesWindow) {
+            table.clear()
+            table.defaults().uniform(false, false)
+            naijaLudo.discoveryButton?.let {
+                it.onClick { naijaLudo.connectInterfaceAnd?.startDiscovery() }
+                table.add(it)
+                table.row()
+            }
+
+
+            naijaLudo.peerDevices?.let { peerDevices ->
+                val buttonMap = Array(peerDevices.size) {
+                    addButton(peerDevices[it].first) {
+                        if (!naijaLudo.isConnected) {
+                            naijaLudo.connectInterfaceAnd?.connect(peerDevices[it].second)
+                        }
+                    }
+                }
+
+                val buttonGroup = ButtonGroup<TextButton>(*buttonMap)
+
+                buttonGroup.buttons.forEach {
+                    table.add(it)
+                    table.row()
+                }
+
+            }
+
+
+
+
+
+            clearButtonTable()
+            addReturnButton()
+            cancelButtonFunction = {
+//                naijaLudo.connectInterfaceAnd?.disconnect()
+                isVisible = false
+            }
+
+            addPlayButton("Continue") {
+                changeOnlineWindow()
+            }
+
+        }
+
+    }
+
+    fun changeOnlineWindow() {
+        val isServer = naijaLudo.connectInterfaceAnd?.getGroupInfo()?.isGroupOwner
+        isServer?.let { isServer2 ->
+
+            if (isServer2) {
+                naijaLudo.server.updateActor = updatePlayerActor
+                naijaLudo.server.connect()
+                addOnlinePlayer(PlayType.HUMAN)
+                changeWindow(hostWindow)
+            } else {
+                naijaLudo.connectInterfaceAnd?.getGroupForm()?.let {
+                    join.connect(it.groupOwnerAddress.hostAddress)
+                }
+                changeWindow(joinWindow)
+            }
+        }
+    }
+
     var computerGroupButton = ButtonGroup<ImageButton>().apply {
         for (i in PlayType.values()) {
             add(getPlayerThumbnail(i))
@@ -1703,18 +1778,20 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
 
     val multiplayerWindow = OptionWindowNew("MultiPlayer", skin = purpleSkinn).apply {
         addButton("Host") {
-            println("host button pressed")
-//            naijaLudo.launch {
-            println("host button launch")
+//            println("host button pressed")
+////            naijaLudo.launch {
+//            println("host button launch")
+//
+//            naijaLudo.connectInterfaceAnd?.startDiscovery()
+//            naijaLudo.server.updateActor = updatePlayerActor
+//            naijaLudo.server.connect()
+//            addOnlinePlayer(PlayType.HUMAN)
+//
+////
 
             naijaLudo.connectInterfaceAnd?.startDiscovery()
-            naijaLudo.server.updateActor = updatePlayerActor
-            naijaLudo.server.connect()
-            addOnlinePlayer(PlayType.HUMAN)
-
-//
-
-            changeWindow(hostWindow)
+            changeWindow(devicesWindow)
+            updateDeviceWindow()
 //            }
 
         }
@@ -1725,7 +1802,7 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
 //            naijaLudo.launch {
 
 
-            naijaLudo.connectInterfaceAnd?.discoverPeer()
+//            naijaLudo.connectInterfaceAnd?.discoverPeer()
 //                naijaLudo.launch {
             println("join button launch")
             if (Gdx.app.type == Application.ApplicationType.Desktop) {
@@ -1744,6 +1821,7 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
     val hostWindow = OptionWindowNew("Host", skin = purpleSkinn)
 
     val joinWindow = OptionWindowNew("Join", skin = purpleSkinn)
+    val devicesWindow = OptionWindowNew("Devices", skin = purpleSkinn)
 
     fun CoroutineScope.updatePlayerActor() = actor<Factory.Message> {
         println("from updatePlayer Actror")
@@ -1786,6 +1864,7 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
         }
 
     }
+
 
     fun changeScreenToClientGameScreen() {
         val players = Array(playerArray.size) {

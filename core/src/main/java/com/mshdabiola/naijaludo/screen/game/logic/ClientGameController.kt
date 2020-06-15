@@ -59,7 +59,7 @@ class ClientGameController(val client: GameClient) : GameController() {
     }
 
     override fun dispose() {
-        client.dispose()
+        client.stop()
     }
 
 }

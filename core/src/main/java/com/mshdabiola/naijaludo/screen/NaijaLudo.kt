@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.badlogic.gdx.utils.GdxRuntimeException
 import com.badlogic.gdx.utils.Json
 import com.badlogic.gdx.utils.JsonWriter
@@ -42,6 +43,9 @@ class NaijaLudo : Game(), CoroutineScope by CoroutineScope(Dispatchers.Default) 
             "available" to "visible",
             "isServer" to "false"
     )
+    var isConnected = false
+    var peerDevicesChanged = false
+    var peerDevices: List<Pair<String, String>>? = null
     var connectInterfaceAnd: ConnectInterfaceAnd? = null
     val connectInterface = object : ConnectInterface {
         override fun onP2pEnabled(enable: Boolean) {
@@ -61,15 +65,18 @@ class NaijaLudo : Game(), CoroutineScope by CoroutineScope(Dispatchers.Default) 
         }
 
         override fun onConnectResult(success: Boolean) {
+            println("onconnectedResult $success")
             if (success) {
                 log("connected")
-                connectInterfaceAnd?.getGroupForm()?.let {
-                    log("owner address is ${it.groupOwnerAddress.hostAddress}")
-                    runClient(it.groupOwnerAddress.hostAddress, it.isGroupOwner)
+
+                launch {
+                    delay(500)
+                    isConnected = true
                 }
 
             } else {
                 log("not connected")
+                isConnected = false
             }
         }
 
@@ -82,7 +89,7 @@ class NaijaLudo : Game(), CoroutineScope by CoroutineScope(Dispatchers.Default) 
             log("on Service Found device address: ${device.name}")
 
             log("fond service device CONNECTING")
-            connectInterfaceAnd?.connect(device.address)
+//            connectInterfaceAnd?.connect(device.address)
 
         }
 
@@ -116,20 +123,30 @@ class NaijaLudo : Game(), CoroutineScope by CoroutineScope(Dispatchers.Default) 
 
             if (start) {
                 log("discovery start")
+                discoveryButton?.isVisible = false
             } else {
                 log("discovery stop")
+                discoveryButton?.isVisible = true
             }
 
+        }
+
+        override fun onPeerDevicesChanged(peerDevicess: List<Pair<String, String>>) {
+            log("onpeerDeviceChanged")
+            peerDevices = peerDevicess
+            peerDevicesChanged = true
         }
 
 
     }
 
+    var discoveryButton: TextButton? = null
+
 
     override fun create() {
-        Gdx.app.logLevel = Application.LOG_DEBUG
+        Gdx.app.logLevel = Application.LOG_ERROR
         assetManager = AssetManager()
-        assetManager.logger.level = Logger.DEBUG
+        assetManager.logger.level = Logger.ERROR
         batch = SpriteBatch()
         shapeRenderer = ShapeRenderer()
 
@@ -216,7 +233,7 @@ class NaijaLudo : Game(), CoroutineScope by CoroutineScope(Dispatchers.Default) 
 
     fun log(string: String) {
         println("logging msg: $string")
-        logger.debug(string)
+        logger.error(string)
     }
 
 }

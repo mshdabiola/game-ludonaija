@@ -59,7 +59,7 @@ class ServerGameController(val gameServer: GameServer) : GameController() {
     }
 
     override fun dispose() {
-        gameServer.dispose()
+        gameServer.stop()
 
     }
 

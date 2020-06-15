@@ -1,14 +1,14 @@
-package com.mshdabiola.naijaludo.wifipeer2peer
+package com.mshdabiola.naijaludo.android.wifipeer2peer
 
 import android.content.Context
 import android.net.wifi.p2p.*
 import android.net.wifi.p2p.nsd.WifiP2pDnsSdServiceInfo
 import android.net.wifi.p2p.nsd.WifiP2pServiceInfo
 import android.util.Log
-
+import com.mshdabiola.naijaludo.android.wifipeer2peer.p2p.cancelConnect
+import com.mshdabiola.naijaludo.android.wifipeer2peer.p2p.connect
+import com.mshdabiola.naijaludo.wifipeer2peer.*
 import com.mshdabiola.naijaludo.wifipeer2peer.common.BaseManager
-import com.mshdabiola.naijaludo.wifipeer2peer.p2p.cancelConnect
-import com.mshdabiola.naijaludo.wifipeer2peer.p2p.connect
 import kotlin.properties.Delegates
 
 class P2pServiceFinder(
@@ -57,7 +57,7 @@ class P2pServiceFinder(
     }
 
     private fun addRequest() {
-        manager.addServiceRequest(channel, serviceRequest, {}, {
+        manager.addServiceRequest(channel, serviceRequest, { log("addServiceRequest Successfully") }, {
             handleError(it)
         })
     }
@@ -67,14 +67,16 @@ class P2pServiceFinder(
     }
 
     private fun discovery() {
-        manager.discoverServices(channel, {}, {
+        manager.discoverServices(channel, { log("DiscoverServices Successfully") }, {
             handleError(it)
         })
     }
 
     private fun handleError(reason: Int) {
         when (reason) {
-            WifiP2pManager.P2P_UNSUPPORTED,
+            WifiP2pManager.P2P_UNSUPPORTED -> {
+                log("Handle error: P2p Unsupported ")
+            }
             WifiP2pManager.ERROR -> {
                 callback.onP2pError()
             }
@@ -87,8 +89,8 @@ class P2pServiceFinder(
 
     fun startRegistration(records: Map<String, String>) {
         enable()
-        serviceInfo = WifiP2pDnsSdServiceInfo.newInstance("LudoNaija", "_presence._tcp", records)
-        manager.addService(channel, serviceInfo, {}, { int ->
+        serviceInfo = WifiP2pDnsSdServiceInfo.newInstance("LudoNaija2", "_presence._tcp", records)
+        manager.addService(channel, serviceInfo, { log("AddService Successfully") }, { int ->
             handleError(int)
         })
 
@@ -106,7 +108,7 @@ class P2pServiceFinder(
     }
 
     fun cancelConnect() {
-        manager.cancelConnect(channel)
+        manager.cancelConnect(channel, { log("CancelConnect successfully") }, { log("CancelConnect failure") })
 
     }
 
@@ -135,17 +137,17 @@ class P2pServiceFinder(
         callback.onPeersList(getPeersList())
     }
 
-    override fun onConnectionInfo(wifiP2pInfo: WifiP2pInfo?) {
-        super.onConnectionInfo(wifiP2pInfo)
+    override fun onConnectionInfo(info: WifiP2pInfo?) {
+        super.onConnectionInfo(info)
 
 //        info.groupOwnerAddress.hostAddress
-        if (wifiP2pInfo?.groupFormed == true) {
-            callback.onGroupFormed(wifiP2pInfo)
+        if (info?.groupFormed == true) {
+            callback.onGroupFormed(info)
         }
     }
 
-    override fun onGroupInfo(wifiP2pGroup: WifiP2pGroup?) {
-        super.onGroupInfo(wifiP2pGroup)
+    override fun onGroupInfo(info: WifiP2pGroup?) {
+        super.onGroupInfo(info)
 
         callback.onGroupInfo(getP2pGroups())
     }

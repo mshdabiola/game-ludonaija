@@ -6,12 +6,8 @@ import android.net.wifi.p2p.*
 import android.os.Looper
 import android.util.Log
 import androidx.annotation.CallSuper
-import com.mshdabiola.naijaludo.android.wifipeer2peer.p2p.createConfig
+import com.mshdabiola.naijaludo.android.wifipeer2peer.p2p.*
 import com.mshdabiola.naijaludo.wifipeer2peer.WifiP2pStateMonitor
-import com.mshdabiola.naijaludo.wifipeer2peer.p2p.createGroup
-import com.mshdabiola.naijaludo.wifipeer2peer.p2p.queryConnectionInfo
-import com.mshdabiola.naijaludo.wifipeer2peer.p2p.queryGroupInfo
-import com.mshdabiola.naijaludo.wifipeer2peer.p2p.queryPeers
 import java.net.InetAddress
 import kotlin.properties.Delegates
 

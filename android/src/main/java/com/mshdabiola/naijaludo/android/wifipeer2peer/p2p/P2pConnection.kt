@@ -1,10 +1,9 @@
-package com.mshdabiola.naijaludo.wifipeer2peer.p2p
+package com.mshdabiola.naijaludo.android.wifipeer2peer.p2p
 
 import android.net.wifi.p2p.WifiP2pDevice
 import android.net.wifi.p2p.WifiP2pInfo
 import android.net.wifi.p2p.WifiP2pManager
 import android.util.Log
-import com.mshdabiola.naijaludo.android.wifipeer2peer.p2p.createConfig
 
 private const val TAG = "P2pConnection"
 
