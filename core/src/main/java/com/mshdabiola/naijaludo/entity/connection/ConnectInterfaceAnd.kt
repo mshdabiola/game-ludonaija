@@ -9,5 +9,6 @@ interface ConnectInterfaceAnd {
     fun getGroupForm(): P2pInfo?
     fun discoverPeer()
     fun shareApp(str: String, shareImage: Boolean)
+    fun log(str: String)
 
 }

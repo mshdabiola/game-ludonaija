@@ -4,7 +4,6 @@ import com.badlogic.gdx.scenes.scene2d.EventListener
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.mshdabiola.naijaludo.config.Config
 import com.mshdabiola.naijaludo.config.GameColor
-import com.mshdabiola.naijaludo.config.GameManager
 import com.mshdabiola.naijaludo.entity.Seed
 import com.mshdabiola.naijaludo.entity.Ui
 import com.mshdabiola.naijaludo.entity.connection.PlayerData
@@ -122,7 +121,7 @@ abstract class BasePlayer(var name: String, var id: Int, var gamecolorsId: IntAr
 //        }
 //    }
 
-    fun createSeed() {
+    fun createSeed(seedNumber: Int) {
         val arraySeeds = ArrayList<Seed>()
         for (c in gamecolorsId) {
 
@@ -131,7 +130,7 @@ abstract class BasePlayer(var name: String, var id: Int, var gamecolorsId: IntAr
                     arraySeeds.add(Seed(c, i, id))
                 }
             } else {
-                for (i in 1..GameManager.seedNO) {
+                for (i in 1..seedNumber) {
                     val seed = Seed(c, i, id)
                     seed.createUi()
                     arraySeeds.add(seed)

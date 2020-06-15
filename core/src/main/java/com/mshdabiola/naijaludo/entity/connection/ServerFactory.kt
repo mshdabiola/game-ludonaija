@@ -64,8 +64,12 @@ class ServerFactory(gameController: GameController) : Factory(gameController) {
 
     fun removePlayer(removeIndex: Int) {
 
-        playerArray.removeAt(removeIndex)
-        reFreshList()
+        try {
+            playerArray.removeAt(removeIndex)
+            reFreshList()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     fun sendAllPlayerNew(): String {

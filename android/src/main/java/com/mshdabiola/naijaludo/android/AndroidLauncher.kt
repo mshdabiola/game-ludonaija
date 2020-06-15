@@ -91,8 +91,14 @@ class AndroidLauncher : AndroidApplication() {
             shareGame(str, shareImage)
         }
 
+        override fun log(str: String) {
+            this@AndroidLauncher.log("From Core: $str")
+        }
+
 
     }
+
+
     var connectInterface by Delegates.notNull<ConnectInterface>()
     val discoveryCallback = object : P2pServiceFinder.Callback {
         override fun onP2pEnabled(enable: Boolean) {

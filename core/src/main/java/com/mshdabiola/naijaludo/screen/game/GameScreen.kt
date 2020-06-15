@@ -23,8 +23,10 @@ import com.mshdabiola.naijaludo.entity.display.OptionWindowNew
 import com.mshdabiola.naijaludo.entity.display.OutComeDisplayPanel
 import com.mshdabiola.naijaludo.entity.player.HumanPlayer
 import com.mshdabiola.naijaludo.screen.NaijaLudo
+import com.mshdabiola.naijaludo.screen.game.logic.ClientGameController
 import com.mshdabiola.naijaludo.screen.game.logic.FriendNewGameLogic
 import com.mshdabiola.naijaludo.screen.game.logic.NewGameLogic
+import com.mshdabiola.naijaludo.screen.game.logic.ServerGameController
 import com.mshdabiola.naijaludo.screen.menu.MenuScreen
 import com.mshdabiola.naijaludo.util.GdxUtils
 import com.mshdabiola.naijaludo.util.ViewportUtils
@@ -129,7 +131,12 @@ class GameScreen(val naijaLudo: NaijaLudo, var gameLogic: GameLogic) : Screen, C
         //create seed for new game
         if ((gameLogic is NewGameLogic || gameLogic is FriendNewGameLogic) && !gameLogic.update) {
             players.forEach {
-                it.createSeed()
+                if (gameController is ServerGameController || gameController is ClientGameController) {
+                    it.createSeed(4)
+                } else {
+                    it.createSeed(GameManager.seedNO)
+                }
+
             }
         }
 

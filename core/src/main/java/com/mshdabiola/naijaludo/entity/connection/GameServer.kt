@@ -191,6 +191,10 @@ class GameServer : Server(), CoroutineScope by CoroutineScope(Dispatchers.Defaul
         }
     }
 
+    fun cleerPlayerArray() {
+        serverFactory.playerArray.clear()
+    }
+
     override fun newConnection(): Connection {
         println("get new connection")
         return NameConnection()

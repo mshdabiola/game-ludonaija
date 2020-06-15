@@ -107,6 +107,7 @@ class GameClient() : Client(), CoroutineScope by CoroutineScope(Dispatchers.Defa
             } catch (e: Exception) {
                 log(" client fail to connected")
                 e.printStackTrace()
+                throw e
 
 
             }

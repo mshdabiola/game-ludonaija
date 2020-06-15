@@ -96,10 +96,16 @@ class NaijaLudo : Game(), CoroutineScope by CoroutineScope(Dispatchers.Default) 
         override fun onServiceInfo(fullName: String, records: Map<String, String>, device: WifiDevice) {
 
             log("on service info name: $fullName")
-            log("on service info registrationType: ${records["buddyname"]}")
+            log("on service info registrationType: ${records["name"]}")
             log("on service info device address: ${device.address}")
             log("on service info device address: ${device.isOwner}")
             log("on service info device address: ${device.name}")
+            log("on service info device address: $records")
+            records["name"]?.let {
+                val buddies = HashMap<String, String>()
+                buddies[device.address] = it
+                log("buddyName is $it")
+            }
 
         }
 
@@ -134,6 +140,7 @@ class NaijaLudo : Game(), CoroutineScope by CoroutineScope(Dispatchers.Default) 
         override fun onPeerDevicesChanged(peerDevicess: List<Pair<String, String>>) {
             log("onpeerDeviceChanged")
             peerDevices = peerDevicess
+
             peerDevicesChanged = true
         }
 
@@ -233,6 +240,7 @@ class NaijaLudo : Game(), CoroutineScope by CoroutineScope(Dispatchers.Default) 
 
     fun log(string: String) {
         println("logging msg: $string")
+        connectInterfaceAnd?.log(string)
         logger.error(string)
     }
 

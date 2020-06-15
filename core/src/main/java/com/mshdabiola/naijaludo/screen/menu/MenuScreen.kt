@@ -110,6 +110,7 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
         }
         naijaLudo.discoveryButton = TextButton("Search Device", purpleSkinn)
 
+
         windowTable.setFillParent(true)
 
         stage.addActor(table)
@@ -1327,6 +1328,7 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
             clearButtonTable()
             cancelButtonFunction = {
                 naijaLudo.server.stop()
+                playerArray.clear()
                 isVisible = false
             }
             addReturnButton()
@@ -1349,6 +1351,9 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
         with(joinWindow) {
             table.clear()
             table.defaults().uniform(false, false)
+
+            table.add(join.reConnect.value)
+            table.row()
 
 
             if (playerArray.size == 2) {
@@ -1530,6 +1535,8 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
             addReturnButton()
             cancelButtonFunction = {
 //                naijaLudo.connectInterfaceAnd?.disconnect()
+
+
                 isVisible = false
             }
 
@@ -1870,7 +1877,7 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
         val players = Array(playerArray.size) {
             playerArray[it]
         }
-        change = Pair(true, GameScreen(naijaLudo, NewGameLogic(players = players, gameController = join.client.clientGameController)))
+        change = Pair(true, GameScreen(naijaLudo, NewGameLogic(players = players, gameController = join.client.value.clientGameController)))
 
     }
 
