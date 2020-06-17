@@ -181,47 +181,48 @@ class AndroidLauncher : AndroidApplication(), CoroutineScope by CoroutineScope(D
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val config = AndroidApplicationConfiguration()
-        config.useWakelock = true
-        config.useImmersiveMode = true
+        val time = measureTimeMillis {
+            coordinatorLayout.start()
+            layout.start()
 
-        MobileAds.initialize(this)
-        MobileAds.setRequestConfiguration(RequestConfiguration.Builder().setTestDeviceIds(testDevice).build())
 
-        naijaludo = NaijaLudo()
+            val config = AndroidApplicationConfiguration()
+            config.useWakelock = true
+            config.useImmersiveMode = true
 
-//        setContentView(R.layout.activity_main)
+            val timeToInitNaijaLudo = measureTimeMillis {
+                naijaludo = NaijaLudo()
+            }
+            log("time to init Naijaludo is $timeToInitNaijaLudo")
 
 //        initialize(naijaludo, config)
-        setUpLayout(naijaludo, config)
+            val timeSetupUi = measureTimeMillis {
+                setUpLayout(initializeForView(naijaludo, config).apply { id = R.id.ludo })
+            }
+            log("time to setup ui is $timeSetupUi")
 
-        connectInterface = naijaludo.connectInterface
+            launch { setConnection() }
+            launch { setUpAd() }
 
-        naijaludo.connectInterfaceAnd = connectInterfaceAnd
+        }
 
-        p2pServiceFinder = P2pServiceFinder(this, discoveryCallback)
-        groupOwnerManager = GroupOwnerManager(this, ownerCallback)
-
-
-
-
-        log("finished on create")
+        log("create total time is $time")
     }
 
 
     override fun onPause() {
         super.onPause()
-        p2pServiceFinder.unRegister()
-//        groupOwnerManager.unRegister()
+//        p2pServiceFinder.unRegister()
+
         log("on pause")
     }
 
     override fun onResume() {
         super.onResume()
-        p2pServiceFinder.register()
-//        groupOwnerManager.register()
+//        p2pServiceFinder.register()
+
         log("on resume")
-//        Snackbar.make(coordinatorLayout,"Resume",Snackbar.LENGTH_LONG)
+
 
     }
 
@@ -265,35 +266,17 @@ class AndroidLauncher : AndroidApplication(), CoroutineScope by CoroutineScope(D
 
     }
 
-    fun setUpLayout(naijaLudo: NaijaLudo, cofig: AndroidApplicationConfiguration) {
+    private fun setUpLayout(naijaLudoView: View) = runBlocking {
 
-        coordinatorLayout = CoordinatorLayout(this)
-        coordinatorLayout!!.setBackgroundColor(Color.BLUE)
 
-        val layout = ConstraintLayout(this)
         val set = ConstraintSet()
-        val naijaLudoView = initializeForView(naijaLudo, cofig)
-        naijaLudoView.id = R.id.ludo
-
-        val testBanner = "ca-app-pub-3940256099942544/6300978111"
-        val banner = AdView(this)
-        banner.id = R.id.banner
-        banner.adSize = AdSize.BANNER
-
-        banner.adUnitId = testBanner
-        val adRequest = AdRequest.Builder().build()
-        val isTest = adRequest.isTestDevice(this)
-        log("is this device test $isTest")
-        banner.loadAd(adRequest)
-
-        val button = Button(this)
-        button.id = R.id.button
 
 
-        coordinatorLayout!!.addView(layout, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
-//        coordinatorLayout!!.addView(banner,ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT)
-        layout.addView(naijaLudoView)
-        setContentView(coordinatorLayout)
+
+        coordinatorLayout.await().addView(layout.await(), ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+
+        layout.await().addView(naijaLudoView)
+        setContentView(coordinatorLayout.await())
         set.constrainHeight(R.id.ludo, ConstraintSet.WRAP_CONTENT)
         set.constrainWidth(R.id.ludo, ConstraintSet.MATCH_CONSTRAINT)
 
@@ -341,8 +324,12 @@ class AndroidLauncher : AndroidApplication(), CoroutineScope by CoroutineScope(D
 
     }
 
+    private fun setConnection() {
+        connectInterface = naijaludo.connectInterface
 
+        naijaludo.connectInterfaceAnd = connectInterfaceAnd
 
-        set.applyTo(layout)
+        p2pServiceFinder = P2pServiceFinder(this, discoveryCallback)
+        p2pServiceFinder.register()
     }
 }
