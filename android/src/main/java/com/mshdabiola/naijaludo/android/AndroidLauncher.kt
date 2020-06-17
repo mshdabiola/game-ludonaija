@@ -2,7 +2,6 @@ package com.mshdabiola.naijaludo.android
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Color
 import android.net.Uri
 import android.net.wifi.p2p.WifiP2pDevice
 import android.net.wifi.p2p.WifiP2pGroup
@@ -10,8 +9,8 @@ import android.net.wifi.p2p.WifiP2pInfo
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
+import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -24,19 +23,23 @@ import com.mshdabiola.naijaludo.R
 import com.mshdabiola.naijaludo.android.wifipeer2peer.P2pServiceFinder
 import com.mshdabiola.naijaludo.entity.connection.*
 import com.mshdabiola.naijaludo.screen.NaijaLudo
-import com.mshdabiola.naijaludo.wifipeer2peer.GroupOwnerManager
+import kotlinx.coroutines.*
 import java.util.*
 import kotlin.properties.Delegates
+import kotlin.system.measureTimeMillis
 
-class AndroidLauncher : AndroidApplication() {
+class AndroidLauncher : AndroidApplication(), CoroutineScope by CoroutineScope(Dispatchers.Default) {
 
 
     private var naijaludo: NaijaLudo by Delegates.notNull()
     private var p2pServiceFinder by Delegates.notNull<P2pServiceFinder>()
-    private var groupOwnerManager by Delegates.notNull<GroupOwnerManager>()
 
-    var coordinatorLayout: CoordinatorLayout? = null
-    val testDevice = Arrays.asList("E5E6F4890A489D152144C2B40672C646")
+
+    var coordinatorLayout = async { CoordinatorLayout(this@AndroidLauncher) }
+
+
+    val layout = async { ConstraintLayout(this@AndroidLauncher) }
+
     fun log(str: String) {
         Log.e(this::class.java.name, "android log $str")
 //        Toast.makeText(this, str, Toast.LENGTH_SHORT).show()
@@ -173,42 +176,7 @@ class AndroidLauncher : AndroidApplication() {
             connectInterface.onDiscovery(start)
         }
     }
-    val ownerCallback = object : GroupOwnerManager.Callback {
-        override fun onP2pEnabled(enable: Boolean) {
-            if (enable) {
-                log("p2p enabled")
-            } else {
-                log("p2p not enabled")
-            }
-            connectInterface.onP2pEnabled(enable)
-        }
 
-        override fun onGroupCreated(success: Boolean) {
-            if (success) {
-                log("group created successful")
-            } else {
-                log("group not created successful")
-            }
-            groupOwnerManager.getP2pGroups()?.run {
-                connectInterface.onGroupInfo(P2pGroup(passphrase, networkName, isGroupOwner))
-            }
-        }
-
-        override fun onGroupFormed() {
-            log("on group formed")
-            groupOwnerManager.getP2pInfo()?.run {
-                connectInterface.onGroupFormed(P2pInfo(groupOwnerAddress, isGroupOwner, groupFormed))
-            }
-
-
-        }
-
-        override fun onClientsList(clients: List<WifiP2pDevice>) {
-            log("clients list ${clients.size}")
-
-
-        }
-    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -260,7 +228,9 @@ class AndroidLauncher : AndroidApplication() {
     override fun onDestroy() {
         super.onDestroy()
 //        groupOwnerManager.stop()
+        p2pServiceFinder.unRegister()
         p2pServiceFinder.stop()
+
         log("on destroy")
     }
 
@@ -338,13 +308,38 @@ class AndroidLauncher : AndroidApplication() {
                 ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM, 0)
 
 
+        set.applyTo(layout.await())
+    }
+
+    private suspend fun setUpAd() {
+        val testDevice = Arrays.asList("E5E6F4890A489D152144C2B40672C646")
+        MobileAds.initialize(this)
+        MobileAds.setRequestConfiguration(RequestConfiguration.Builder().setTestDeviceIds(testDevice).build())
+
+
+        val testBanner = "ca-app-pub-3940256099942544/6300978111"
+        val banner = AdView(this)
+        banner.id = R.id.banner
+        banner.adSize = AdSize.BANNER
+
+        banner.adUnitId = testBanner
+        val adRequest = AdRequest.Builder().build()
+        val isTest = adRequest.isTestDevice(this)
+        log("is this device test $isTest")
+
         val paras = CoordinatorLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         paras.gravity = Gravity.BOTTOM
-//        banner.layoutParams= paras
 
-        coordinatorLayout!!.addView(banner, paras)
 
-        log("coordinator height ${coordinatorLayout!!.measuredHeight} width ${coordinatorLayout!!.measuredWidth} naijaview height ${naijaLudoView.measuredHeight} width ${naijaLudoView.measuredWidth}")
+
+
+        withContext(Dispatchers.Main) {
+            coordinatorLayout.await().addView(banner, paras)
+            banner.loadAd(adRequest)
+        }
+
+
+    }
 
 
 

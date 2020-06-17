@@ -3,7 +3,6 @@ package com.mshdabiola.naijaludo.screen.loading
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Screen
 import com.badlogic.gdx.audio.Sound
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar
@@ -19,7 +18,6 @@ import com.mshdabiola.naijaludo.screen.NaijaLudo
 import com.mshdabiola.naijaludo.screen.menu.MenuScreen
 import com.mshdabiola.naijaludo.util.GdxUtils
 import com.mshdabiola.naijaludo.util.ViewportUtils
-import com.mshdabiola.naijaludo.util.debug.DebugCameraController
 
 class LoadingScreen(val naijaLudo: NaijaLudo) : Screen {
 
@@ -27,11 +25,11 @@ class LoadingScreen(val naijaLudo: NaijaLudo) : Screen {
     private val logger = Logger(LoadingScreen::class.java.name, Logger.DEBUG)
 
     val viewport = FitViewport(Config.WORDLD_WIDTH, Config.WORLD_HEIGHT)
-    val shapeRenderer = ShapeRenderer()
+//    val shapeRenderer = ShapeRenderer()
 
-    val debugCameraController = DebugCameraController().apply {
-        setStartPosition(Config.WORDLD_WIDTH_HALF, Config.WORLD_HEIGHT_HALF)
-    }
+//    val debugCameraController = DebugCameraController().apply {
+//        setStartPosition(Config.WORDLD_WIDTH_HALF, Config.WORLD_HEIGHT_HALF)
+//    }
 
 
     val stage = Stage(viewport, naijaLudo.batch)
@@ -43,8 +41,8 @@ class LoadingScreen(val naijaLudo: NaijaLudo) : Screen {
 
     val progressWith = 1200f
     val progressHeight = 200f
-    val progressX = (Config.WORDLD_WIDTH_HALF - progressWith / 2f)
-    val progressY = (Config.WORLD_HEIGHT_HALF - progressHeight / 2f)
+//    val progressX = (Config.WORDLD_WIDTH_HALF - progressWith / 2f)
+//    val progressY = (Config.WORLD_HEIGHT_HALF - progressHeight / 2f)
 
     val skin = Skin(Gdx.files.internal(AssetName.loadingUISkin))
 

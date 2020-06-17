@@ -19,13 +19,14 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlin.properties.Delegates
 
 class NaijaLudo : Game(), CoroutineScope by CoroutineScope(Dispatchers.Default) {
 
     lateinit var assetManager: AssetManager
     lateinit var batch: SpriteBatch
     lateinit var shapeRenderer: ShapeRenderer
-    val server = GameServer()
+    var server by Delegates.notNull<GameServer>()
     private val logger = Logger(NaijaLudo::class.java.name, Logger.DEBUG)
     var runClient = { _: String, _: Boolean -> }
 
@@ -161,6 +162,7 @@ class NaijaLudo : Game(), CoroutineScope by CoroutineScope(Dispatchers.Default) 
         setScreen(LoadingScreen(this))
 
         launch {
+            server = GameServer()
             delay(1000)
 
             log("bind port")
