@@ -109,12 +109,15 @@ class GameScreen(val naijaLudo: NaijaLudo, var gameLogic: GameLogic) : Screen, C
         Gdx.input.inputProcessor = stage
         // add dice and outcome to stage
 
+
         naijaLudo.newGameLogic = gameLogic as? NewGameLogic
         initGame()
         //rotate board
         boardTable.setOrigin(750f, 750f)
         boardTable.rotation = 0f
         boardTable.addAction(Actions.rotateBy(getRotateDegree(players[0].gamecolorsId[0]), 0f))
+
+        gameLogic.finished = false
     }
 
     fun initGame() {
@@ -319,20 +322,37 @@ class GameScreen(val naijaLudo: NaijaLudo, var gameLogic: GameLogic) : Screen, C
 
         }
 
+        saveGame()
     }
 
 
     override fun pause() {
         isPause = true
-        if (gameLogic is NewGameLogic && !gameLogic.finished) {
-            naijaLudo.newGameLogic = gameLogic as NewGameLogic
-            naijaLudo.saveNewGameLogic()
+        gameLogic.finished = true
+
+    }
+
+    val TOTALTIME = 40f
+    var timer = 0f
+    private fun saveGame() {
+        timer += Gdx.graphics.deltaTime
+        if (timer > TOTALTIME) {
+            timer = 0f
+            if (gameLogic is NewGameLogic && !gameLogic.finished && gameController !is ServerGameController && gameController !is ClientGameController) {
+                logger.debug("Save game")
+
+                naijaLudo.newGameLogic = gameLogic as NewGameLogic
+                naijaLudo.saveNewGameLogic()
+            }
+
         }
+
+
     }
 
     override fun resume() {
         isPause = false
-
+        gameLogic.finished = false
     }
 
     override fun resize(width: Int, height: Int) {
@@ -341,10 +361,12 @@ class GameScreen(val naijaLudo: NaijaLudo, var gameLogic: GameLogic) : Screen, C
     }
 
     override fun dispose() {
-        if (gameLogic is NewGameLogic) {
+
+        if (gameLogic is NewGameLogic && !gameLogic.finished && gameController !is ServerGameController && gameController !is ClientGameController) {
+
             naijaLudo.newGameLogic = gameLogic as NewGameLogic
-            naijaLudo.saveNewGameLogic()
         }
+
         gameController.dispose()
         naijaLudo.connectInterfaceAnd?.disconnect()
 

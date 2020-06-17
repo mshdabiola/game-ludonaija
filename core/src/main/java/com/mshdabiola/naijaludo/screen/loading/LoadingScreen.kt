@@ -98,6 +98,7 @@ class LoadingScreen(val naijaLudo: NaijaLudo) : Screen {
 //            MassetDescriptor.loadingSkin = Skin(Gdx.files.internal(AssetName.loadingSkin))
             MassetDescriptor.purpleSkinn = naijaLudo.assetManager[MassetDescriptor.purpleSkin]
             MassetDescriptor.gameSkin2 = naijaLudo.assetManager[MassetDescriptor.gameSkinn2]
+            naijaLudo.readNewGameLogic()
             GameManager.loadMusic()
             MassetDescriptor.moveOutSound = getSound("moveOut")
             MassetDescriptor.moveSound = getSound("moving")

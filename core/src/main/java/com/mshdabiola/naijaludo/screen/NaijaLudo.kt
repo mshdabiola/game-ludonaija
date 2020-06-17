@@ -193,17 +193,17 @@ class NaijaLudo : Game(), CoroutineScope by CoroutineScope(Dispatchers.Default) 
     }
 
     fun readNewGameLogic() {
-//        this.launch {
-//            try {
-//                if (newGameLogic == null) {
-//                    newGameLogic = readJsonObject(fileName)
-//                }
-//            } catch (e: GdxRuntimeException) {
-//                e.printStackTrace()
-//            } catch (e: Exception) {
-//                e.printStackTrace()
-//            }
-//        }
+        this.launch {
+            try {
+                if (newGameLogic == null) {
+                    newGameLogic = readJsonObject(fileName)
+                }
+            } catch (e: GdxRuntimeException) {
+                e.printStackTrace()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
     }
 
     fun saveNewGameLogic() {
@@ -220,13 +220,13 @@ class NaijaLudo : Game(), CoroutineScope by CoroutineScope(Dispatchers.Default) 
 
     fun writeJsonObject(gameLogic: NewGameLogic?, fileName: String) {
 
-//
-//        gameLogic?.let {
-//            val str = json.prettyPrint(it)
-//            val file = Gdx.files.local("$path$fileName")
-//            file.writeString(str, false)
-//            println("write file finished")
-//        }
+
+        gameLogic?.let {
+            val str = json.prettyPrint(it)
+            val file = Gdx.files.local("$path$fileName")
+            file.writeString(str, false)
+            println("write file finished")
+        }
 
     }
 

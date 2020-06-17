@@ -96,18 +96,18 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
 
         newInitUi()
 
-        naijaLudo.readNewGameLogic()
-        naijaLudo.runClient = { ip: String, isOwner: Boolean ->
 
-            if (isOwner) {
-
-                naijaLudo.server.updateActor = updatePlayerActor
-                addOnlinePlayer(PlayType.HUMAN)
-                naijaLudo.server.connect()
-            } else {
-                join.connect(ip)
-            }
-        }
+//        naijaLudo.runClient = { ip: String, isOwner: Boolean ->
+//
+//            if (isOwner) {
+//
+//                naijaLudo.server.updateActor = updatePlayerActor
+//                addOnlinePlayer(PlayType.HUMAN)
+//                naijaLudo.server.connect()
+//            } else {
+//                join.connect(ip)
+//            }
+//        }
         naijaLudo.discoveryButton = TextButton("Search Device", purpleSkinn)
 
 
@@ -120,9 +120,9 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
             GameManager.isFirst = false
         }
 
-        if (GameManager.music) {
+
             GameManager.playMusic()
-        }
+
     }
 
     override fun render(delta: Float) {
@@ -1635,6 +1635,20 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
     val friendsWindow = OptionWindowNew("Friend", skin = purpleSkinn)
 
     val computerWindow = OptionWindowNew("Select Game", skin = purpleSkinn).apply {
+
+
+        if (naijaLudo.newGameLogic != null) {
+            addButton("Continue Game") {
+
+
+                naijaLudo.newGameLogic!!.update = true
+                naijaLudo.newGameLogic!!.update()
+                change = Pair(true, GameScreen(naijaLudo, naijaLudo.newGameLogic!!))
+            }
+        }
+
+
+
         addButton("One Computer") {
             updateOneTable()
             computerGroupButton.buttons.forEach {
@@ -1656,14 +1670,7 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
             }
             changeWindow(manyComputerWindow)
         }
-        addButton("Continue Game") {
-            if (naijaLudo.newGameLogic != null) {
 
-                naijaLudo.newGameLogic!!.update = true
-                naijaLudo.newGameLogic!!.update()
-                change = Pair(true, GameScreen(naijaLudo, naijaLudo.newGameLogic!!))
-            }
-        }
 
     }
 
