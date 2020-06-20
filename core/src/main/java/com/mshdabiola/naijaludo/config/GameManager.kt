@@ -27,6 +27,8 @@ object GameManager {
     val soundS = "sound"
     val musicNumbers = "musicNumber"
 
+    val missionLevelS = "missionLevel"
+
     val winOneS = "winOne"
     val lossOneS = "lossOne"
     val winManyS = "winMany"
@@ -63,6 +65,14 @@ object GameManager {
             pref.putInteger(levelS, value)
             pref.flush()
         }
+
+    var missionLevel: Int
+        get() = pref.getInteger(missionLevelS, 0)
+        set(value) {
+            pref.putInteger(missionLevelS, value)
+            pref.flush()
+        }
+
 
     var style: Int
         get() = pref.getInteger(styleS, 0)
@@ -227,5 +237,8 @@ object GameManager {
         }
 
     }
+
+
+    var currentLevel: Int? = null
 
 }

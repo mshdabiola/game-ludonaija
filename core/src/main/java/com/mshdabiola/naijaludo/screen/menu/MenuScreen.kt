@@ -27,6 +27,7 @@ import com.mshdabiola.naijaludo.entity.player.online.OnlineHumanPlayer
 import com.mshdabiola.naijaludo.screen.NaijaLudo
 import com.mshdabiola.naijaludo.screen.game.GameController
 import com.mshdabiola.naijaludo.screen.game.GameScreen
+import com.mshdabiola.naijaludo.screen.game.LevelGameScreen
 import com.mshdabiola.naijaludo.screen.game.logic.FriendNewGameLogic
 import com.mshdabiola.naijaludo.screen.game.logic.NewGameLogic
 import com.mshdabiola.naijaludo.util.GdxUtils
@@ -121,7 +122,7 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
         }
 
 
-            GameManager.playMusic()
+        GameManager.playMusic()
 
     }
 
@@ -1572,6 +1573,13 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
 
         }
     }
+    var levelGroupButton = ButtonGroup<ImageButton>().apply {
+        for (i in 0..38) {
+            add(getPlayerThumbnail(PlayType.HUMAN))
+
+        }
+    }
+
     val iconList = ButtonGroup<ImageButton>().apply {
         for (i in 1..9) {
             add(getIcon(i))
@@ -1640,11 +1648,18 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
         if (naijaLudo.newGameLogic != null) {
             addButton("Continue Game") {
 
+                naijaLudo.newGameLogic?.let {
+                    it.update = true
+                    it.saveState = true
+                    it.update()
+                    change = Pair(true, GameScreen(naijaLudo, it))
+                }
 
-                naijaLudo.newGameLogic!!.update = true
-                naijaLudo.newGameLogic!!.update()
-                change = Pair(true, GameScreen(naijaLudo, naijaLudo.newGameLogic!!))
             }
+        }
+
+        addButton("Mission") {
+            changeWindow(listOfLevelWindow)
         }
 
 
@@ -1696,6 +1711,43 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
 //scrollPane.setFillParent(true)
         table.add(scrollPane).growX()
     }
+    val listOfLevelWindow = OptionWindowNew("Level", skin = purpleSkinn).apply {
+        val list = Table()
+        val currentLevel = GameManager.missionLevel
+        levelGroupButton.buttons.forEachIndexed { index, imageButton ->
+            val table = Table(purpleSkinn)
+
+            imageButton.onClick {
+                GameManager.currentLevel = index
+                println("current index is  $index")
+                val galogic = naijaLudo.readNewGameLogic(index)
+                galogic.update = true
+                galogic.saveState = false
+                galogic.update()
+                change = Pair(true, LevelGameScreen(naijaLudo, galogic))
+            }
+
+            if (index > currentLevel) {
+                imageButton.touchable = Touchable.disabled
+            }
+
+            table.add(imageButton).size(300f)
+            table.row()
+            val nameLabel = Label("Level ${index + 1}", skin)
+            nameLabel.setFontScale(0.8f)
+
+            table.add(nameLabel).align(Align.center)
+            list.add(table).size(400f).pad(50f)
+            if (index % 2 == 1) {
+                list.row()
+            }
+
+        }
+        val scrollPane = ScrollPane(list, purpleSkinn)
+//scrollPane.setFillParent(true)
+        table.add(scrollPane).growX()
+    }
+
     val manyComputerWindow = OptionWindowNew("Many Robots", skin = purpleSkinn)
     val oneComputerWindow = OptionWindowNew("One Robot", skin = purpleSkinn)
     val newSettingWindow = NewSettingWindow("Settings", purpleSkinn)

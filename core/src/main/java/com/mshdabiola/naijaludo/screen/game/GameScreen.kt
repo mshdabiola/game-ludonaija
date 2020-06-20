@@ -35,7 +35,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 
 
-class GameScreen(val naijaLudo: NaijaLudo, var gameLogic: GameLogic) : Screen, CoroutineScope by CoroutineScope(Dispatchers.Default) {
+open class GameScreen(val naijaLudo: NaijaLudo, var gameLogic: GameLogic) : Screen, CoroutineScope by CoroutineScope(Dispatchers.Default) {
 
     private val logger = Logger(GameScreen::class.java.name, Logger.DEBUG)
 
@@ -49,12 +49,11 @@ class GameScreen(val naijaLudo: NaijaLudo, var gameLogic: GameLogic) : Screen, C
         setStartPosition(Config.WORDLD_WIDTH_HALF, Config.WORLD_HEIGHT_HALF)
     }
 
-    private val nameRow = Table()
-    private val nameRow2 = Table()
+    protected val nameRow = Table()
+    protected val nameRow2 = Table()
     val outComeTable = Table()
     val outComeTable2 = Table()
 
-    val finishedWindow = OptionWindowNew("Finished ", skin = purpleSkinn)
 
     val optionWindow = OptionWindowNew("Options", skin = purpleSkinn)
     val windowTable = Table()
@@ -65,7 +64,7 @@ class GameScreen(val naijaLudo: NaijaLudo, var gameLogic: GameLogic) : Screen, C
     var gameController = gameLogic.gameController
 
     private val gameTable = Table()
-    private lateinit var boardTable: Table
+    protected lateinit var boardTable: Table
 
     private lateinit var outComeDisplayPanel: OutComeDisplayPanel
     private lateinit var outComeDisplayPanelCopy: OutComeDisplayPanel
@@ -82,7 +81,7 @@ class GameScreen(val naijaLudo: NaijaLudo, var gameLogic: GameLogic) : Screen, C
 
         initUi()
         boardTable.toFront()
-        initFinishedWindow()
+
         initOptionWindow()
 
         Seed.speed = GameManager.seedSpeed
@@ -249,7 +248,7 @@ class GameScreen(val naijaLudo: NaijaLudo, var gameLogic: GameLogic) : Screen, C
         swap = !swap
     }
 
-    fun reset() {
+    open fun reset() {
 
 
         gameLogic.reset(players)
@@ -338,7 +337,7 @@ class GameScreen(val naijaLudo: NaijaLudo, var gameLogic: GameLogic) : Screen, C
         timer += Gdx.graphics.deltaTime
         if (timer > TOTALTIME) {
             timer = 0f
-            if (gameLogic is NewGameLogic && !gameLogic.finished && gameController !is ServerGameController && gameController !is ClientGameController) {
+            if (gameLogic.saveState) {
                 logger.debug("Save game")
 
                 naijaLudo.newGameLogic = gameLogic as NewGameLogic
@@ -379,7 +378,8 @@ class GameScreen(val naijaLudo: NaijaLudo, var gameLogic: GameLogic) : Screen, C
         dispose()
     }
 
-    fun scorePlayer() {
+
+    open fun scorePlayer() {
         val id = gameController.playerId
         logger.debug("enter scorePlayer() is player human ${players[id] is HumanPlayer} is gameLogic NewGameLogic ${gameLogic is NewGameLogic} lastPoint is ${players[id].lastPoint}")
         if (gameLogic is NewGameLogic) {
@@ -493,15 +493,17 @@ class GameScreen(val naijaLudo: NaijaLudo, var gameLogic: GameLogic) : Screen, C
         }
     }
 
-    private fun initFinishedWindow() {
-        finishedWindow.clearButtonTable()
-        finishedWindow.addButton("Play Again") {
-            reset()
-            finishedWindow.isVisible = false
+
+    open val finishedWindow = OptionWindowNew("Finished ", skin = purpleSkinn).apply {
+        clearButtonTable()
+        addButton("Play Again") {
+            this@GameScreen.reset()
+            isVisible = false
         }
-        finishedWindow.addButton("Home") {
+        addButton("Home") {
             changeScreen = Pair(true, MenuScreen(naijaLudo))
         }
     }
+
 
 }

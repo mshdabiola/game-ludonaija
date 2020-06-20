@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.JsonWriter
 import com.badlogic.gdx.utils.Logger
 import com.mshdabiola.naijaludo.config.GameManager
 import com.mshdabiola.naijaludo.entity.connection.*
+import com.mshdabiola.naijaludo.screen.game.GameLogic
 import com.mshdabiola.naijaludo.screen.game.logic.NewGameLogic
 import com.mshdabiola.naijaludo.screen.loading.LoadingScreen
 import kotlinx.coroutines.CoroutineScope
@@ -204,6 +205,13 @@ class NaijaLudo : Game(), CoroutineScope by CoroutineScope(Dispatchers.Default) 
                 e.printStackTrace()
             }
         }
+    }
+
+    fun readNewGameLogic(number: Int): GameLogic {
+        val nu = number + 6
+        println("reading gamelogic $nu")
+        return readJsonObject("SaveGame_part_0_number_${nu}.json")
+
     }
 
     fun saveNewGameLogic() {
