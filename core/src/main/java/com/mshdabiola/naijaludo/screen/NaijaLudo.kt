@@ -208,7 +208,7 @@ class NaijaLudo : Game(), CoroutineScope by CoroutineScope(Dispatchers.Default) 
     }
 
     fun readNewGameLogic(number: Int): GameLogic {
-        val nu = number + 6
+        val nu = number
         println("reading gamelogic $nu")
         return readJsonObject("SaveGame_part_0_number_${nu}.json")
 
