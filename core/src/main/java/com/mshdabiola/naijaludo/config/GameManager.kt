@@ -239,6 +239,5 @@ object GameManager {
     }
 
 
-    var currentLevel: Int? = null
-
+    var currentLevel = 0
 }
