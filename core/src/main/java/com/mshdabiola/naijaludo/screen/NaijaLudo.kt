@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.JsonWriter
 import com.badlogic.gdx.utils.Logger
 import com.mshdabiola.naijaludo.config.GameManager
 import com.mshdabiola.naijaludo.entity.connection.*
+import com.mshdabiola.naijaludo.screen.game.GameLogic
 import com.mshdabiola.naijaludo.screen.game.logic.NewGameLogic
 import com.mshdabiola.naijaludo.screen.loading.LoadingScreen
 import kotlinx.coroutines.CoroutineScope
@@ -192,7 +193,7 @@ class NaijaLudo : Game(), CoroutineScope by CoroutineScope(Dispatchers.Default) 
         batch.dispose()
     }
 
-    fun readNewGameLogic() {
+    fun readNewGameLogicSaved() {
         this.launch {
             try {
                 if (newGameLogic == null) {
@@ -204,6 +205,23 @@ class NaijaLudo : Game(), CoroutineScope by CoroutineScope(Dispatchers.Default) 
                 e.printStackTrace()
             }
         }
+    }
+
+    fun readNewGameLogicSaved(number: Int): GameLogic {
+        val nu = number
+        println("reading gamelogic $nu")
+        return readJsonObjectSaved("SaveGame_part_0_number_${nu}.json")
+
+    }
+
+    fun readJsonObjectSaved(fileName: String): NewGameLogic {
+
+        val file = Gdx.files.internal("$path$fileName")
+        val str = file.readString()
+        println("read file finished")
+        return json.fromJson(NewGameLogic::class.java, str)
+
+
     }
 
     fun saveNewGameLogic() {
@@ -238,6 +256,13 @@ class NaijaLudo : Game(), CoroutineScope by CoroutineScope(Dispatchers.Default) 
         return json.fromJson(NewGameLogic::class.java, str)
 
 
+    }
+
+    fun deleteCompleteFile() {
+        launch {
+            val file = Gdx.files.local("$path$fileName")
+            file.delete()
+        }
     }
 
     fun log(string: String) {

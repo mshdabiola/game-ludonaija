@@ -10,7 +10,7 @@ buildscript {
 	}
 	dependencies {
 		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
-		classpath 'com.android.tools.build:gradle:4.0.0-alpha09'
+		classpath 'com.android.tools.build:gradle:4.2.0-alpha02'
 		classpath "org.wisepersist:gwt-gradle-plugin:$gwtPluginVersion"
 		classpath 'com.google.gms:google-services:4.3.3'
 		// Add the Crashlytics Gradle plugin.

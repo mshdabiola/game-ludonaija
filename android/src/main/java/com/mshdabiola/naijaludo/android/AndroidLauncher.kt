@@ -35,10 +35,12 @@ class AndroidLauncher : AndroidApplication(), CoroutineScope by CoroutineScope(D
     private var p2pServiceFinder by Delegates.notNull<P2pServiceFinder>()
 
 
-    var coordinatorLayout = async { CoordinatorLayout(this@AndroidLauncher) }
+    var coordinatorLayout by Delegates.notNull<Deferred<CoordinatorLayout>>()
+//            async { CoordinatorLayout(this@AndroidLauncher) }
 
 
-    val layout = async { ConstraintLayout(this@AndroidLauncher) }
+    var layout by Delegates.notNull<Deferred<ConstraintLayout>>()
+//            async { ConstraintLayout(this@AndroidLauncher) }
 
     fun log(str: String) {
         Log.e(this::class.java.name, "android log $str")
@@ -182,6 +184,9 @@ class AndroidLauncher : AndroidApplication(), CoroutineScope by CoroutineScope(D
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val time = measureTimeMillis {
+            coordinatorLayout = async { CoordinatorLayout(this@AndroidLauncher) }
+            layout = async { ConstraintLayout(this@AndroidLauncher) }
+
             coordinatorLayout.start()
             layout.start()
 
