@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import com.badlogic.gdx.scenes.scene2d.ui.Button
+import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.ui.Window
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
@@ -57,6 +58,7 @@ open class GameScreen(val naijaLudo: NaijaLudo, var gameLogic: GameLogic) : Scre
 
     val optionWindow = OptionWindowNew("Options", skin = purpleSkinn)
     val windowTable = Table()
+    val commentLabel = Label("", purpleSkinn, "center")
 
 
     var diceController = gameLogic.diceController
@@ -119,7 +121,7 @@ open class GameScreen(val naijaLudo: NaijaLudo, var gameLogic: GameLogic) : Scre
         gameLogic.finished = false
     }
 
-    fun initGame() {
+    open fun initGame() {
 
         diceController.createUi()
 
@@ -153,7 +155,10 @@ open class GameScreen(val naijaLudo: NaijaLudo, var gameLogic: GameLogic) : Scre
 
         gameController.exitFunction = {
             scorePlayer()
-            gameLogic.finished = true
+            if (gameLogic.saveState) {
+                gameLogic.saveState = false
+                naijaLudo.deleteCompleteFile()
+            }
             changeWindow(finishedWindow)
         }
         gameController.swapOutcome = {
@@ -258,6 +263,10 @@ open class GameScreen(val naijaLudo: NaijaLudo, var gameLogic: GameLogic) : Scre
         outComeTable.reset()
         outComeTable2.reset()
         boardTable.reset()
+
+        if (gameController !is ServerGameController && gameController !is ClientGameController && gameLogic !is FriendNewGameLogic) {
+            gameLogic.saveState = true
+        }
 
         diceController = gameLogic.diceController
         gameController = gameLogic.gameController
@@ -465,23 +474,29 @@ open class GameScreen(val naijaLudo: NaijaLudo, var gameLogic: GameLogic) : Scre
         gameTable.pack()
     }
 
-    private fun initOptionWindow() {
+    protected open fun initOptionWindow() {
 
 
         optionWindow.cancelButtonFunction = {
             optionWindow.isVisible = false
             resume()
         }
+        optionWindow.addButton("Resume") {
+
+            optionWindow.isVisible = false
+            resume()
+        }
         optionWindow.addButton("Restart") {
 
-//            changeScreen = Pair(true, GameScreen(naijaLudo))
-        }
-
-        optionWindow.addButton("Reset") {
             reset()
             optionWindow.isVisible = false
-
         }
+
+//        optionWindow.addButton("Reset") {
+//            reset()
+//            optionWindow.isVisible = false
+//
+//        }
         optionWindow.addButton("Resign") {
 
             changeScreen = Pair(true, MenuScreen(naijaLudo))

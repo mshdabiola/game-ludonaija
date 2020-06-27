@@ -164,6 +164,7 @@ open class GameController {
 
             exitFunction()
             pause()
+
         }
         resetVariable()
         diceController.setDiceToZero()

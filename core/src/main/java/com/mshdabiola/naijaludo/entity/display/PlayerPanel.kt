@@ -146,4 +146,8 @@ class PlayerPanel(val player: BasePlayer) : Table(MassetDescriptor.gameSkin2) {
         return ImageButton(purpleSkinn, "icon-$iconId")
     }
 
+    fun hideScoreLabel() {
+        scorelabel.isVisible = false
+    }
+
 }

@@ -20,6 +20,13 @@ class LevelGameScreen(naijaLudo: NaijaLudo, gameLogic: GameLogic) : GameScreen(n
 
     init {
         getNewCurrentLogic()
+
+
+    }
+
+    fun setLevel() {
+        outComeTable2.add(commentLabel)
+        commentLabel.setText("Level ${GameManager.currentLevel + 1}")
     }
 
     var nextButton: TextButton
@@ -40,15 +47,15 @@ class LevelGameScreen(naijaLudo: NaijaLudo, gameLogic: GameLogic) : GameScreen(n
 
     override fun render(delta: Float) {
         super.render(delta)
-        if (Gdx.input.isKeyPressed(com.badlogic.gdx.Input.Keys.N)) {
+        if (Gdx.input.isKeyJustPressed(com.badlogic.gdx.Input.Keys.N)) {
             next()
             reset()
         }
-        if (Gdx.input.isKeyPressed(com.badlogic.gdx.Input.Keys.P)) {
+        if (Gdx.input.isKeyJustPressed(com.badlogic.gdx.Input.Keys.P)) {
             previous()
             reset()
         }
-        if (Gdx.input.isKeyPressed(com.badlogic.gdx.Input.Keys.R)) {
+        if (Gdx.input.isKeyJustPressed(com.badlogic.gdx.Input.Keys.R)) {
             replay()
             reset()
         }
@@ -68,6 +75,18 @@ class LevelGameScreen(naijaLudo: NaijaLudo, gameLogic: GameLogic) : GameScreen(n
                 changeWindow(finishedWindow)
             }
 
+//            if (Gdx.input. isKeyJustPressed(com.badlogic.gdx.Input.Keys.O)) {
+//                nextButton.setText("Play Again")
+//                replay()
+//                checkUpdate = false
+//                changeWindow(finishedWindow)
+//            }
+//            if (Gdx.input.isKeyJustPressed(com.badlogic.gdx.Input.Keys.C)) {
+//                nextButton.setText("Next Level")
+//                next()
+//                checkUpdate = false
+//                changeWindow(finishedWindow)
+//            }
 
         }
 
@@ -86,13 +105,15 @@ class LevelGameScreen(naijaLudo: NaijaLudo, gameLogic: GameLogic) : GameScreen(n
     }
 
     override fun scorePlayer() {
-        if (playerWin()) {
-            nextButton.setText("Next Level")
-            next()
-        } else {
-            nextButton.setText("Play Again")
-            replay()
-        }
+//        if (playerWin()) {
+//            nextButton.setText("Next Level")
+//            next()
+//            checkUpdate=false
+//        } else {
+//            nextButton.setText("Play Again")
+//            replay()
+//            checkUpdate=false
+//        }
 
     }
 
@@ -123,6 +144,12 @@ class LevelGameScreen(naijaLudo: NaijaLudo, gameLogic: GameLogic) : GameScreen(n
 
     }
 
+    override fun initGame() {
+        super.initGame()
+        setLevel()
+        players.forEach { it.playerPanel.hideScoreLabel() }
+    }
+
     override fun reset() {
 
 
@@ -140,6 +167,7 @@ class LevelGameScreen(naijaLudo: NaijaLudo, gameLogic: GameLogic) : GameScreen(n
         gameController = gameLogic.gameController
         gameController.winnerMap.clear()
         players = gameLogic.players
+        setLevel()
 
         initGame()
 
@@ -206,13 +234,47 @@ class LevelGameScreen(naijaLudo: NaijaLudo, gameLogic: GameLogic) : GameScreen(n
         val level = GameManager.currentLevel
         naijaLudo.launch {
             if (level >= 1)
-                prevLogic = naijaLudo.readNewGameLogic(level - 1)
+                prevLogic = naijaLudo.readNewGameLogicSaved(level - 1)
         }
         naijaLudo.launch {
-            currentLogic = naijaLudo.readNewGameLogic(level)
+            currentLogic = naijaLudo.readNewGameLogicSaved(level)
         }
         naijaLudo.launch {
-            nextLogic = naijaLudo.readNewGameLogic(level + 1)
+            nextLogic = naijaLudo.readNewGameLogicSaved(level + 1)
+        }
+    }
+
+    override fun initOptionWindow() {
+
+        optionWindow.cancelButtonFunction = {
+            optionWindow.isVisible = false
+            resume()
+        }
+        optionWindow.addButton("Resume") {
+
+            optionWindow.isVisible = false
+            resume()
+        }
+        optionWindow.addButton("Restart") {
+
+            replay()
+            reset()
+            optionWindow.isVisible = false
+        }
+
+//        optionWindow.addButton("Reset") {
+//            reset()
+//            optionWindow.isVisible = false
+//
+//        }
+        optionWindow.addButton("Resign") {
+
+            changeScreen = Pair(true, MenuScreen(naijaLudo))
+
+        }
+        optionWindow.addButton("Exit") {
+            changeScreen = Pair(true, MenuScreen(naijaLudo))
+
         }
     }
 }

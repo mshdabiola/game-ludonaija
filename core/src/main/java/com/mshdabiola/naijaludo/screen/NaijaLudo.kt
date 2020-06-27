@@ -193,7 +193,7 @@ class NaijaLudo : Game(), CoroutineScope by CoroutineScope(Dispatchers.Default) 
         batch.dispose()
     }
 
-    fun readNewGameLogic() {
+    fun readNewGameLogicSaved() {
         this.launch {
             try {
                 if (newGameLogic == null) {
@@ -207,10 +207,20 @@ class NaijaLudo : Game(), CoroutineScope by CoroutineScope(Dispatchers.Default) 
         }
     }
 
-    fun readNewGameLogic(number: Int): GameLogic {
+    fun readNewGameLogicSaved(number: Int): GameLogic {
         val nu = number
         println("reading gamelogic $nu")
-        return readJsonObject("SaveGame_part_0_number_${nu}.json")
+        return readJsonObjectSaved("SaveGame_part_0_number_${nu}.json")
+
+    }
+
+    fun readJsonObjectSaved(fileName: String): NewGameLogic {
+
+        val file = Gdx.files.internal("$path$fileName")
+        val str = file.readString()
+        println("read file finished")
+        return json.fromJson(NewGameLogic::class.java, str)
+
 
     }
 
@@ -246,6 +256,13 @@ class NaijaLudo : Game(), CoroutineScope by CoroutineScope(Dispatchers.Default) 
         return json.fromJson(NewGameLogic::class.java, str)
 
 
+    }
+
+    fun deleteCompleteFile() {
+        launch {
+            val file = Gdx.files.local("$path$fileName")
+            file.delete()
+        }
     }
 
     fun log(string: String) {

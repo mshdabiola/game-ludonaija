@@ -522,6 +522,7 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
                     playerArray[it]
                 }
                 val logic = NewGameLogic(players = players, gameController = GameController())
+                logic.saveState = true
                 change = Pair(true, GameScreen(naijaLudo, logic))
 
 
@@ -758,7 +759,7 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
                 val players = Array(playerArray.size) {
                     playerArray[it]
                 }
-                change = Pair(true, GameScreen(naijaLudo, NewGameLogic(players = players)))
+                change = Pair(true, GameScreen(naijaLudo, NewGameLogic(players = players).apply { saveState = true }))
 
             }
 
@@ -1720,7 +1721,7 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
             imageButton.onClick {
                 GameManager.currentLevel = index
                 println("current index is  $index")
-                val galogic = naijaLudo.readNewGameLogic(index)
+                val galogic = naijaLudo.readNewGameLogicSaved(index)
                 galogic.update = true
                 galogic.saveState = false
                 galogic.update()
