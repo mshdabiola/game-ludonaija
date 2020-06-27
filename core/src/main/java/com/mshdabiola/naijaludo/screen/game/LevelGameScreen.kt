@@ -1,6 +1,5 @@
 package com.mshdabiola.naijaludo.screen.game
 
-import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
@@ -47,19 +46,6 @@ class LevelGameScreen(naijaLudo: NaijaLudo, gameLogic: GameLogic) : GameScreen(n
 
     override fun render(delta: Float) {
         super.render(delta)
-        if (Gdx.input.isKeyJustPressed(com.badlogic.gdx.Input.Keys.N)) {
-            next()
-            reset()
-        }
-        if (Gdx.input.isKeyJustPressed(com.badlogic.gdx.Input.Keys.P)) {
-            previous()
-            reset()
-        }
-        if (Gdx.input.isKeyJustPressed(com.badlogic.gdx.Input.Keys.R)) {
-            replay()
-            reset()
-        }
-
         if (checkUpdate) {
 
             if (checkIfOpponentPlayerWin()) {
@@ -75,18 +61,6 @@ class LevelGameScreen(naijaLudo: NaijaLudo, gameLogic: GameLogic) : GameScreen(n
                 changeWindow(finishedWindow)
             }
 
-//            if (Gdx.input. isKeyJustPressed(com.badlogic.gdx.Input.Keys.O)) {
-//                nextButton.setText("Play Again")
-//                replay()
-//                checkUpdate = false
-//                changeWindow(finishedWindow)
-//            }
-//            if (Gdx.input.isKeyJustPressed(com.badlogic.gdx.Input.Keys.C)) {
-//                nextButton.setText("Next Level")
-//                next()
-//                checkUpdate = false
-//                changeWindow(finishedWindow)
-//            }
 
         }
 
@@ -105,15 +79,7 @@ class LevelGameScreen(naijaLudo: NaijaLudo, gameLogic: GameLogic) : GameScreen(n
     }
 
     override fun scorePlayer() {
-//        if (playerWin()) {
-//            nextButton.setText("Next Level")
-//            next()
-//            checkUpdate=false
-//        } else {
-//            nextButton.setText("Play Again")
-//            replay()
-//            checkUpdate=false
-//        }
+
 
     }
 
@@ -262,11 +228,6 @@ class LevelGameScreen(naijaLudo: NaijaLudo, gameLogic: GameLogic) : GameScreen(n
             optionWindow.isVisible = false
         }
 
-//        optionWindow.addButton("Reset") {
-//            reset()
-//            optionWindow.isVisible = false
-//
-//        }
         optionWindow.addButton("Resign") {
 
             changeScreen = Pair(true, MenuScreen(naijaLudo))
