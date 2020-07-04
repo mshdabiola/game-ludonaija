@@ -10,6 +10,7 @@ class SaveGameLogic(
         gameController: GameController = GameController(),
         diceController: DiceController = DiceController()
 ) : GameLogic(players, gameController, diceController) {
+    var seedPositions = intArrayOf()
 //    init {
 //
 //        players.flatMap { it.homeSeed }.forEach { it.update() }

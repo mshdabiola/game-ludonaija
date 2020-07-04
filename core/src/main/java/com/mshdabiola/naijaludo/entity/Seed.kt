@@ -137,6 +137,12 @@ class Seed(var colorId:
 
     }
 
+    fun initSeed() {
+        homeFloor = getFloor(color, id * -1)
+        startFloor = getFloor(color, 1)
+        previousFloors = emptyArray()
+    }
+
     fun startAnim() {
         actor.touchable = Touchable.enabled
         animActor.addAction(Actions.fadeIn(0f))
@@ -212,6 +218,11 @@ class Seed(var colorId:
         moveRemain = 0
 
         s.movehome()
+    }
+
+    fun kill() {
+        actor.addAction(Actions.moveTo(Config.lastFloor.coord.x, Config.lastFloor.coord.y))
+        moveRemain = 0
     }
 
     fun isAtSameFloor(seed: Seed) = currentFloor.coord == seed.currentFloor.coord

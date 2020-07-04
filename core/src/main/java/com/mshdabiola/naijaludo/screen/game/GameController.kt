@@ -444,6 +444,7 @@ open class GameController {
                 it.setText()
 
                 currentSeed.kill(it)
+
                 diceController.diceMoveToFront()
 
                 textSeedInFloorArea(it.preFloor, null)

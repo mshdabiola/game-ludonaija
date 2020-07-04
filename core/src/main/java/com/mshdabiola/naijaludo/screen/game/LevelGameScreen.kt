@@ -78,10 +78,7 @@ class LevelGameScreen(naijaLudo: NaijaLudo, gameLogic: GameLogic) : GameScreen(n
         return players[0].lastPoint > 0
     }
 
-    override fun scorePlayer() {
 
-
-    }
 
     fun playerWin(): Boolean {
         val id = gameController.playerId
@@ -133,7 +130,7 @@ class LevelGameScreen(naijaLudo: NaijaLudo, gameLogic: GameLogic) : GameScreen(n
         gameController = gameLogic.gameController
         gameController.winnerMap.clear()
         players = gameLogic.players
-        setLevel()
+//        setLevel()
 
         initGame()
 
@@ -164,7 +161,8 @@ class LevelGameScreen(naijaLudo: NaijaLudo, gameLogic: GameLogic) : GameScreen(n
     }
 
     var currentLogic: GameLogic? = null
-    var prevLogic: GameLogic? = null
+
+    //    var prevLogic: GameLogic? = null
     var nextLogic: GameLogic? = null
     fun next() {
 
@@ -181,13 +179,13 @@ class LevelGameScreen(naijaLudo: NaijaLudo, gameLogic: GameLogic) : GameScreen(n
 
     }
 
-    fun previous() {
-
-
-        gameLogic = prevLogic!!
-        GameManager.currentLevel -= 1
-        getNewCurrentLogic()
-    }
+//    fun previous() {
+//
+//
+//        gameLogic = prevLogic!!
+//        GameManager.currentLevel -= 1
+//        getNewCurrentLogic()
+//    }
 
     fun replay() {
         gameLogic = currentLogic!!
@@ -199,14 +197,14 @@ class LevelGameScreen(naijaLudo: NaijaLudo, gameLogic: GameLogic) : GameScreen(n
     fun getNewCurrentLogic() {
         val level = GameManager.currentLevel
         naijaLudo.launch {
-            if (level >= 1)
-                prevLogic = naijaLudo.readNewGameLogicSaved(level - 1)
-        }
-        naijaLudo.launch {
-            currentLogic = naijaLudo.readNewGameLogicSaved(level)
-        }
-        naijaLudo.launch {
-            nextLogic = naijaLudo.readNewGameLogicSaved(level + 1)
+//            if (level >= 1)
+//                prevLogic = naijaLudo.readNewGameLogicSaved(level - 1)
+//
+
+            currentLogic = naijaLudo.savedGameGenerator.getGameLogic(level)
+
+
+            nextLogic = naijaLudo.savedGameGenerator.getGameLogic(level + 1)
         }
     }
 

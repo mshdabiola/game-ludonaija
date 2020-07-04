@@ -2,6 +2,7 @@ package com.mshdabiola.naijaludo.screen.game
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Screen
+import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
@@ -17,6 +18,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport
 import com.mshdabiola.naijaludo.asset.MassetDescriptor.gameSkin2
 import com.mshdabiola.naijaludo.asset.MassetDescriptor.purpleSkinn
 import com.mshdabiola.naijaludo.config.Config
+import com.mshdabiola.naijaludo.config.GameColor
 import com.mshdabiola.naijaludo.config.GameManager
 import com.mshdabiola.naijaludo.entity.Seed
 import com.mshdabiola.naijaludo.entity.board.Board
@@ -24,14 +26,10 @@ import com.mshdabiola.naijaludo.entity.display.OptionWindowNew
 import com.mshdabiola.naijaludo.entity.display.OutComeDisplayPanel
 import com.mshdabiola.naijaludo.entity.player.HumanPlayer
 import com.mshdabiola.naijaludo.screen.NaijaLudo
-import com.mshdabiola.naijaludo.screen.game.logic.ClientGameController
-import com.mshdabiola.naijaludo.screen.game.logic.FriendNewGameLogic
-import com.mshdabiola.naijaludo.screen.game.logic.NewGameLogic
-import com.mshdabiola.naijaludo.screen.game.logic.ServerGameController
+import com.mshdabiola.naijaludo.screen.game.logic.*
 import com.mshdabiola.naijaludo.screen.menu.MenuScreen
 import com.mshdabiola.naijaludo.util.GdxUtils
 import com.mshdabiola.naijaludo.util.ViewportUtils
-import com.mshdabiola.naijaludo.util.debug.DebugCameraController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 
@@ -41,14 +39,12 @@ open class GameScreen(val naijaLudo: NaijaLudo, var gameLogic: GameLogic) : Scre
     private val logger = Logger(GameScreen::class.java.name, Logger.DEBUG)
 
 
-    val assetManager = naijaLudo.assetManager
-
     val viewport = FitViewport(Config.WORDLD_WIDTH, Config.WORLD_HEIGHT)
     private val stage = Stage(viewport, naijaLudo.batch)
 
-    private val debugCameraController = DebugCameraController().apply {
-        setStartPosition(Config.WORDLD_WIDTH_HALF, Config.WORLD_HEIGHT_HALF)
-    }
+//    private val debugCameraController = DebugCameraController().apply {
+//        setStartPosition(Config.WORDLD_WIDTH_HALF, Config.WORLD_HEIGHT_HALF)
+//    }
 
     protected val nameRow = Table()
     protected val nameRow2 = Table()
@@ -111,7 +107,7 @@ open class GameScreen(val naijaLudo: NaijaLudo, var gameLogic: GameLogic) : Scre
         // add dice and outcome to stage
 
 
-        naijaLudo.newGameLogic = gameLogic as? NewGameLogic
+//        naijaLudo.newGameLogic = gameLogic as? NewGameLogic
         initGame()
         //rotate board
         boardTable.setOrigin(750f, 750f)
@@ -119,6 +115,44 @@ open class GameScreen(val naijaLudo: NaijaLudo, var gameLogic: GameLogic) : Scre
         boardTable.addAction(Actions.rotateBy(getRotateDegree(players[0].gamecolorsId[0]), 0f))
 
         gameLogic.finished = false
+//        naijaLudo.launch {
+//            delay(3000)
+//            moveRandomly()
+//        }
+    }
+
+    fun moveRandomly() {
+        gameLogic.players.flatMap { it.homeSeed }
+                .forEach {
+                    if (MathUtils.randomBoolean()) {
+                        it.moveOut()
+                        it.moveTo(MathUtils.random(1, 30))
+                    }
+                }
+    }
+
+    fun randomise() {
+        gameLogic.players.flatMap { it.homeSeed }
+                .forEach {
+                    it.movehome()
+                    if (MathUtils.randomBoolean()) {
+                        it.moveOut()
+                        it.moveTo(MathUtils.random(1, 45))
+                    }
+                }
+    }
+
+    fun distantToCoordinate(distantFake: Int): Pair<GameColor, Int> {
+        val distant = Seed.MAX_MOVE - distantFake
+        val position = distant % 13
+        val color = distant / 13
+        return Pair(GameColor.values()[color], position)
+    }
+
+    fun moveSeed(seed: Seed) {
+        seed.initSeed()
+        val pair = distantToCoordinate(seed.moveRemain)
+        seed.currentFloor = Board.findFloor(pair.first, pair.second)
     }
 
     open fun initGame() {
@@ -144,11 +178,37 @@ open class GameScreen(val naijaLudo: NaijaLudo, var gameLogic: GameLogic) : Scre
             }
         }
 
-        //if his save game update on the table
+//        if his save game update on the table
         if (gameLogic.update) {
             players.forEach { it.updateUi() }
             diceController.updateUi()
             gameLogic.update = false
+        }
+
+
+        if (gameLogic is SaveGameLogic) {
+            players.forEach {
+                it.createSeed(4)
+            }
+            val seedsPosition = (gameLogic as SaveGameLogic).seedPositions
+            val flatSeeds = players.flatMap { it.homeSeed }
+
+            seedsPosition.forEachIndexed { index, i ->
+                flatSeeds[index].let {
+                    if (i == 1) {
+                        it.moveOut()
+
+                    } else if (i > 1 && i < (Seed.MAX_MOVE + 1)) {
+                        it.moveOut()
+                        it.moveTo(i)
+
+                    }
+
+
+                }
+            }
+
+
         }
 
         players.forEach { it.setController(controller = gameController) }
@@ -237,6 +297,38 @@ open class GameScreen(val naijaLudo: NaijaLudo, var gameLogic: GameLogic) : Scre
             }
         }
 
+        if (gameLogic is SaveGameLogic) {
+
+            checkSavedKills()
+            diceController.diceMoveToFront()
+        }
+
+    }
+
+    fun checkSavedKills() {
+        val list = players.flatMap { it.homeSeed }
+        list.forEach { seed ->
+            val list = list.filter { it.currentFloor == seed.currentFloor }
+            if (list.size > 1) {
+                list.forEach {
+                    if (it.playerId == 0) {
+                        it.movehome()
+                    } else if (it.id % 2 == 0) {
+                        if (!players[it.playerId].seedOut.contains(it)) {
+                            it.kill()
+                            players[it.playerId].homeSeed.remove(it)
+                            players[it.playerId].seedOut.add(it)
+
+                            players[it.playerId].playerPanel.addSeedOut(it)
+                        }
+
+                    } else {
+                        it.movehome()
+                    }
+
+                }
+            }
+        }
     }
 
 
@@ -309,6 +401,20 @@ open class GameScreen(val naijaLudo: NaijaLudo, var gameLogic: GameLogic) : Scre
         else -> 90f
     }
 
+    val SaveTime = 1f
+    var counter = 0f
+    val numberTotal = 30
+    var numCounter = 0
+    fun saveMissionGame(delta: Float) {
+        counter += delta
+        if (counter > SaveTime && numCounter <= numberTotal) {
+            counter = 0f
+            ++numCounter
+            randomise()
+            saveMissionGame()
+        }
+    }
+
     override fun render(delta: Float) {
 //        debugCameraController.applyTo(viewport.camera as OrthographicCamera)
 //        debugCameraController.handleDebugInput(delta)
@@ -330,9 +436,24 @@ open class GameScreen(val naijaLudo: NaijaLudo, var gameLogic: GameLogic) : Scre
 
         }
 
-        saveGame()
+//        if (Gdx.input.isKeyJustPressed(Input.Keys.S) && naijaLudo.saveGame) {
+//            naijaLudo.saveGame = false
+//            saveMissionGame()
+//        }
+//
+//        if (Gdx.input.isKeyJustPressed(Input.Keys.R)) {
+//            randomise()
+//        }
+//        saveMissionGame(delta)
     }
 
+    private fun saveMissionGame() {
+        logger.debug("Save game")
+
+        naijaLudo.newGameLogic = gameLogic as NewGameLogic
+        naijaLudo.saveNewGameLogic()
+
+    }
 
     override fun pause() {
         isPause = true
@@ -377,6 +498,7 @@ open class GameScreen(val naijaLudo: NaijaLudo, var gameLogic: GameLogic) : Scre
 
         gameController.dispose()
         naijaLudo.connectInterfaceAnd?.disconnect()
+        naijaLudo.counter = 0
 
         stage.dispose()
 

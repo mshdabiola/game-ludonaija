@@ -1721,7 +1721,8 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
             imageButton.onClick {
                 GameManager.currentLevel = index
                 println("current index is  $index")
-                val galogic = naijaLudo.readNewGameLogicSaved(index)
+//                val galogic = naijaLudo.readNewGameLogicSaved(index)
+                val galogic = naijaLudo.savedGameGenerator.getGameLogic(index)
                 galogic.update = true
                 galogic.saveState = false
                 galogic.update()
