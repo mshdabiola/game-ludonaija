@@ -8,10 +8,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.badlogic.gdx.utils.*
-import com.mshdabiola.naijaludo.config.GameManager
 import com.mshdabiola.naijaludo.entity.SavedGameGenerator
 import com.mshdabiola.naijaludo.entity.connection.*
-import com.mshdabiola.naijaludo.screen.game.GameLogic
 import com.mshdabiola.naijaludo.screen.game.logic.NewGameLogic
 import com.mshdabiola.naijaludo.screen.loading.LoadingScreen
 import kotlinx.coroutines.CoroutineScope
@@ -27,24 +25,11 @@ class NaijaLudo : Game(), CoroutineScope by CoroutineScope(Dispatchers.Default) 
     lateinit var shapeRenderer: ShapeRenderer
     var server by Delegates.notNull<GameServer>()
     private val logger = Logger(NaijaLudo::class.java.name, Logger.DEBUG)
-    var runClient = { _: String, _: Boolean -> }
-    var saveGame = true
 
-    val pathArray = arrayOf(
-            "a", "fa", "prs", "rf", "sr",
-            "ap", "frp", "ps", "r", "sap",
-            "apf", "fp", "psf", "rp", "sfa",
-            "as", "far", "pa", "rps", "s",
-            "asr", "f", "p", "rpa", "sf"
-
-    )
     val savedGameGenerator = SavedGameGenerator()
-
     var newGameLogic: NewGameLogic? = null
 
-    //    val json = Json().apply {
-////        setUsePrototypes(false)
-//    }
+
     val jsonPool = object : Pool<Json>(3) {
         override fun newObject(): Json {
             return Json(JsonWriter.OutputType.minimal)
@@ -52,12 +37,8 @@ class NaijaLudo : Game(), CoroutineScope by CoroutineScope(Dispatchers.Default) 
     }
 
     val path = "Ludo\\"
-    val line = "\\"
+
     val fileName = "NewGameLogic.json"
-    var counter = 0
-    val part = 0
-    var savegameName = "SaveGame_part_$part"
-    var saveGamePath = "$path$savegameName${"_number_"}"
 
     var record = mutableMapOf(
             "port" to (5555).toString(),
@@ -182,20 +163,20 @@ class NaijaLudo : Game(), CoroutineScope by CoroutineScope(Dispatchers.Default) 
 
         setScreen(LoadingScreen(this))
 
-        launch {
-            server = GameServer()
-            delay(1000)
-
-            log("bind port")
-            server.bind()
-            record = mutableMapOf(
-                    "port" to server.port.toString(),
-                    "name" to GameManager.name,
-                    "available" to "visible",
-                    "isServer" to "false"
-            )
-            connectInterfaceAnd?.startDiscoveryRegistration(record)
-        }
+//        launch {
+//            server = GameServer()
+//            delay(1000)
+//
+//            log("bind port")
+//            server.bind()
+//            record = mutableMapOf(
+//                    "port" to server.port.toString(),
+//                    "name" to GameManager.name,
+//                    "available" to "visible",
+//                    "isServer" to "false"
+//            )
+//            connectInterfaceAnd?.startDiscoveryRegistration(record)
+//        }
 
 
     }
@@ -204,10 +185,7 @@ class NaijaLudo : Game(), CoroutineScope by CoroutineScope(Dispatchers.Default) 
     override fun dispose() {
 
         saveNewGameLogic()
-
-//        client.close()
-        server.dispose()
-//        MassetDescriptor.loadingSkin.dispose()
+//        server.dispose()
         assetManager.dispose()
         shapeRenderer.dispose()
         batch.dispose()
@@ -227,29 +205,6 @@ class NaijaLudo : Game(), CoroutineScope by CoroutineScope(Dispatchers.Default) 
         }
     }
 
-    fun readNewGameLogicSaved(number: Int): GameLogic {
-        val nu = number / 30
-        val folderNumber = number % 25
-        val foldername = pathArray[folderNumber]
-        val name = "SaveGame_part_0_number_${nu}.json"
-        val pathF = "$foldername$line$name"
-        println("reading gamelogic $pathF")
-        return readJsonObjectSaved(pathF)
-
-    }
-
-    fun readJsonObjectSaved(fileName: String): NewGameLogic {
-
-        val file = Gdx.files.internal("$path$fileName")
-        val str = file.readString()
-        println("read file finished")
-        val json = jsonPool.obtain()
-        val logic = json.fromJson(NewGameLogic::class.java, str)
-        jsonPool.free(json)
-        return logic
-
-
-    }
 
     fun saveNewGameLogic() {
         launch {
@@ -263,34 +218,20 @@ class NaijaLudo : Game(), CoroutineScope by CoroutineScope(Dispatchers.Default) 
         }
     }
 
+
     fun writeJsonObject(gameLogic: NewGameLogic?, fileName: String) {
 
 
         gameLogic?.let {
-//            val str = json.prettyPrint(it)
             val json = jsonPool.obtain()
-            val str = json.toJson(it)
+            val str = json.prettyPrint(it)
             jsonPool.free(json)
-
-            val file = Gdx.files.local("$saveGamePath$counter.json")
+            val file = Gdx.files.local("$path$fileName")
             file.writeString(str, false)
             println("write file finished")
-            saveGame = true
-            counter++
         }
 
     }
-//    fun writeJsonObject(gameLogic: NewGameLogic?, fileName: String) {
-//
-//
-//        gameLogic?.let {
-//            val str = json.prettyPrint(it)
-//            val file = Gdx.files.local("$path$fileName")
-//            file.writeString(str, false)
-//            println("write file finished")
-//        }
-//
-//    }
 
     fun readJsonObject(fileName: String): NewGameLogic {
 
@@ -312,9 +253,9 @@ class NaijaLudo : Game(), CoroutineScope by CoroutineScope(Dispatchers.Default) 
     }
 
     fun log(string: String) {
-        println("logging msg: $string")
-        connectInterfaceAnd?.log(string)
-        logger.error(string)
+//        println("logging msg: $string")
+//        connectInterfaceAnd?.log(string)
+//        logger.error(string)
     }
 
 }

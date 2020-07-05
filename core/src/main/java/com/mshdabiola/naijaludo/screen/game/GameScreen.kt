@@ -2,7 +2,6 @@ package com.mshdabiola.naijaludo.screen.game
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Screen
-import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
@@ -18,7 +17,6 @@ import com.badlogic.gdx.utils.viewport.FitViewport
 import com.mshdabiola.naijaludo.asset.MassetDescriptor.gameSkin2
 import com.mshdabiola.naijaludo.asset.MassetDescriptor.purpleSkinn
 import com.mshdabiola.naijaludo.config.Config
-import com.mshdabiola.naijaludo.config.GameColor
 import com.mshdabiola.naijaludo.config.GameManager
 import com.mshdabiola.naijaludo.entity.Seed
 import com.mshdabiola.naijaludo.entity.board.Board
@@ -115,44 +113,6 @@ open class GameScreen(val naijaLudo: NaijaLudo, var gameLogic: GameLogic) : Scre
         boardTable.addAction(Actions.rotateBy(getRotateDegree(players[0].gamecolorsId[0]), 0f))
 
         gameLogic.finished = false
-//        naijaLudo.launch {
-//            delay(3000)
-//            moveRandomly()
-//        }
-    }
-
-    fun moveRandomly() {
-        gameLogic.players.flatMap { it.homeSeed }
-                .forEach {
-                    if (MathUtils.randomBoolean()) {
-                        it.moveOut()
-                        it.moveTo(MathUtils.random(1, 30))
-                    }
-                }
-    }
-
-    fun randomise() {
-        gameLogic.players.flatMap { it.homeSeed }
-                .forEach {
-                    it.movehome()
-                    if (MathUtils.randomBoolean()) {
-                        it.moveOut()
-                        it.moveTo(MathUtils.random(1, 45))
-                    }
-                }
-    }
-
-    fun distantToCoordinate(distantFake: Int): Pair<GameColor, Int> {
-        val distant = Seed.MAX_MOVE - distantFake
-        val position = distant % 13
-        val color = distant / 13
-        return Pair(GameColor.values()[color], position)
-    }
-
-    fun moveSeed(seed: Seed) {
-        seed.initSeed()
-        val pair = distantToCoordinate(seed.moveRemain)
-        seed.currentFloor = Board.findFloor(pair.first, pair.second)
     }
 
     open fun initGame() {
@@ -198,7 +158,7 @@ open class GameScreen(val naijaLudo: NaijaLudo, var gameLogic: GameLogic) : Scre
                     if (i == 1) {
                         it.moveOut()
 
-                    } else if (i > 1 && i < (Seed.MAX_MOVE + 1)) {
+                    } else if (i > 1) {
                         it.moveOut()
                         it.moveTo(i)
 
@@ -217,21 +177,25 @@ open class GameScreen(val naijaLudo: NaijaLudo, var gameLogic: GameLogic) : Scre
             scorePlayer()
             if (gameLogic.saveState) {
                 gameLogic.saveState = false
-                naijaLudo.deleteCompleteFile()
+
             }
             changeWindow(finishedWindow)
         }
         gameController.swapOutcome = {
 
             if (players.size >= 3) {
-                if (gameController.currentPlayerIndex == 2) {
-                    outComeTable.reset()
-                    outComeTable2.reset()
-                    swapOutCome()
-                } else if (gameController.currentPlayerIndex == 0) {
-                    outComeTable.reset()
-                    outComeTable2.reset()
-                    swapOutCome()
+
+                when (gameController.currentPlayerIndex) {
+                    2 -> {
+                        outComeTable.reset()
+                        outComeTable2.reset()
+                        swapOutCome()
+                    }
+                    0 -> {
+                        outComeTable.reset()
+                        outComeTable2.reset()
+                        swapOutCome()
+                    }
                 }
             } else {
                 outComeTable.reset()
@@ -305,25 +269,29 @@ open class GameScreen(val naijaLudo: NaijaLudo, var gameLogic: GameLogic) : Scre
 
     }
 
-    fun checkSavedKills() {
+    private fun checkSavedKills() {
         val list = players.flatMap { it.homeSeed }
         list.forEach { seed ->
             val list = list.filter { it.currentFloor == seed.currentFloor }
             if (list.size > 1) {
                 list.forEach {
-                    if (it.playerId == 0) {
-                        it.movehome()
-                    } else if (it.id % 2 == 0) {
-                        if (!players[it.playerId].seedOut.contains(it)) {
-                            it.kill()
-                            players[it.playerId].homeSeed.remove(it)
-                            players[it.playerId].seedOut.add(it)
-
-                            players[it.playerId].playerPanel.addSeedOut(it)
+                    when {
+                        it.playerId == 0 -> {
+                            it.movehome()
                         }
+                        it.id % 2 == 0 -> {
+                            if (!players[it.playerId].seedOut.contains(it)) {
+                                it.kill()
+                                players[it.playerId].homeSeed.remove(it)
+                                players[it.playerId].seedOut.add(it)
 
-                    } else {
-                        it.movehome()
+                                players[it.playerId].playerPanel.addSeedOut(it)
+                            }
+
+                        }
+                        else -> {
+                            it.movehome()
+                        }
                     }
 
                 }
@@ -356,9 +324,6 @@ open class GameScreen(val naijaLudo: NaijaLudo, var gameLogic: GameLogic) : Scre
         outComeTable2.reset()
         boardTable.reset()
 
-        if (gameController !is ServerGameController && gameController !is ClientGameController && gameLogic !is FriendNewGameLogic) {
-            gameLogic.saveState = true
-        }
 
         diceController = gameLogic.diceController
         gameController = gameLogic.gameController
@@ -401,19 +366,6 @@ open class GameScreen(val naijaLudo: NaijaLudo, var gameLogic: GameLogic) : Scre
         else -> 90f
     }
 
-    val SaveTime = 1f
-    var counter = 0f
-    val numberTotal = 30
-    var numCounter = 0
-    fun saveMissionGame(delta: Float) {
-        counter += delta
-        if (counter > SaveTime && numCounter <= numberTotal) {
-            counter = 0f
-            ++numCounter
-            randomise()
-            saveMissionGame()
-        }
-    }
 
     override fun render(delta: Float) {
 //        debugCameraController.applyTo(viewport.camera as OrthographicCamera)
@@ -435,23 +387,7 @@ open class GameScreen(val naijaLudo: NaijaLudo, var gameLogic: GameLogic) : Scre
             naijaLudo.screen = changeScreen.second
 
         }
-
-//        if (Gdx.input.isKeyJustPressed(Input.Keys.S) && naijaLudo.saveGame) {
-//            naijaLudo.saveGame = false
-//            saveMissionGame()
-//        }
-//
-//        if (Gdx.input.isKeyJustPressed(Input.Keys.R)) {
-//            randomise()
-//        }
-//        saveMissionGame(delta)
-    }
-
-    private fun saveMissionGame() {
-        logger.debug("Save game")
-
-        naijaLudo.newGameLogic = gameLogic as NewGameLogic
-        naijaLudo.saveNewGameLogic()
+        saveGame()
 
     }
 
@@ -498,7 +434,7 @@ open class GameScreen(val naijaLudo: NaijaLudo, var gameLogic: GameLogic) : Scre
 
         gameController.dispose()
         naijaLudo.connectInterfaceAnd?.disconnect()
-        naijaLudo.counter = 0
+
 
         stage.dispose()
 
@@ -512,10 +448,10 @@ open class GameScreen(val naijaLudo: NaijaLudo, var gameLogic: GameLogic) : Scre
 
     open fun scorePlayer() {
         val id = gameController.playerId
-        logger.debug("enter scorePlayer() is player human ${players[id] is HumanPlayer} is gameLogic NewGameLogic ${gameLogic is NewGameLogic} lastPoint is ${players[id].lastPoint}")
+//        logger.debug("enter scorePlayer() is player human ${players[id] is HumanPlayer} is gameLogic NewGameLogic ${gameLogic is NewGameLogic} lastPoint is ${players[id].lastPoint}")
         if (gameLogic is NewGameLogic) {
             with(players[id] as HumanPlayer) {
-                logger.debug(" second enter scorePlayer() is player human ${players[id] is HumanPlayer} is gameLogic NewGameLogic ${gameLogic is NewGameLogic} lastPoint is ${lastPoint}")
+//                logger.debug(" second enter scorePlayer() is player human ${players[id] is HumanPlayer} is gameLogic NewGameLogic ${gameLogic is NewGameLogic} lastPoint is ${lastPoint}")
                 if (lastPoint == 0 && players.size == 2) {
                     GameManager.lossOne = 1
                 }

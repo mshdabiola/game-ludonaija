@@ -18,9 +18,7 @@ open class GameLogic(
 
     var update = false
     var finished = false
-    var saveState = false
-    var isLevelGame = false
-//    var tableDegree=-90f
+    var saveState = true
 
     init {
         gameController.diceController = diceController

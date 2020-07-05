@@ -116,9 +116,6 @@ class LevelGameScreen(naijaLudo: NaijaLudo, gameLogic: GameLogic) : GameScreen(n
     override fun reset() {
 
 
-        gameLogic.update = true
-        gameLogic.saveState = false
-        gameLogic.update()
 
         nameRow.reset()
         nameRow2.reset()

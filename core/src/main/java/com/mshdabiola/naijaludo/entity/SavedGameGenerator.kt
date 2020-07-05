@@ -64,7 +64,11 @@ class SavedGameGenerator {
             player
         }
 
-        return SaveGameLogic(arrayOfPlayer).apply { seedPositions = pawnFloors }
+        return SaveGameLogic(arrayOfPlayer).apply {
+            seedPositions = pawnFloors
+            saveState = false
+
+        }
 
     }
 

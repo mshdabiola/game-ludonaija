@@ -23,7 +23,6 @@ import com.mshdabiola.naijaludo.entity.display.OptionWindowNew
 import com.mshdabiola.naijaludo.entity.player.BasePlayer
 import com.mshdabiola.naijaludo.entity.player.HumanPlayer
 import com.mshdabiola.naijaludo.entity.player.computer.*
-import com.mshdabiola.naijaludo.entity.player.online.OnlineHumanPlayer
 import com.mshdabiola.naijaludo.screen.NaijaLudo
 import com.mshdabiola.naijaludo.screen.game.GameController
 import com.mshdabiola.naijaludo.screen.game.GameScreen
@@ -32,7 +31,6 @@ import com.mshdabiola.naijaludo.screen.game.logic.FriendNewGameLogic
 import com.mshdabiola.naijaludo.screen.game.logic.NewGameLogic
 import com.mshdabiola.naijaludo.util.GdxUtils
 import com.mshdabiola.naijaludo.util.ViewportUtils
-import com.mshdabiola.naijaludo.util.debug.DebugCameraController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.actor
@@ -42,7 +40,7 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
     private val logger = Logger(MenuScreen::class.java.name, Logger.DEBUG)
 
 
-    val assetManager = naijaLudo.assetManager
+
     val viewport = FitViewport(Config.WORDLD_WIDTH, Config.WORLD_HEIGHT)
 
     val stage = Stage(viewport, naijaLudo.batch)
@@ -72,15 +70,13 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
     var updateHost = false
     var updateJoin = false
 
-    val debugCameraController = DebugCameraController().apply {
-        setStartPosition(Config.WORDLD_WIDTH_HALF, Config.WORLD_HEIGHT_HALF)
-    }
+//    val debugCameraController = DebugCameraController().apply {
+//        setStartPosition(Config.WORDLD_WIDTH_HALF, Config.WORLD_HEIGHT_HALF)
+//    }
 
     val playerArray = ArrayList<BasePlayer>()
     var isCrossGame = true
     var style = GameManager.style
-
-    var onlineHumanPlayer: OnlineHumanPlayer? = null
 
     //    var onlineHumanPlayer2: OnlineHumanPlayer? = null
     val join = Join(getNewPlayer(PlayType.HUMAN) as HumanPlayer).apply {
@@ -97,19 +93,7 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
 
         newInitUi()
 
-
-//        naijaLudo.runClient = { ip: String, isOwner: Boolean ->
-//
-//            if (isOwner) {
-//
-//                naijaLudo.server.updateActor = updatePlayerActor
-//                addOnlinePlayer(PlayType.HUMAN)
-//                naijaLudo.server.connect()
-//            } else {
-//                join.connect(ip)
-//            }
-//        }
-        naijaLudo.discoveryButton = TextButton("Search Device", purpleSkinn)
+//        naijaLudo.discoveryButton = TextButton("Search Device", purpleSkinn)
 
 
         windowTable.setFillParent(true)
@@ -287,7 +271,7 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
         buttonTable.add(friendButton).size(300f)
         buttonTable.row()
         //for version1
-        buttonTable.add(multiplayerButton).padTop(50f).colspan(2)
+//        buttonTable.add(multiplayerButton).padTop(50f).colspan(2)
 
         table.add(buttonTable).growX().height(700f).padBottom(50f)
         table.row()
@@ -522,7 +506,7 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
                     playerArray[it]
                 }
                 val logic = NewGameLogic(players = players, gameController = GameController())
-                logic.saveState = true
+
                 change = Pair(true, GameScreen(naijaLudo, logic))
 
 
@@ -759,7 +743,7 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
                 val players = Array(playerArray.size) {
                     playerArray[it]
                 }
-                change = Pair(true, GameScreen(naijaLudo, NewGameLogic(players = players).apply { saveState = true }))
+                change = Pair(true, GameScreen(naijaLudo, NewGameLogic(players = players)))
 
             }
 
@@ -1090,7 +1074,7 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
                         val players = Array(playerArray.size) {
                             playerArray[it]
                         }
-                        change = Pair(true, GameScreen(naijaLudo, FriendNewGameLogic(players = players)))
+                        change = Pair(true, GameScreen(naijaLudo, FriendNewGameLogic(players = players).apply { saveState = false }))
 
                     }
 
@@ -1339,7 +1323,7 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
                     val players = Array(playerArray.size) {
                         playerArray[it]
                     }
-                    change = Pair(true, GameScreen(naijaLudo, NewGameLogic(players = players, gameController = naijaLudo.server.serverGameController)))
+                    change = Pair(true, GameScreen(naijaLudo, NewGameLogic(players = players, gameController = naijaLudo.server.serverGameController).apply { saveState = false }))
                     naijaLudo.server.sendPlay()
                 }
             }
@@ -1500,6 +1484,7 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
 
     }
 
+    //network device
     fun updateDeviceWindow() {
         with(devicesWindow) {
             table.clear()
@@ -1651,7 +1636,6 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
 
                 naijaLudo.newGameLogic?.let {
                     it.update = true
-                    it.saveState = true
                     it.update()
                     change = Pair(true, GameScreen(naijaLudo, it))
                 }
@@ -1721,11 +1705,8 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
             imageButton.onClick {
                 GameManager.currentLevel = index
                 println("current index is  $index")
-//                val galogic = naijaLudo.readNewGameLogicSaved(index)
                 val galogic = naijaLudo.savedGameGenerator.getGameLogic(index)
-                galogic.update = true
-                galogic.saveState = false
-                galogic.update()
+
                 change = Pair(true, LevelGameScreen(naijaLudo, galogic))
             }
 
