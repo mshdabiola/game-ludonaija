@@ -6,15 +6,15 @@ import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
-import com.badlogic.gdx.utils.*
+import com.badlogic.gdx.utils.Json
+import com.badlogic.gdx.utils.JsonWriter
+import com.badlogic.gdx.utils.Logger
+import com.badlogic.gdx.utils.Pool
 import com.mshdabiola.naijaludo.entity.SavedGameGenerator
 import com.mshdabiola.naijaludo.entity.connection.*
 import com.mshdabiola.naijaludo.screen.game.logic.NewGameLogic
 import com.mshdabiola.naijaludo.screen.loading.LoadingScreen
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import kotlin.properties.Delegates
 
 class NaijaLudo : Game(), CoroutineScope by CoroutineScope(Dispatchers.Default) {
@@ -33,6 +33,9 @@ class NaijaLudo : Game(), CoroutineScope by CoroutineScope(Dispatchers.Default) 
         override fun newObject(): Json {
             return Json(JsonWriter.OutputType.minimal)
         }
+    }
+    val fileCoroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
+        throwable.printStackTrace()
     }
 
     val path = "Ludo\\"
@@ -191,29 +194,20 @@ class NaijaLudo : Game(), CoroutineScope by CoroutineScope(Dispatchers.Default) 
     }
 
     fun readNewGameLogicSaved() {
-        this.launch {
-            try {
-                if (newGameLogic == null) {
-                    newGameLogic = readJsonObject(fileName)
-                }
-            } catch (e: GdxRuntimeException) {
-                e.printStackTrace()
-            } catch (e: Exception) {
-                e.printStackTrace()
+        this.launch(fileCoroutineExceptionHandler) {
+            if (newGameLogic == null) {
+                newGameLogic = readJsonObject(fileName)
             }
+
         }
     }
 
 
     fun saveNewGameLogic() {
-        launch {
-            try {
-                writeJsonObject(newGameLogic, fileName)
-            } catch (e: GdxRuntimeException) {
-                e.printStackTrace()
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
+        launch(fileCoroutineExceptionHandler) {
+
+            writeJsonObject(newGameLogic, fileName)
+
         }
     }
 
@@ -246,7 +240,7 @@ class NaijaLudo : Game(), CoroutineScope by CoroutineScope(Dispatchers.Default) 
     }
 
     fun deleteCompleteFile() {
-        launch {
+        launch(fileCoroutineExceptionHandler) {
             val file = Gdx.files.local("$path$fileName")
             file.delete()
         }
