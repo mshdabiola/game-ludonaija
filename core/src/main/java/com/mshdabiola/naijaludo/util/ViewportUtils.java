@@ -90,9 +90,9 @@ public class ViewportUtils {
     }
 
     /**
-     * Prints pixels per unit for specified Viewport.
+     * //prints pixels per unit for specified Viewport.
      *
-     * @param viewport The viewport for which we want to print pixels per unit ratio. Required.
+     * @param viewport The viewport for which we want to //print pixels per unit ratio. Required.
      * @throws IllegalArgumentException if viewport is null.
      */
     public static void debugPixelsPerUnit(Viewport viewport) {

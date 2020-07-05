@@ -14,7 +14,7 @@ class Probability2Player(id: Int, gameColor: IntArray, name: String = "Probabili
 
 
     init {
-        println("enter pacifistic player")
+        //println("enter pacifistic player")
     }
 
     val map = mapOf(1 to 2.78f,
@@ -204,7 +204,7 @@ class Probability2Player(id: Int, gameColor: IntArray, name: String = "Probabili
         if (kills.size > 0) {
             return 99f
         }
-        println(" list of seed distance is $list")
+        //println(" list of seed distance is $list")
         val list = getFlatenOtherPlayer().map {
             val diistance = seed.currentFloor.positionIndex - it.currentFloor.positionIndex
 

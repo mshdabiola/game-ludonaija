@@ -1,6 +1,5 @@
 package com.mshdabiola.naijaludo.screen
 
-import com.badlogic.gdx.Application
 import com.badlogic.gdx.Game
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.assets.AssetManager
@@ -68,7 +67,7 @@ class NaijaLudo : Game(), CoroutineScope by CoroutineScope(Dispatchers.Default) 
         }
 
         override fun onConnectResult(success: Boolean) {
-            println("onconnectedResult $success")
+            //println("onconnectedResult $success")
             if (success) {
                 log("connected")
 
@@ -128,7 +127,7 @@ class NaijaLudo : Game(), CoroutineScope by CoroutineScope(Dispatchers.Default) 
         }
 
         override fun onDiscovery(start: Boolean) {
-            println("NaijaLudo: onDiscovery $start")
+            //println("NaijaLudo: onDiscovery $start")
 
             if (start) {
                 log("discovery start")
@@ -154,9 +153,9 @@ class NaijaLudo : Game(), CoroutineScope by CoroutineScope(Dispatchers.Default) 
 
 
     override fun create() {
-        Gdx.app.logLevel = Application.LOG_ERROR
+//        Gdx.app.logLevel = Application.LOG_ERROR
         assetManager = AssetManager()
-        assetManager.logger.level = Logger.ERROR
+//        assetManager.logger.level = Logger.ERROR
         batch = SpriteBatch()
         shapeRenderer = ShapeRenderer()
 
@@ -224,11 +223,12 @@ class NaijaLudo : Game(), CoroutineScope by CoroutineScope(Dispatchers.Default) 
 
         gameLogic?.let {
             val json = jsonPool.obtain()
+            json.setUsePrototypes(false)
             val str = json.prettyPrint(it)
             jsonPool.free(json)
             val file = Gdx.files.local("$path$fileName")
             file.writeString(str, false)
-            println("write file finished")
+            //println("write file finished")
         }
 
     }
@@ -237,7 +237,7 @@ class NaijaLudo : Game(), CoroutineScope by CoroutineScope(Dispatchers.Default) 
 
         val file = Gdx.files.local("$path$fileName")
         val str = file.readString()
-        println("read file finished")
+        //println("read file finished")
         val json = jsonPool.obtain()
         val logic = json.fromJson(NewGameLogic::class.java, str)
         jsonPool.free(json)
@@ -253,7 +253,7 @@ class NaijaLudo : Game(), CoroutineScope by CoroutineScope(Dispatchers.Default) 
     }
 
     fun log(string: String) {
-//        println("logging msg: $string")
+//        //println("logging msg: $string")
 //        connectInterfaceAnd?.log(string)
 //        logger.error(string)
     }

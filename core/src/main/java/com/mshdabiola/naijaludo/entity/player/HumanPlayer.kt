@@ -30,7 +30,7 @@ open class HumanPlayer(id: Int, gameColor: IntArray, name: String = "") : BasePl
 
 
     init {
-        println("enter human player")
+
         if (!Config.isTest) {
             super.name = GameManager.name
         } else {
@@ -186,7 +186,7 @@ open class HumanPlayer(id: Int, gameColor: IntArray, name: String = "") : BasePl
 
             seed.actor.addListener(object : ChangeListener() {
                 override fun changed(event: ChangeEvent?, actor: Actor?) {
-                    println(" seed click ${seed.colorId} and x are $locX ${manySeedTable.x} and y are $locY ${manySeedTable.y}")
+
                     val seed = homeSeed.find {
                         it.colorId == seed.colorId
                                 && it.currentFloor.coord.x == locX

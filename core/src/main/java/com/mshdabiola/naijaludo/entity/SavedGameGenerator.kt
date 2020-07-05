@@ -84,19 +84,25 @@ class SavedGameGenerator {
         return IntArray(noOfSeed) {
 
 
-            if (noOfPlayer == 2) {
-                if (it in 0..7) {
-                    random2.nextInt(0, humanRange)
-                } else {
-                    random.nextInt(0, range)
-                }
-            } else {
-                if (it in 0..3) {
-                    random2.nextInt(0, humanRange)
-                } else {
-                    random.nextInt(0, range)
-                }
+          var value = if (noOfPlayer == 2) {
+              if (it in 0..7) {
+                  random2.nextInt(0, humanRange)
+              } else {
+                  random.nextInt(0, range)
+              }
+          } else {
+              if (it in 0..3) {
+                  random2.nextInt(0, humanRange)
+              } else {
+                  random.nextInt(0, range)
+              }
+          }
+
+            if (value > 30 && it % 4 == 0) {
+                value -= 30
             }
+
+            value
         }
     }
 

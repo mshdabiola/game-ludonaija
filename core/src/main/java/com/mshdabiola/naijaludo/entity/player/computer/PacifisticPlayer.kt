@@ -13,9 +13,6 @@ class PacifisticPlayer(id: Int, gameColor: IntArray, name: String = "Pacifistic"
     constructor() : this(0, intArrayOf(), "")
 
 
-    init {
-        println("enter pacifistic player")
-    }
 
     override fun checkBestMove(diceIndex: Int) {
         val diceNo: Int = diceController.getDiceValue(diceIndex)

@@ -28,7 +28,7 @@ class Seed(var colorId:
         var speed = 1
         val seedPool = object : Pool<Seed>(6, 8) {
             override fun newObject(): Seed {
-                println("From seed pooling create")
+
                 return Seed(0, 0, 0).apply {
                     createUi()
                 }
@@ -76,7 +76,7 @@ class Seed(var colorId:
         if (!this::currentFloor.isInitialized) {
             currentFloor = homeFloor
             preFloor = currentFloor
-            println("current floor x ${currentFloor.coord.x} y ${currentFloor.coord.y}")
+
             actor.setPosition(currentFloor.coord.x, currentFloor.coord.y)
             bgActor.setPosition(currentFloor.coord.x - 10, currentFloor.coord.y - 10)
             animActor.setPosition(currentFloor.coord.x - 10, currentFloor.coord.y - 10)

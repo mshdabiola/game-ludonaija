@@ -33,6 +33,7 @@ import com.mshdabiola.naijaludo.util.GdxUtils
 import com.mshdabiola.naijaludo.util.ViewportUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.actor
 import ktx.actors.onClick
 
@@ -79,9 +80,12 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
     var style = GameManager.style
 
     //    var onlineHumanPlayer2: OnlineHumanPlayer? = null
+    @ObsoleteCoroutinesApi
     val join = Join(getNewPlayer(PlayType.HUMAN) as HumanPlayer).apply {
         setPlayerListUpdate(updatePlayerActorJoin())
     }
+
+    @ObsoleteCoroutinesApi
     val updatePlayerActor = updatePlayerActor()
 
 
@@ -1577,7 +1581,7 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
                 val index = computerGroupButton.checkedIndex
                 computerGroupButton.uncheckAll()
                 val player = PlayType.values()[index]
-                println("player clicked is ${player.name}")
+                //println("player clicked is ${player.name}")
                 playerArray.removeAt(1)
                 addPlayer(getNewPlayer(player))
                 updateOneTable()
@@ -1592,7 +1596,7 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
                 val index = computerGroupButton.checkedIndex
                 computerGroupButton.uncheckAll()
                 val player = PlayType.values()[index]
-                println("player clicked is ${player.name}")
+                //println("player clicked is ${player.name}")
                 addPlayer(getNewPlayer(player))
                 updateManyTable()
             }
@@ -1605,7 +1609,7 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
                 val index = computerGroupButton.checkedIndex
                 computerGroupButton.uncheckAll()
                 val player = PlayType.values()[index]
-                println("player clicked is ${player.name}")
+                //println("player clicked is ${player.name}")
                 addOnlinePlayer(player)
 
             }
@@ -1618,7 +1622,7 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
                 val index = computerGroupButton.checkedIndex
                 computerGroupButton.uncheckAll()
                 val player = PlayType.values()[index]
-                println("player clicked is ${player.name}")
+                //println("player clicked is ${player.name}")
                 addPlayer(getNewPlayer(player))
                 updateFriendTable()
             }
@@ -1646,8 +1650,6 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
         addButton("Mission") {
             changeWindow(listOfLevelWindow)
         }
-
-
 
         addButton("One Computer") {
             updateOneTable()
@@ -1704,7 +1706,7 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
 
             imageButton.onClick {
                 GameManager.currentLevel = index
-                println("current index is  $index")
+                //println("current index is  $index")
                 val galogic = naijaLudo.savedGameGenerator.getGameLogic(index)
 
                 change = Pair(true, LevelGameScreen(naijaLudo, galogic))
@@ -1791,16 +1793,16 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
             val scrollPane = ScrollPane(iconTable, skin)
 
             add("Name", "red")
-            add(TextField(GameManager.name, skin).apply {
+            add(TextField(GameManager.name, skin).apply textField@{
                 messageText = "Enter name"
                 this.maxLength = 9
                 addListener(object : ChangeListener() {
                     override fun changed(event: ChangeEvent?, actor: Actor?) {
 
-                        if (this@apply.text.isEmpty()) {
+                        if (this@textField.text.isEmpty()) {
                             GameManager.name = "Player"
                         } else {
-                            GameManager.name = this@apply.text
+                            GameManager.name = this@textField.text
                         }
                     }
                 })
@@ -1827,9 +1829,9 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
 
     val multiplayerWindow = OptionWindowNew("MultiPlayer", skin = purpleSkinn).apply {
         addButton("Host") {
-//            println("host button pressed")
+//            //println("host button pressed")
 ////            naijaLudo.launch {
-//            println("host button launch")
+//            //println("host button launch")
 //
 //            naijaLudo.connectInterfaceAnd?.startDiscovery()
 //            naijaLudo.server.updateActor = updatePlayerActor
@@ -1847,13 +1849,13 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
         addButton("Join") {
 //            onlineHumanPlayer2 = OnlineHumanPlayer(0, intArrayOf(), "")
 
-            println("join button pressed")
+            //println("join button pressed")
 //            naijaLudo.launch {
 
 
 //            naijaLudo.connectInterfaceAnd?.discoverPeer()
 //                naijaLudo.launch {
-            println("join button launch")
+            //println("join button launch")
             if (Gdx.app.type == Application.ApplicationType.Desktop) {
                 join.connect("192.168.49.1")
             }
@@ -1872,14 +1874,15 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
     val joinWindow = OptionWindowNew("Join", skin = purpleSkinn)
     val devicesWindow = OptionWindowNew("Devices", skin = purpleSkinn)
 
+    @ObsoleteCoroutinesApi
     fun CoroutineScope.updatePlayerActor() = actor<Factory.Message> {
-        println("from updatePlayer Actror")
+//        //println("from updatePlayer Actror")
         for (msg in channel) {
             when (msg) {
                 is Factory.Message.Play -> {
                 }
                 is Factory.Message.SendPlayer -> {
-                    println("from updatePlayer Actor received ${msg.players}")
+                    //println("from updatePlayer Actor received ${msg.players}")
                     playerArray.clear()
                     playerArray.addAll(msg.players)
                     updateHost = true
@@ -1891,18 +1894,19 @@ class MenuScreen(val naijaLudo: NaijaLudo) : ScreenAdapter(), CoroutineScope by 
 
     }
 
+    @ObsoleteCoroutinesApi
     fun CoroutineScope.updatePlayerActorJoin() = actor<Factory.Message> {
-        println("from updatePlayerJoin Actor join")
+        //println("from updatePlayerJoin Actor join")
         for (msg in channel) {
             when (msg) {
                 is Factory.Message.Play -> {
-                    println("from updateplayerJoin Play message")
+                    //println("from updateplayerJoin Play message")
 
                     changeClientScreen = true
 
                 }
                 is Factory.Message.SendPlayer -> {
-                    println("from updatePlayerJoin Actor received ${msg.players}")
+                    //println("from updatePlayerJoin Actor received ${msg.players}")
                     playerArray.clear()
                     playerArray.addAll(msg.players)
 //                    updateJoinTable()

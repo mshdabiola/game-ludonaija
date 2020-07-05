@@ -123,7 +123,7 @@ class DiceController : Ui {
 
             }
         } catch (e: Exception) {
-            println("skin not Init")
+            //println("skin not Init")
             e.printStackTrace()
         }
 
@@ -152,7 +152,7 @@ class DiceController : Ui {
 
             }
         } catch (e: Exception) {
-            println("skin not Init")
+            //println("skin not Init")
             e.printStackTrace()
         }
 

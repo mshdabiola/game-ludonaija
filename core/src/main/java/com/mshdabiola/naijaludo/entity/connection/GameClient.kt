@@ -7,11 +7,8 @@ import com.mshdabiola.naijaludo.entity.player.BasePlayer
 import com.mshdabiola.naijaludo.entity.player.HumanPlayer
 import com.mshdabiola.naijaludo.screen.game.DiceController
 import com.mshdabiola.naijaludo.screen.game.logic.ClientGameController
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.actor
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 
 class GameClient() : Client(), CoroutineScope by CoroutineScope(Dispatchers.Default) {
@@ -40,8 +37,8 @@ class GameClient() : Client(), CoroutineScope by CoroutineScope(Dispatchers.Defa
         addListener(object : Listener() {
             override fun connected(p0: Connection?) {
                 clientFactory.myPlayer = player ?: HumanPlayer(0, intArrayOf())
-                println("CONNECTED ClIENT: from ${playerName}")
-                println("CONNECTED ClIENT: send name ${playerName}")
+                //println("CONNECTED ClIENT: from ${playerName}")
+                //println("CONNECTED ClIENT: send name ${playerName}")
                 launch {
                     delay(500)
 
@@ -54,25 +51,25 @@ class GameClient() : Client(), CoroutineScope by CoroutineScope(Dispatchers.Defa
             }
 
             override fun disconnected(connection: Connection?) {
-                println("DISCONNECTED ClIENT: from ${playerName}")
+                //println("DISCONNECTED ClIENT: from ${playerName}")
 
 
             }
 
             override fun idle(p0: Connection?) {
-//                println("IDLE ClIENT: from ${playerName}")
+//                //println("IDLE ClIENT: from ${playerName}")
 //                logger.debug("client idle")
 
             }
 
             override fun received(connection: Connection?, any: Any?) {
-//                println("RECEIVED ClIENT: from ${playerName} receice itme $any")
+//                //println("RECEIVED ClIENT: from ${playerName} receice itme $any")
 //                logger.debug("client receive")
 
                 when (any) {
 
                     is String -> {
-                        println("String ClIENT $playerName:  from $any ")
+                        //println("String ClIENT $playerName:  from $any ")
                         launch { processor().send(any) }
                     }
 
@@ -83,6 +80,7 @@ class GameClient() : Client(), CoroutineScope by CoroutineScope(Dispatchers.Defa
 
     }
 
+    @ObsoleteCoroutinesApi
     fun processor() = actor<String> {
         for (msg in channel) {
             log("processor $msg")
@@ -92,7 +90,7 @@ class GameClient() : Client(), CoroutineScope by CoroutineScope(Dispatchers.Defa
     }
 
     fun log(str: String) {
-        println("Client $str")
+        //println("Client $str")
     }
 
     fun connectIP(ip: String = "localhost") {
@@ -122,18 +120,6 @@ class GameClient() : Client(), CoroutineScope by CoroutineScope(Dispatchers.Defa
 //            delay(1000)
             sendTCP(str)
         }
-    }
-
-    override fun dispose() {
-        println("dispose client")
-        super.dispose()
-
-    }
-
-    override fun stop() {
-        println("stop client")
-        super.stop()
-
     }
 
     fun pause() {

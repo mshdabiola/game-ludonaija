@@ -40,7 +40,7 @@ class DiceOutcome(str: String, option: String, val id: Int) : TextButton(str, Ma
             removeRotate()
         } else {
 
-            println("touchable is ${touchable}")
+
 //            startRotate()
         }
     }

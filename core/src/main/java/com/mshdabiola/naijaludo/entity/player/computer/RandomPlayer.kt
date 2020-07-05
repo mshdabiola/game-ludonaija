@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.MathUtils
 import com.mshdabiola.naijaludo.entity.Seed
 import com.mshdabiola.naijaludo.entity.player.BasePlayer
 
-class RandomPlayer(id: Int, gameColor: IntArray, name: String = "Random") : ComputerPlayerBase(name, id, gameColor) {
+class RandomPlayer(id: Int, gameColor: IntArray, name: String = "Randomo") : ComputerPlayerBase(name, id, gameColor) {
 
     constructor() : this(0, intArrayOf(), "")
 

@@ -33,11 +33,6 @@ open class GameController {
 
     var currentState: GameState = GameState.PLAY
     var currentPlayerIndex: Int = 0
-        set(value) {
-            if (players == null)
-                currentPlayer = players[value]
-            field = value
-        }
     var currentDiceIndex: Int = -1
     var currentDiceNo: Int = 0
     var noSeedActivated: Int = 0
@@ -57,13 +52,6 @@ open class GameController {
     @Transient
     var resume: () -> Unit = {}
     val winnerMap = HashMap<Int, Int>()
-
-
-    init {
-
-    }
-
-//    var controlVariable = ControlVariable()
 
 
     private var prevState = currentState
@@ -541,9 +529,9 @@ open class GameController {
     fun onlineChooseSeed() {
         logger.debug("currentPlayer ${currentPlayer.name} index $currentPlayerIndex seedTosend ${seedToSend}")
         if (currentPlayerIndex != playerId && seedToSend != null) {
-            println("onlinechooseSeed() ")
+
             currentSeed = currentPlayer.homeSeed.find { it.playerId == seedToSend!!.ids[0] && it.colorId == seedToSend!!.ids[1] && it.id == seedToSend!!.ids[2] }!!
-            println("onlinechooseseed $currentSeed")
+
             seedToSend = null
             currentState = GameState.HASCHOOSESEED
         }

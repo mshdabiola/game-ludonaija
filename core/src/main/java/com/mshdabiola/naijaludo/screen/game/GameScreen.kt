@@ -18,6 +18,7 @@ import com.mshdabiola.naijaludo.asset.MassetDescriptor.gameSkin2
 import com.mshdabiola.naijaludo.asset.MassetDescriptor.purpleSkinn
 import com.mshdabiola.naijaludo.config.Config
 import com.mshdabiola.naijaludo.config.GameManager
+import com.mshdabiola.naijaludo.config.GameState
 import com.mshdabiola.naijaludo.entity.Seed
 import com.mshdabiola.naijaludo.entity.board.Board
 import com.mshdabiola.naijaludo.entity.display.OptionWindowNew
@@ -339,7 +340,7 @@ open class GameScreen(val naijaLudo: NaijaLudo, var gameLogic: GameLogic) : Scre
             boardTable.addAction(SequenceAction(
                     Actions.rotateBy(getRotateDegree(players[0].gamecolorsId[0]) + 360f, 2f),
                     Actions.run {
-                        println("enter run")
+
                         resume()
 
                     }
@@ -348,7 +349,7 @@ open class GameScreen(val naijaLudo: NaijaLudo, var gameLogic: GameLogic) : Scre
             boardTable.addAction(SequenceAction(
                     Actions.rotateBy(getRotateDegree(players[0].gamecolorsId[0]), 0f),
                     Actions.run {
-                        println("enter run")
+
                         resume()
 
                     }
@@ -400,16 +401,21 @@ open class GameScreen(val naijaLudo: NaijaLudo, var gameLogic: GameLogic) : Scre
     val TOTALTIME = 40f
     var timer = 0f
     private fun saveGame() {
-        timer += Gdx.graphics.deltaTime
-        if (timer > TOTALTIME) {
-            timer = 0f
-            if (gameLogic.saveState) {
-                logger.debug("Save game")
 
-                naijaLudo.newGameLogic = gameLogic as NewGameLogic
-                naijaLudo.saveNewGameLogic()
+        if (gameLogic.saveState) {
+            timer += Gdx.graphics.deltaTime
+            if (timer > TOTALTIME) {
+
+                if (gameController.currentState == GameState.TOSS) {
+                    logger.debug("Save game")
+
+                    naijaLudo.newGameLogic = gameLogic as NewGameLogic
+                    naijaLudo.saveNewGameLogic()
+                    timer = 0f
+//                    println("save game")
+                }
+
             }
-
         }
 
 
@@ -427,10 +433,7 @@ open class GameScreen(val naijaLudo: NaijaLudo, var gameLogic: GameLogic) : Scre
 
     override fun dispose() {
 
-        if (gameLogic is NewGameLogic && !gameLogic.finished && gameController !is ServerGameController && gameController !is ClientGameController) {
 
-            naijaLudo.newGameLogic = gameLogic as NewGameLogic
-        }
 
         gameController.dispose()
         naijaLudo.connectInterfaceAnd?.disconnect()
@@ -575,6 +578,10 @@ open class GameScreen(val naijaLudo: NaijaLudo, var gameLogic: GameLogic) : Scre
         }
         addButton("Home") {
             changeScreen = Pair(true, MenuScreen(naijaLudo))
+            if (gameLogic.saveState) {
+                naijaLudo.newGameLogic = null
+                naijaLudo.deleteCompleteFile()
+            }
         }
     }
 

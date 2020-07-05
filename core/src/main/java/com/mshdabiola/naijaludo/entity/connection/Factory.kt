@@ -148,7 +148,7 @@ open class Factory(val gameController: GameController) {
             createPlayers -> {
                 log("createPlayers")
                 if (!isServer) {
-                    println(strJson)
+                    //println(strJson)
                     val json = jsonPool.obtain()
                     val sendPlayers = json.fromJson(SendPlayers::class.java, strJson)
                     jsonPool.free(json)
@@ -164,7 +164,7 @@ open class Factory(val gameController: GameController) {
             }
            "playerId" -> {
                if (!isServer) {
-                   println(strJson)
+                   //println(strJson)
                    val json = jsonPool.obtain()
                    val playerId = json.fromJson(PlayerId::class.java, strJson)
                    jsonPool.free(json)
@@ -186,7 +186,7 @@ open class Factory(val gameController: GameController) {
     }
 
     open fun log(str: String) {
-        println("Factory: $str")
+        //println("Factory: $str")
     }
 
     fun playStr(): String {
@@ -194,13 +194,13 @@ open class Factory(val gameController: GameController) {
         val json = jsonPool.obtain()
         val str = json.toJson(play)
         jsonPool.free(json)
-        println("play string to send $str")
+        //println("play string to send $str")
         return str
     }
 
 
     fun editPlayerColorNPosition() {
-        println("find computer player")
+        //println("find computer player")
         val player = playerArray.find { it.id == myPlayer.id }
 
         player?.let {

@@ -15,13 +15,13 @@ abstract class ComputerPlayerBase(name: String = "Robot", id: Int, gamecolors: I
     open lateinit var logger: Logger
 
     init {
-        println("enter computer player")
+
         try {
             if (!Config.isTest) {
                 logger = Logger(ComputerPlayerBase::class.java.name, Logger.DEBUG)
             }
         } catch (e: Exception) {
-            println("from computer player")
+
         }
     }
 

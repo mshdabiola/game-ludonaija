@@ -30,7 +30,7 @@ class ServerFactory(gameController: GameController) : Factory(gameController) {
 
     fun getPlayerIndex() = playerArray.size - 1
     fun setNameOnPlayer(id: Int, name: String) {
-        println("setNameOnPlayer id $id and Name $name")
+        //println("setNameOnPlayer id $id and Name $name")
 
         playerArray[id].name = name
     }
@@ -43,7 +43,7 @@ class ServerFactory(gameController: GameController) : Factory(gameController) {
 
     fun addPlayer(player: BasePlayer) {
 
-        println("add player ${player.id}")
+        //println("add player ${player.id}")
         if (playerArray.size == 4) {
             return
         }
@@ -79,7 +79,7 @@ class ServerFactory(gameController: GameController) : Factory(gameController) {
         val jsonP = jsonPool.obtain()
         val str = jsonP.toJson(sendPlayer)
         jsonPool.free(jsonP)
-//        println("Send all player $str")
+//        //println("Send all player $str")
         return str
     }
 

@@ -5,12 +5,9 @@ import com.esotericsoftware.kryonet.Listener
 import com.esotericsoftware.kryonet.Server
 import com.mshdabiola.naijaludo.entity.player.BasePlayer
 import com.mshdabiola.naijaludo.screen.game.logic.ServerGameController
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.channels.actor
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import java.io.IOException
 import java.net.DatagramSocket
 import java.net.ServerSocket
@@ -45,14 +42,14 @@ class GameServer : Server(), CoroutineScope by CoroutineScope(Dispatchers.Defaul
             override fun received(connection: Connection?, any: Any?) {
 
                 (connection as NameConnection).playerName?.let {
-                    println("RECEIVED SERVER: server from ${connection.playerName} id ${connection.playerId} and any $any")
+                    //println("RECEIVED SERVER: server from ${connection.playerName} id ${connection.playerId} and any $any")
                 }
 
                 when (any) {
 
                     is String -> {
-                        println("STRING SERVER: from name ${connection.playerName} id ${connection.playerId}")
-                        println("STRING SERVER MESSAGE $any")
+                        //println("STRING SERVER: from name ${connection.playerName} id ${connection.playerId}")
+                        //println("STRING SERVER MESSAGE $any")
 
 
                         if (serverFactory.getKeyFromJson(any) == "playerName") {
@@ -75,7 +72,7 @@ class GameServer : Server(), CoroutineScope by CoroutineScope(Dispatchers.Defaul
                 super.disconnected(connection)
 
                 connection?.let {
-                    println("DISCONNECTED SERVER: from ${(connection as NameConnection).playerName}")
+                    //println("DISCONNECTED SERVER: from ${(connection as NameConnection).playerName}")
                     removeLocalPlayer(connection.id)
                 }
 
@@ -85,6 +82,7 @@ class GameServer : Server(), CoroutineScope by CoroutineScope(Dispatchers.Defaul
 //
     }
 
+    @ObsoleteCoroutinesApi
     fun processor() = actor<String> {
 
 
@@ -129,7 +127,7 @@ class GameServer : Server(), CoroutineScope by CoroutineScope(Dispatchers.Defaul
                     sendString(serverFactory.sendAllPlayerNew())
                     //send player to server
                     updateActor?.send(Factory.Message.SendPlayer(serverFactory.playerArray))
-                    println("CONNECTED SERVER: server register name = ${it.playerName} and id is ${it.playerId}  and send id and name to client ")
+                    //println("CONNECTED SERVER: server register name = ${it.playerName} and id is ${it.playerId}  and send id and name to client ")
 
                 }
             }
@@ -159,7 +157,7 @@ class GameServer : Server(), CoroutineScope by CoroutineScope(Dispatchers.Defaul
     }
 
     fun log(str: String) {
-        println("Server $str")
+        //println("Server $str")
     }
 
     fun addLocalPlayer(basePlayer: BasePlayer): BasePlayer {
@@ -196,7 +194,7 @@ class GameServer : Server(), CoroutineScope by CoroutineScope(Dispatchers.Defaul
     }
 
     override fun newConnection(): Connection {
-        println("get new connection")
+        //println("get new connection")
         return NameConnection()
     }
 

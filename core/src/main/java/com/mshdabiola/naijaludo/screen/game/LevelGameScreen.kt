@@ -138,7 +138,7 @@ class LevelGameScreen(naijaLudo: NaijaLudo, gameLogic: GameLogic) : GameScreen(n
             boardTable.addAction(SequenceAction(
                     Actions.rotateBy(getRotateDegree(players[0].gamecolorsId[0]) + 360f, 2f),
                     Actions.run {
-                        println("enter run")
+                        //println("enter run")
                         resume()
 
                     }
@@ -147,7 +147,7 @@ class LevelGameScreen(naijaLudo: NaijaLudo, gameLogic: GameLogic) : GameScreen(n
             boardTable.addAction(SequenceAction(
                     Actions.rotateBy(getRotateDegree(players[0].gamecolorsId[0]), 0f),
                     Actions.run {
-                        println("enter run")
+                        //println("enter run")
                         resume()
 
                     }

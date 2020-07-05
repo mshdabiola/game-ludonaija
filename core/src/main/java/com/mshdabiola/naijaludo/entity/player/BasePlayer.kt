@@ -65,7 +65,7 @@ abstract class BasePlayer(var name: String, var id: Int, var gamecolorsId: IntAr
     }
 
     init {
-        println("enter base player")
+
 
 ////       createSeed()
 //        try {
@@ -74,8 +74,8 @@ abstract class BasePlayer(var name: String, var id: Int, var gamecolorsId: IntAr
 ////                playerPanel = PlayerPanel(this)
 //            }
 //        } catch (e: Exception) {
-//            println("skin not init")
-//            e.printStackTrace()
+//            //println("skin not init")
+//            e.//printStackTrace()
 //        }
 //        if (isOnlineGame) {
 //            client = GameClient(this)
@@ -93,7 +93,7 @@ abstract class BasePlayer(var name: String, var id: Int, var gamecolorsId: IntAr
 //    }
 
     open fun setController(controller: GameController) {
-        println("set player controller base")
+
         gameController = controller
         diceController = controller.diceController
     }
