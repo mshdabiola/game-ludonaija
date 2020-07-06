@@ -436,7 +436,7 @@ open class GameScreen(val naijaLudo: NaijaLudo, var gameLogic: GameLogic) : Scre
 
 
         gameController.dispose()
-        naijaLudo.connectInterfaceAnd?.disconnect()
+//        naijaLudo.connectInterfaceAnd?.disconnect()
 
 
         stage.dispose()
