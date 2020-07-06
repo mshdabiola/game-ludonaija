@@ -1,0 +1,157 @@
+{
+  "com.badlogic.gdx.graphics.g2d.BitmapFont": {
+    "roboto-bold-number-100": {
+      "file": "roboto-bold-number-100.fnt"
+    }
+  },
+  "com.badlogic.gdx.graphics.Color": {
+    "blue": {
+      "r": 0,
+      "g": 0,
+      "b": 1,
+      "a": 1
+    },
+    "green": {
+      "r": 0,
+      "g": 1,
+      "b": 0,
+      "a": 1
+    },
+    "red": {
+      "r": 1,
+      "g": 0,
+      "b": 0,
+      "a": 1
+    },
+    "white": {
+      "r": 1,
+      "g": 1,
+      "b": 1,
+      "a": 1
+    },
+    "white-trans": {
+      "r": 1,
+      "g": 1,
+      "b": 1,
+      "a": 0.41666666
+    },
+    "yellow": {
+      "r": 1,
+      "g": 1,
+      "b": 0,
+      "a": 1
+    }
+  },
+  "com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable": {
+    "oucome3-tint": {
+      "name": "oucome3",
+      "color": "white-trans"
+    },
+    "outcome2-tint": {
+      "name": "outcome2",
+      "color": "white-trans"
+    },
+    "outcome1-tint": {
+      "name": "outcome1",
+      "color": "white-trans"
+    }
+  },
+  "com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle": {
+    "default": {
+      "up": "seed-out"
+    },
+    "seed-red": {
+      "up": "seed-red"
+    },
+    "seed-yellow": {
+      "up": "seed-yellow"
+    },
+    "seed-blue": {
+      "up": "seed-blue"
+    },
+    "seed-green": {
+      "up": "seed-green"
+    },
+    "outcome-indicator": {
+      "up": "outcome-indicator"
+    },
+    "dice-1": {
+      "up": "dice-1"
+    },
+    "dice-2": {
+      "up": "dice-2"
+    },
+    "dice-3": {
+      "up": "dice-3"
+    },
+    "dice-4": {
+      "up": "dice-4"
+    },
+    "dice-5": {
+      "up": "dice-5"
+    },
+    "dice-6": {
+      "up": "dice-6"
+    },
+    "dice-roll-1": {
+      "up": "dice-roll-1"
+    },
+    "dice-roll-2": {
+      "up": "dice-roll-2"
+    },
+    "player-indicator": {
+      "up": "player-indicator"
+    },
+    "seed-out": {
+      "up": "seed-out"
+    },
+    "seed-indicator": {
+      "up": "seed-indicator"
+    },
+    "seed-bg": {
+      "up": "seed-bg"
+    }
+  },
+  "com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle": {
+    "default": {
+      "font": "roboto-bold-number-100",
+      "up": "oucome3",
+      "down": "oucome3-tint"
+    },
+    "outcome-3": {
+      "font": "roboto-bold-number-100",
+      "up": "oucome3",
+      "down": "oucome3-tint"
+    },
+    "outcome-2": {
+      "font": "roboto-bold-number-100",
+      "up": "outcome2",
+      "down": "outcome2-tint"
+    },
+    "outcome-1": {
+      "font": "roboto-bold-number-100",
+      "up": "outcome1",
+      "down": "outcome1-tint"
+    },
+    "seed-yellow": {
+      "font": "roboto-bold-number-100",
+      "fontColor": "blue",
+      "up": "seed-yellow"
+    },
+    "seed-red": {
+      "font": "roboto-bold-number-100",
+      "fontColor": "green",
+      "up": "seed-red"
+    },
+    "seed-blue": {
+      "font": "roboto-bold-number-100",
+      "fontColor": "red",
+      "up": "seed-blue"
+    },
+    "seed-green": {
+      "font": "roboto-bold-number-100",
+      "fontColor": "blue",
+      "up": "seed-green"
+    }
+  }
+}

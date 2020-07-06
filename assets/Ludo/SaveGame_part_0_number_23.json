@@ -1,0 +1,2161 @@
+{
+  "name": "com.mshdabiola.naijaludo.screen.game.logic.NewGameLogic",
+  "playerScore": {
+    "0": 0,
+    "1": 0,
+    "2": 0
+  },
+  "update": false,
+  "finished": false,
+  "players": [
+    {
+      "class": "com.mshdabiola.naijaludo.entity.player.HumanPlayer",
+      "homeSeed": [
+        {
+          "moveRemain": 41,
+          "color": "RED",
+          "homeFloor": {
+            "location": "ATHOME",
+            "positionIndex": 0,
+            "isColorPath": true,
+            "coord": {
+              "x": 100,
+              "y": 400
+            },
+            "floorColor": "RED",
+            "position": -1
+          },
+          "startFloor": {
+            "location": "START",
+            "positionIndex": 2,
+            "isColorPath": true,
+            "coord": {
+              "x": 600,
+              "y": 100
+            },
+            "floorColor": "RED",
+            "position": 1
+          },
+          "currentFloor": {
+            "location": "SPACE",
+            "positionIndex": 17,
+            "isColorPath": false,
+            "coord": {
+              "x": 300,
+              "y": 800
+            },
+            "floorColor": "YELLOW",
+            "position": 3
+          },
+          "previousFloors": [
+            {
+              "location": "SPACE",
+              "positionIndex": 3,
+              "isColorPath": false,
+              "coord": {
+                "x": 600,
+                "y": 200
+              },
+              "floorColor": "RED",
+              "position": 2
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 4,
+              "isColorPath": false,
+              "coord": {
+                "x": 600,
+                "y": 300
+              },
+              "floorColor": "RED",
+              "position": 3
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 5,
+              "isColorPath": false,
+              "coord": {
+                "x": 600,
+                "y": 400
+              },
+              "floorColor": "RED",
+              "position": 4
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 6,
+              "isColorPath": false,
+              "coord": {
+                "x": 600,
+                "y": 500
+              },
+              "floorColor": "RED",
+              "position": 5
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 7,
+              "isColorPath": false,
+              "coord": {
+                "x": 500,
+                "y": 600
+              },
+              "floorColor": "RED",
+              "position": 6
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 8,
+              "isColorPath": false,
+              "coord": {
+                "x": 400,
+                "y": 600
+              },
+              "floorColor": "RED",
+              "position": 7
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 9,
+              "isColorPath": false,
+              "coord": {
+                "x": 300,
+                "y": 600
+              },
+              "floorColor": "RED",
+              "position": 8
+            },
+            {
+              "location": "CORNER",
+              "positionIndex": 10,
+              "isColorPath": false,
+              "coord": {
+                "x": 200,
+                "y": 600
+              },
+              "floorColor": "RED",
+              "position": 9
+            },
+            {
+              "location": "CORNER",
+              "positionIndex": 11,
+              "isColorPath": false,
+              "coord": {
+                "x": 100,
+                "y": 600
+              },
+              "floorColor": "RED",
+              "position": 10
+            },
+            {
+              "location": "CORNER",
+              "positionIndex": 12,
+              "isColorPath": false,
+              "coord": {
+                "x": 0,
+                "y": 600
+              },
+              "floorColor": "RED",
+              "position": 11
+            },
+            {
+              "location": "CORNER",
+              "positionIndex": 26,
+              "isColorPath": false,
+              "coord": {
+                "x": 0,
+                "y": 700
+              },
+              "floorColor": "YELLOW",
+              "position": 12
+            },
+            {
+              "location": "CORNER",
+              "positionIndex": 14,
+              "isColorPath": false,
+              "coord": {
+                "x": 0,
+                "y": 800
+              },
+              "floorColor": "YELLOW",
+              "position": 0
+            },
+            {
+              "location": "START",
+              "positionIndex": 15,
+              "isColorPath": true,
+              "coord": {
+                "x": 100,
+                "y": 800
+              },
+              "floorColor": "YELLOW",
+              "position": 1
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 16,
+              "isColorPath": false,
+              "coord": {
+                "x": 200,
+                "y": 800
+              },
+              "floorColor": "YELLOW",
+              "position": 2
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 17,
+              "isColorPath": false,
+              "coord": {
+                "x": 300,
+                "y": 800
+              },
+              "floorColor": "YELLOW",
+              "position": 3
+            }
+          ],
+          "preFloor": {
+            "location": "START",
+            "positionIndex": 2,
+            "isColorPath": true,
+            "coord": {
+              "x": 600,
+              "y": 100
+            },
+            "floorColor": "RED",
+            "position": 1
+          },
+          "frontNumber": 1,
+          "colorId": 0,
+          "id": 1,
+          "playerId": 0
+        },
+        {
+          "moveRemain": 57,
+          "color": "RED",
+          "homeFloor": {
+            "location": "ATHOME",
+            "positionIndex": 0,
+            "isColorPath": true,
+            "coord": {
+              "x": 400,
+              "y": 400
+            },
+            "floorColor": "RED",
+            "position": -2
+          },
+          "startFloor": {
+            "location": "START",
+            "positionIndex": 2,
+            "isColorPath": true,
+            "coord": {
+              "x": 600,
+              "y": 100
+            },
+            "floorColor": "RED",
+            "position": 1
+          },
+          "currentFloor": {
+            "location": "ATHOME",
+            "positionIndex": 0,
+            "isColorPath": true,
+            "coord": {
+              "x": 400,
+              "y": 400
+            },
+            "floorColor": "RED",
+            "position": -2
+          },
+          "previousFloors": [
+            {
+              "location": "ATHOME",
+              "positionIndex": 0,
+              "isColorPath": true,
+              "coord": {
+                "x": 400,
+                "y": 400
+              },
+              "floorColor": "RED",
+              "position": -2
+            }
+          ],
+          "preFloor": {
+            "location": "ATHOME",
+            "positionIndex": 0,
+            "isColorPath": true,
+            "coord": {
+              "x": 400,
+              "y": 400
+            },
+            "floorColor": "RED",
+            "position": -2
+          },
+          "frontNumber": 1,
+          "colorId": 0,
+          "id": 2,
+          "playerId": 0
+        },
+        {
+          "moveRemain": 57,
+          "color": "RED",
+          "homeFloor": {
+            "location": "ATHOME",
+            "positionIndex": 0,
+            "isColorPath": true,
+            "coord": {
+              "x": 100,
+              "y": 100
+            },
+            "floorColor": "RED",
+            "position": -3
+          },
+          "startFloor": {
+            "location": "START",
+            "positionIndex": 2,
+            "isColorPath": true,
+            "coord": {
+              "x": 600,
+              "y": 100
+            },
+            "floorColor": "RED",
+            "position": 1
+          },
+          "currentFloor": {
+            "location": "ATHOME",
+            "positionIndex": 0,
+            "isColorPath": true,
+            "coord": {
+              "x": 100,
+              "y": 100
+            },
+            "floorColor": "RED",
+            "position": -3
+          },
+          "previousFloors": [
+            {
+              "location": "ATHOME",
+              "positionIndex": 0,
+              "isColorPath": true,
+              "coord": {
+                "x": 100,
+                "y": 100
+              },
+              "floorColor": "RED",
+              "position": -3
+            }
+          ],
+          "preFloor": {
+            "location": "ATHOME",
+            "positionIndex": 0,
+            "isColorPath": true,
+            "coord": {
+              "x": 100,
+              "y": 100
+            },
+            "floorColor": "RED",
+            "position": -3
+          },
+          "frontNumber": 1,
+          "colorId": 0,
+          "id": 3,
+          "playerId": 0
+        },
+        {
+          "moveRemain": 57,
+          "color": "RED",
+          "homeFloor": {
+            "location": "ATHOME",
+            "positionIndex": 0,
+            "isColorPath": true,
+            "coord": {
+              "x": 400,
+              "y": 100
+            },
+            "floorColor": "RED",
+            "position": -4
+          },
+          "startFloor": {
+            "location": "START",
+            "positionIndex": 2,
+            "isColorPath": true,
+            "coord": {
+              "x": 600,
+              "y": 100
+            },
+            "floorColor": "RED",
+            "position": 1
+          },
+          "currentFloor": {
+            "location": "ATHOME",
+            "positionIndex": 0,
+            "isColorPath": true,
+            "coord": {
+              "x": 400,
+              "y": 100
+            },
+            "floorColor": "RED",
+            "position": -4
+          },
+          "previousFloors": [
+            {
+              "location": "ATHOME",
+              "positionIndex": 0,
+              "isColorPath": true,
+              "coord": {
+                "x": 400,
+                "y": 100
+              },
+              "floorColor": "RED",
+              "position": -4
+            }
+          ],
+          "preFloor": {
+            "location": "CORNER",
+            "positionIndex": 26,
+            "isColorPath": false,
+            "coord": {
+              "x": 0,
+              "y": 700
+            },
+            "floorColor": "YELLOW",
+            "position": 12
+          },
+          "frontNumber": 1,
+          "colorId": 0,
+          "id": 4,
+          "playerId": 0
+        }
+      ],
+      "seedOut": [],
+      "iconId": 5,
+      "point": 0,
+      "lastPoint": 0,
+      "name": "abiola",
+      "id": 0,
+      "gamecolorsId": [
+        0
+      ],
+      "isOnlineGame": false,
+      "locX": 0,
+      "locY": 0
+    },
+    {
+      "class": "com.mshdabiola.naijaludo.entity.player.computer.PacifisticPlayer",
+      "homeSeed": [
+        {
+          "moveRemain": 16,
+          "color": "YELLOW",
+          "homeFloor": {
+            "location": "ATHOME",
+            "positionIndex": 0,
+            "isColorPath": true,
+            "coord": {
+              "x": 100,
+              "y": 1300
+            },
+            "floorColor": "YELLOW",
+            "position": -1
+          },
+          "startFloor": {
+            "location": "START",
+            "positionIndex": 15,
+            "isColorPath": true,
+            "coord": {
+              "x": 100,
+              "y": 800
+            },
+            "floorColor": "YELLOW",
+            "position": 1
+          },
+          "currentFloor": {
+            "location": "SPACE",
+            "positionIndex": 3,
+            "isColorPath": false,
+            "coord": {
+              "x": 600,
+              "y": 200
+            },
+            "floorColor": "RED",
+            "position": 2
+          },
+          "previousFloors": [
+            {
+              "location": "SPACE",
+              "positionIndex": 16,
+              "isColorPath": false,
+              "coord": {
+                "x": 200,
+                "y": 800
+              },
+              "floorColor": "YELLOW",
+              "position": 2
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 17,
+              "isColorPath": false,
+              "coord": {
+                "x": 300,
+                "y": 800
+              },
+              "floorColor": "YELLOW",
+              "position": 3
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 18,
+              "isColorPath": false,
+              "coord": {
+                "x": 400,
+                "y": 800
+              },
+              "floorColor": "YELLOW",
+              "position": 4
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 19,
+              "isColorPath": false,
+              "coord": {
+                "x": 500,
+                "y": 800
+              },
+              "floorColor": "YELLOW",
+              "position": 5
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 20,
+              "isColorPath": false,
+              "coord": {
+                "x": 600,
+                "y": 900
+              },
+              "floorColor": "YELLOW",
+              "position": 6
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 21,
+              "isColorPath": false,
+              "coord": {
+                "x": 600,
+                "y": 1000
+              },
+              "floorColor": "YELLOW",
+              "position": 7
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 22,
+              "isColorPath": false,
+              "coord": {
+                "x": 600,
+                "y": 1100
+              },
+              "floorColor": "YELLOW",
+              "position": 8
+            },
+            {
+              "location": "CORNER",
+              "positionIndex": 23,
+              "isColorPath": false,
+              "coord": {
+                "x": 600,
+                "y": 1200
+              },
+              "floorColor": "YELLOW",
+              "position": 9
+            },
+            {
+              "location": "CORNER",
+              "positionIndex": 24,
+              "isColorPath": false,
+              "coord": {
+                "x": 600,
+                "y": 1300
+              },
+              "floorColor": "YELLOW",
+              "position": 10
+            },
+            {
+              "location": "CORNER",
+              "positionIndex": 25,
+              "isColorPath": false,
+              "coord": {
+                "x": 600,
+                "y": 1400
+              },
+              "floorColor": "YELLOW",
+              "position": 11
+            },
+            {
+              "location": "CORNER",
+              "positionIndex": 39,
+              "isColorPath": false,
+              "coord": {
+                "x": 700,
+                "y": 1400
+              },
+              "floorColor": "GREEN",
+              "position": 12
+            },
+            {
+              "location": "CORNER",
+              "positionIndex": 27,
+              "isColorPath": false,
+              "coord": {
+                "x": 800,
+                "y": 1400
+              },
+              "floorColor": "GREEN",
+              "position": 0
+            },
+            {
+              "location": "START",
+              "positionIndex": 28,
+              "isColorPath": true,
+              "coord": {
+                "x": 800,
+                "y": 1300
+              },
+              "floorColor": "GREEN",
+              "position": 1
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 29,
+              "isColorPath": false,
+              "coord": {
+                "x": 800,
+                "y": 1200
+              },
+              "floorColor": "GREEN",
+              "position": 2
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 30,
+              "isColorPath": false,
+              "coord": {
+                "x": 800,
+                "y": 1100
+              },
+              "floorColor": "GREEN",
+              "position": 3
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 31,
+              "isColorPath": false,
+              "coord": {
+                "x": 800,
+                "y": 1000
+              },
+              "floorColor": "GREEN",
+              "position": 4
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 32,
+              "isColorPath": false,
+              "coord": {
+                "x": 800,
+                "y": 900
+              },
+              "floorColor": "GREEN",
+              "position": 5
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 33,
+              "isColorPath": false,
+              "coord": {
+                "x": 900,
+                "y": 800
+              },
+              "floorColor": "GREEN",
+              "position": 6
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 34,
+              "isColorPath": false,
+              "coord": {
+                "x": 1000,
+                "y": 800
+              },
+              "floorColor": "GREEN",
+              "position": 7
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 35,
+              "isColorPath": false,
+              "coord": {
+                "x": 1100,
+                "y": 800
+              },
+              "floorColor": "GREEN",
+              "position": 8
+            },
+            {
+              "location": "CORNER",
+              "positionIndex": 36,
+              "isColorPath": false,
+              "coord": {
+                "x": 1200,
+                "y": 800
+              },
+              "floorColor": "GREEN",
+              "position": 9
+            },
+            {
+              "location": "CORNER",
+              "positionIndex": 37,
+              "isColorPath": false,
+              "coord": {
+                "x": 1300,
+                "y": 800
+              },
+              "floorColor": "GREEN",
+              "position": 10
+            },
+            {
+              "location": "CORNER",
+              "positionIndex": 38,
+              "isColorPath": false,
+              "coord": {
+                "x": 1400,
+                "y": 800
+              },
+              "floorColor": "GREEN",
+              "position": 11
+            },
+            {
+              "location": "CORNER",
+              "positionIndex": 52,
+              "isColorPath": false,
+              "coord": {
+                "x": 1400,
+                "y": 700
+              },
+              "floorColor": "BLUE",
+              "position": 12
+            },
+            {
+              "location": "CORNER",
+              "positionIndex": 40,
+              "isColorPath": false,
+              "coord": {
+                "x": 1400,
+                "y": 600
+              },
+              "floorColor": "BLUE",
+              "position": 0
+            },
+            {
+              "location": "START",
+              "positionIndex": 41,
+              "isColorPath": true,
+              "coord": {
+                "x": 1300,
+                "y": 600
+              },
+              "floorColor": "BLUE",
+              "position": 1
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 42,
+              "isColorPath": false,
+              "coord": {
+                "x": 1200,
+                "y": 600
+              },
+              "floorColor": "BLUE",
+              "position": 2
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 43,
+              "isColorPath": false,
+              "coord": {
+                "x": 1100,
+                "y": 600
+              },
+              "floorColor": "BLUE",
+              "position": 3
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 44,
+              "isColorPath": false,
+              "coord": {
+                "x": 1000,
+                "y": 600
+              },
+              "floorColor": "BLUE",
+              "position": 4
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 45,
+              "isColorPath": false,
+              "coord": {
+                "x": 900,
+                "y": 600
+              },
+              "floorColor": "BLUE",
+              "position": 5
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 46,
+              "isColorPath": false,
+              "coord": {
+                "x": 800,
+                "y": 500
+              },
+              "floorColor": "BLUE",
+              "position": 6
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 47,
+              "isColorPath": false,
+              "coord": {
+                "x": 800,
+                "y": 400
+              },
+              "floorColor": "BLUE",
+              "position": 7
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 48,
+              "isColorPath": false,
+              "coord": {
+                "x": 800,
+                "y": 300
+              },
+              "floorColor": "BLUE",
+              "position": 8
+            },
+            {
+              "location": "CORNER",
+              "positionIndex": 49,
+              "isColorPath": false,
+              "coord": {
+                "x": 800,
+                "y": 200
+              },
+              "floorColor": "BLUE",
+              "position": 9
+            },
+            {
+              "location": "CORNER",
+              "positionIndex": 50,
+              "isColorPath": false,
+              "coord": {
+                "x": 800,
+                "y": 100
+              },
+              "floorColor": "BLUE",
+              "position": 10
+            },
+            {
+              "location": "CORNER",
+              "positionIndex": 51,
+              "isColorPath": false,
+              "coord": {
+                "x": 800,
+                "y": 0
+              },
+              "floorColor": "BLUE",
+              "position": 11
+            },
+            {
+              "location": "CORNER",
+              "positionIndex": 13,
+              "isColorPath": false,
+              "coord": {
+                "x": 700,
+                "y": 0
+              },
+              "floorColor": "RED",
+              "position": 12
+            },
+            {
+              "location": "CORNER",
+              "positionIndex": 1,
+              "isColorPath": false,
+              "coord": {
+                "x": 600,
+                "y": 0
+              },
+              "floorColor": "RED",
+              "position": 0
+            },
+            {
+              "location": "START",
+              "positionIndex": 2,
+              "isColorPath": true,
+              "coord": {
+                "x": 600,
+                "y": 100
+              },
+              "floorColor": "RED",
+              "position": 1
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 3,
+              "isColorPath": false,
+              "coord": {
+                "x": 600,
+                "y": 200
+              },
+              "floorColor": "RED",
+              "position": 2
+            }
+          ],
+          "preFloor": {
+            "location": "START",
+            "positionIndex": 15,
+            "isColorPath": true,
+            "coord": {
+              "x": 100,
+              "y": 800
+            },
+            "floorColor": "YELLOW",
+            "position": 1
+          },
+          "frontNumber": 1,
+          "colorId": 1,
+          "id": 1,
+          "playerId": 1
+        },
+        {
+          "moveRemain": 57,
+          "color": "YELLOW",
+          "homeFloor": {
+            "location": "ATHOME",
+            "positionIndex": 0,
+            "isColorPath": true,
+            "coord": {
+              "x": 400,
+              "y": 1300
+            },
+            "floorColor": "YELLOW",
+            "position": -2
+          },
+          "startFloor": {
+            "location": "START",
+            "positionIndex": 15,
+            "isColorPath": true,
+            "coord": {
+              "x": 100,
+              "y": 800
+            },
+            "floorColor": "YELLOW",
+            "position": 1
+          },
+          "currentFloor": {
+            "location": "ATHOME",
+            "positionIndex": 0,
+            "isColorPath": true,
+            "coord": {
+              "x": 400,
+              "y": 1300
+            },
+            "floorColor": "YELLOW",
+            "position": -2
+          },
+          "previousFloors": [
+            {
+              "location": "ATHOME",
+              "positionIndex": 0,
+              "isColorPath": true,
+              "coord": {
+                "x": 400,
+                "y": 1300
+              },
+              "floorColor": "YELLOW",
+              "position": -2
+            }
+          ],
+          "preFloor": {
+            "location": "ATHOME",
+            "positionIndex": 0,
+            "isColorPath": true,
+            "coord": {
+              "x": 400,
+              "y": 1300
+            },
+            "floorColor": "YELLOW",
+            "position": -2
+          },
+          "frontNumber": 1,
+          "colorId": 1,
+          "id": 2,
+          "playerId": 1
+        },
+        {
+          "moveRemain": 57,
+          "color": "YELLOW",
+          "homeFloor": {
+            "location": "ATHOME",
+            "positionIndex": 0,
+            "isColorPath": true,
+            "coord": {
+              "x": 100,
+              "y": 1000
+            },
+            "floorColor": "YELLOW",
+            "position": -3
+          },
+          "startFloor": {
+            "location": "START",
+            "positionIndex": 15,
+            "isColorPath": true,
+            "coord": {
+              "x": 100,
+              "y": 800
+            },
+            "floorColor": "YELLOW",
+            "position": 1
+          },
+          "currentFloor": {
+            "location": "ATHOME",
+            "positionIndex": 0,
+            "isColorPath": true,
+            "coord": {
+              "x": 100,
+              "y": 1000
+            },
+            "floorColor": "YELLOW",
+            "position": -3
+          },
+          "previousFloors": [
+            {
+              "location": "ATHOME",
+              "positionIndex": 0,
+              "isColorPath": true,
+              "coord": {
+                "x": 100,
+                "y": 1000
+              },
+              "floorColor": "YELLOW",
+              "position": -3
+            }
+          ],
+          "preFloor": {
+            "location": "SPACE",
+            "positionIndex": 32,
+            "isColorPath": false,
+            "coord": {
+              "x": 800,
+              "y": 900
+            },
+            "floorColor": "GREEN",
+            "position": 5
+          },
+          "frontNumber": 1,
+          "colorId": 1,
+          "id": 3,
+          "playerId": 1
+        },
+        {
+          "moveRemain": 57,
+          "color": "YELLOW",
+          "homeFloor": {
+            "location": "ATHOME",
+            "positionIndex": 0,
+            "isColorPath": true,
+            "coord": {
+              "x": 400,
+              "y": 1000
+            },
+            "floorColor": "YELLOW",
+            "position": -4
+          },
+          "startFloor": {
+            "location": "START",
+            "positionIndex": 15,
+            "isColorPath": true,
+            "coord": {
+              "x": 100,
+              "y": 800
+            },
+            "floorColor": "YELLOW",
+            "position": 1
+          },
+          "currentFloor": {
+            "location": "ATHOME",
+            "positionIndex": 0,
+            "isColorPath": true,
+            "coord": {
+              "x": 400,
+              "y": 1000
+            },
+            "floorColor": "YELLOW",
+            "position": -4
+          },
+          "previousFloors": [
+            {
+              "location": "ATHOME",
+              "positionIndex": 0,
+              "isColorPath": true,
+              "coord": {
+                "x": 400,
+                "y": 1000
+              },
+              "floorColor": "YELLOW",
+              "position": -4
+            }
+          ],
+          "preFloor": {
+            "location": "ATHOME",
+            "positionIndex": 0,
+            "isColorPath": true,
+            "coord": {
+              "x": 400,
+              "y": 1000
+            },
+            "floorColor": "YELLOW",
+            "position": -4
+          },
+          "frontNumber": 1,
+          "colorId": 1,
+          "id": 4,
+          "playerId": 1
+        }
+      ],
+      "seedOut": [],
+      "iconId": 3,
+      "point": 0,
+      "lastPoint": 0,
+      "name": "Pacifistic",
+      "id": 1,
+      "gamecolorsId": [
+        1
+      ],
+      "isOnlineGame": false,
+      "bestSeed": null,
+      "bestDiceNo": 0,
+      "bestDiceIndex": -1,
+      "timer": 0,
+      "timeToStop": 0.4,
+      "bestValueDiceIndex": -1,
+      "bestValueSeed": -1,
+      "lastDiceIndex": 0,
+      "lastDiceNo": 0,
+      "isToss": false
+    },
+    {
+      "class": "com.mshdabiola.naijaludo.entity.player.computer.SemiSmartPlayer",
+      "homeSeed": [
+        {
+          "moveRemain": 57,
+          "color": "GREEN",
+          "homeFloor": {
+            "location": "ATHOME",
+            "positionIndex": 0,
+            "isColorPath": true,
+            "coord": {
+              "x": 1000,
+              "y": 1300
+            },
+            "floorColor": "GREEN",
+            "position": -1
+          },
+          "startFloor": {
+            "location": "START",
+            "positionIndex": 28,
+            "isColorPath": true,
+            "coord": {
+              "x": 800,
+              "y": 1300
+            },
+            "floorColor": "GREEN",
+            "position": 1
+          },
+          "currentFloor": {
+            "location": "ATHOME",
+            "positionIndex": 0,
+            "isColorPath": true,
+            "coord": {
+              "x": 1000,
+              "y": 1300
+            },
+            "floorColor": "GREEN",
+            "position": -1
+          },
+          "previousFloors": [
+            {
+              "location": "ATHOME",
+              "positionIndex": 0,
+              "isColorPath": true,
+              "coord": {
+                "x": 1000,
+                "y": 1300
+              },
+              "floorColor": "GREEN",
+              "position": -1
+            }
+          ],
+          "preFloor": {
+            "location": "SPACE",
+            "positionIndex": 7,
+            "isColorPath": false,
+            "coord": {
+              "x": 500,
+              "y": 600
+            },
+            "floorColor": "RED",
+            "position": 6
+          },
+          "frontNumber": 1,
+          "colorId": 2,
+          "id": 1,
+          "playerId": 2
+        },
+        {
+          "moveRemain": 27,
+          "color": "GREEN",
+          "homeFloor": {
+            "location": "ATHOME",
+            "positionIndex": 0,
+            "isColorPath": true,
+            "coord": {
+              "x": 1300,
+              "y": 1300
+            },
+            "floorColor": "GREEN",
+            "position": -2
+          },
+          "startFloor": {
+            "location": "START",
+            "positionIndex": 28,
+            "isColorPath": true,
+            "coord": {
+              "x": 800,
+              "y": 1300
+            },
+            "floorColor": "GREEN",
+            "position": 1
+          },
+          "currentFloor": {
+            "location": "SPACE",
+            "positionIndex": 5,
+            "isColorPath": false,
+            "coord": {
+              "x": 600,
+              "y": 400
+            },
+            "floorColor": "RED",
+            "position": 4
+          },
+          "previousFloors": [
+            {
+              "location": "SPACE",
+              "positionIndex": 29,
+              "isColorPath": false,
+              "coord": {
+                "x": 800,
+                "y": 1200
+              },
+              "floorColor": "GREEN",
+              "position": 2
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 30,
+              "isColorPath": false,
+              "coord": {
+                "x": 800,
+                "y": 1100
+              },
+              "floorColor": "GREEN",
+              "position": 3
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 31,
+              "isColorPath": false,
+              "coord": {
+                "x": 800,
+                "y": 1000
+              },
+              "floorColor": "GREEN",
+              "position": 4
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 32,
+              "isColorPath": false,
+              "coord": {
+                "x": 800,
+                "y": 900
+              },
+              "floorColor": "GREEN",
+              "position": 5
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 33,
+              "isColorPath": false,
+              "coord": {
+                "x": 900,
+                "y": 800
+              },
+              "floorColor": "GREEN",
+              "position": 6
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 34,
+              "isColorPath": false,
+              "coord": {
+                "x": 1000,
+                "y": 800
+              },
+              "floorColor": "GREEN",
+              "position": 7
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 35,
+              "isColorPath": false,
+              "coord": {
+                "x": 1100,
+                "y": 800
+              },
+              "floorColor": "GREEN",
+              "position": 8
+            },
+            {
+              "location": "CORNER",
+              "positionIndex": 36,
+              "isColorPath": false,
+              "coord": {
+                "x": 1200,
+                "y": 800
+              },
+              "floorColor": "GREEN",
+              "position": 9
+            },
+            {
+              "location": "CORNER",
+              "positionIndex": 37,
+              "isColorPath": false,
+              "coord": {
+                "x": 1300,
+                "y": 800
+              },
+              "floorColor": "GREEN",
+              "position": 10
+            },
+            {
+              "location": "CORNER",
+              "positionIndex": 38,
+              "isColorPath": false,
+              "coord": {
+                "x": 1400,
+                "y": 800
+              },
+              "floorColor": "GREEN",
+              "position": 11
+            },
+            {
+              "location": "CORNER",
+              "positionIndex": 52,
+              "isColorPath": false,
+              "coord": {
+                "x": 1400,
+                "y": 700
+              },
+              "floorColor": "BLUE",
+              "position": 12
+            },
+            {
+              "location": "CORNER",
+              "positionIndex": 40,
+              "isColorPath": false,
+              "coord": {
+                "x": 1400,
+                "y": 600
+              },
+              "floorColor": "BLUE",
+              "position": 0
+            },
+            {
+              "location": "START",
+              "positionIndex": 41,
+              "isColorPath": true,
+              "coord": {
+                "x": 1300,
+                "y": 600
+              },
+              "floorColor": "BLUE",
+              "position": 1
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 42,
+              "isColorPath": false,
+              "coord": {
+                "x": 1200,
+                "y": 600
+              },
+              "floorColor": "BLUE",
+              "position": 2
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 43,
+              "isColorPath": false,
+              "coord": {
+                "x": 1100,
+                "y": 600
+              },
+              "floorColor": "BLUE",
+              "position": 3
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 44,
+              "isColorPath": false,
+              "coord": {
+                "x": 1000,
+                "y": 600
+              },
+              "floorColor": "BLUE",
+              "position": 4
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 45,
+              "isColorPath": false,
+              "coord": {
+                "x": 900,
+                "y": 600
+              },
+              "floorColor": "BLUE",
+              "position": 5
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 46,
+              "isColorPath": false,
+              "coord": {
+                "x": 800,
+                "y": 500
+              },
+              "floorColor": "BLUE",
+              "position": 6
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 47,
+              "isColorPath": false,
+              "coord": {
+                "x": 800,
+                "y": 400
+              },
+              "floorColor": "BLUE",
+              "position": 7
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 48,
+              "isColorPath": false,
+              "coord": {
+                "x": 800,
+                "y": 300
+              },
+              "floorColor": "BLUE",
+              "position": 8
+            },
+            {
+              "location": "CORNER",
+              "positionIndex": 49,
+              "isColorPath": false,
+              "coord": {
+                "x": 800,
+                "y": 200
+              },
+              "floorColor": "BLUE",
+              "position": 9
+            },
+            {
+              "location": "CORNER",
+              "positionIndex": 50,
+              "isColorPath": false,
+              "coord": {
+                "x": 800,
+                "y": 100
+              },
+              "floorColor": "BLUE",
+              "position": 10
+            },
+            {
+              "location": "CORNER",
+              "positionIndex": 51,
+              "isColorPath": false,
+              "coord": {
+                "x": 800,
+                "y": 0
+              },
+              "floorColor": "BLUE",
+              "position": 11
+            },
+            {
+              "location": "CORNER",
+              "positionIndex": 13,
+              "isColorPath": false,
+              "coord": {
+                "x": 700,
+                "y": 0
+              },
+              "floorColor": "RED",
+              "position": 12
+            },
+            {
+              "location": "CORNER",
+              "positionIndex": 1,
+              "isColorPath": false,
+              "coord": {
+                "x": 600,
+                "y": 0
+              },
+              "floorColor": "RED",
+              "position": 0
+            },
+            {
+              "location": "START",
+              "positionIndex": 2,
+              "isColorPath": true,
+              "coord": {
+                "x": 600,
+                "y": 100
+              },
+              "floorColor": "RED",
+              "position": 1
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 3,
+              "isColorPath": false,
+              "coord": {
+                "x": 600,
+                "y": 200
+              },
+              "floorColor": "RED",
+              "position": 2
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 4,
+              "isColorPath": false,
+              "coord": {
+                "x": 600,
+                "y": 300
+              },
+              "floorColor": "RED",
+              "position": 3
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 5,
+              "isColorPath": false,
+              "coord": {
+                "x": 600,
+                "y": 400
+              },
+              "floorColor": "RED",
+              "position": 4
+            }
+          ],
+          "preFloor": {
+            "location": "START",
+            "positionIndex": 28,
+            "isColorPath": true,
+            "coord": {
+              "x": 800,
+              "y": 1300
+            },
+            "floorColor": "GREEN",
+            "position": 1
+          },
+          "frontNumber": 1,
+          "colorId": 2,
+          "id": 2,
+          "playerId": 2
+        },
+        {
+          "moveRemain": 22,
+          "color": "GREEN",
+          "homeFloor": {
+            "location": "ATHOME",
+            "positionIndex": 0,
+            "isColorPath": true,
+            "coord": {
+              "x": 1000,
+              "y": 1000
+            },
+            "floorColor": "GREEN",
+            "position": -3
+          },
+          "startFloor": {
+            "location": "START",
+            "positionIndex": 28,
+            "isColorPath": true,
+            "coord": {
+              "x": 800,
+              "y": 1300
+            },
+            "floorColor": "GREEN",
+            "position": 1
+          },
+          "currentFloor": {
+            "location": "CORNER",
+            "positionIndex": 10,
+            "isColorPath": false,
+            "coord": {
+              "x": 200,
+              "y": 600
+            },
+            "floorColor": "RED",
+            "position": 9
+          },
+          "previousFloors": [
+            {
+              "location": "SPACE",
+              "positionIndex": 29,
+              "isColorPath": false,
+              "coord": {
+                "x": 800,
+                "y": 1200
+              },
+              "floorColor": "GREEN",
+              "position": 2
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 30,
+              "isColorPath": false,
+              "coord": {
+                "x": 800,
+                "y": 1100
+              },
+              "floorColor": "GREEN",
+              "position": 3
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 31,
+              "isColorPath": false,
+              "coord": {
+                "x": 800,
+                "y": 1000
+              },
+              "floorColor": "GREEN",
+              "position": 4
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 32,
+              "isColorPath": false,
+              "coord": {
+                "x": 800,
+                "y": 900
+              },
+              "floorColor": "GREEN",
+              "position": 5
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 33,
+              "isColorPath": false,
+              "coord": {
+                "x": 900,
+                "y": 800
+              },
+              "floorColor": "GREEN",
+              "position": 6
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 34,
+              "isColorPath": false,
+              "coord": {
+                "x": 1000,
+                "y": 800
+              },
+              "floorColor": "GREEN",
+              "position": 7
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 35,
+              "isColorPath": false,
+              "coord": {
+                "x": 1100,
+                "y": 800
+              },
+              "floorColor": "GREEN",
+              "position": 8
+            },
+            {
+              "location": "CORNER",
+              "positionIndex": 36,
+              "isColorPath": false,
+              "coord": {
+                "x": 1200,
+                "y": 800
+              },
+              "floorColor": "GREEN",
+              "position": 9
+            },
+            {
+              "location": "CORNER",
+              "positionIndex": 37,
+              "isColorPath": false,
+              "coord": {
+                "x": 1300,
+                "y": 800
+              },
+              "floorColor": "GREEN",
+              "position": 10
+            },
+            {
+              "location": "CORNER",
+              "positionIndex": 38,
+              "isColorPath": false,
+              "coord": {
+                "x": 1400,
+                "y": 800
+              },
+              "floorColor": "GREEN",
+              "position": 11
+            },
+            {
+              "location": "CORNER",
+              "positionIndex": 52,
+              "isColorPath": false,
+              "coord": {
+                "x": 1400,
+                "y": 700
+              },
+              "floorColor": "BLUE",
+              "position": 12
+            },
+            {
+              "location": "CORNER",
+              "positionIndex": 40,
+              "isColorPath": false,
+              "coord": {
+                "x": 1400,
+                "y": 600
+              },
+              "floorColor": "BLUE",
+              "position": 0
+            },
+            {
+              "location": "START",
+              "positionIndex": 41,
+              "isColorPath": true,
+              "coord": {
+                "x": 1300,
+                "y": 600
+              },
+              "floorColor": "BLUE",
+              "position": 1
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 42,
+              "isColorPath": false,
+              "coord": {
+                "x": 1200,
+                "y": 600
+              },
+              "floorColor": "BLUE",
+              "position": 2
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 43,
+              "isColorPath": false,
+              "coord": {
+                "x": 1100,
+                "y": 600
+              },
+              "floorColor": "BLUE",
+              "position": 3
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 44,
+              "isColorPath": false,
+              "coord": {
+                "x": 1000,
+                "y": 600
+              },
+              "floorColor": "BLUE",
+              "position": 4
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 45,
+              "isColorPath": false,
+              "coord": {
+                "x": 900,
+                "y": 600
+              },
+              "floorColor": "BLUE",
+              "position": 5
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 46,
+              "isColorPath": false,
+              "coord": {
+                "x": 800,
+                "y": 500
+              },
+              "floorColor": "BLUE",
+              "position": 6
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 47,
+              "isColorPath": false,
+              "coord": {
+                "x": 800,
+                "y": 400
+              },
+              "floorColor": "BLUE",
+              "position": 7
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 48,
+              "isColorPath": false,
+              "coord": {
+                "x": 800,
+                "y": 300
+              },
+              "floorColor": "BLUE",
+              "position": 8
+            },
+            {
+              "location": "CORNER",
+              "positionIndex": 49,
+              "isColorPath": false,
+              "coord": {
+                "x": 800,
+                "y": 200
+              },
+              "floorColor": "BLUE",
+              "position": 9
+            },
+            {
+              "location": "CORNER",
+              "positionIndex": 50,
+              "isColorPath": false,
+              "coord": {
+                "x": 800,
+                "y": 100
+              },
+              "floorColor": "BLUE",
+              "position": 10
+            },
+            {
+              "location": "CORNER",
+              "positionIndex": 51,
+              "isColorPath": false,
+              "coord": {
+                "x": 800,
+                "y": 0
+              },
+              "floorColor": "BLUE",
+              "position": 11
+            },
+            {
+              "location": "CORNER",
+              "positionIndex": 13,
+              "isColorPath": false,
+              "coord": {
+                "x": 700,
+                "y": 0
+              },
+              "floorColor": "RED",
+              "position": 12
+            },
+            {
+              "location": "CORNER",
+              "positionIndex": 1,
+              "isColorPath": false,
+              "coord": {
+                "x": 600,
+                "y": 0
+              },
+              "floorColor": "RED",
+              "position": 0
+            },
+            {
+              "location": "START",
+              "positionIndex": 2,
+              "isColorPath": true,
+              "coord": {
+                "x": 600,
+                "y": 100
+              },
+              "floorColor": "RED",
+              "position": 1
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 3,
+              "isColorPath": false,
+              "coord": {
+                "x": 600,
+                "y": 200
+              },
+              "floorColor": "RED",
+              "position": 2
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 4,
+              "isColorPath": false,
+              "coord": {
+                "x": 600,
+                "y": 300
+              },
+              "floorColor": "RED",
+              "position": 3
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 5,
+              "isColorPath": false,
+              "coord": {
+                "x": 600,
+                "y": 400
+              },
+              "floorColor": "RED",
+              "position": 4
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 6,
+              "isColorPath": false,
+              "coord": {
+                "x": 600,
+                "y": 500
+              },
+              "floorColor": "RED",
+              "position": 5
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 7,
+              "isColorPath": false,
+              "coord": {
+                "x": 500,
+                "y": 600
+              },
+              "floorColor": "RED",
+              "position": 6
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 8,
+              "isColorPath": false,
+              "coord": {
+                "x": 400,
+                "y": 600
+              },
+              "floorColor": "RED",
+              "position": 7
+            },
+            {
+              "location": "SPACE",
+              "positionIndex": 9,
+              "isColorPath": false,
+              "coord": {
+                "x": 300,
+                "y": 600
+              },
+              "floorColor": "RED",
+              "position": 8
+            },
+            {
+              "location": "CORNER",
+              "positionIndex": 10,
+              "isColorPath": false,
+              "coord": {
+                "x": 200,
+                "y": 600
+              },
+              "floorColor": "RED",
+              "position": 9
+            }
+          ],
+          "preFloor": {
+            "location": "START",
+            "positionIndex": 28,
+            "isColorPath": true,
+            "coord": {
+              "x": 800,
+              "y": 1300
+            },
+            "floorColor": "GREEN",
+            "position": 1
+          },
+          "frontNumber": 1,
+          "colorId": 2,
+          "id": 3,
+          "playerId": 2
+        },
+        {
+          "moveRemain": 57,
+          "color": "GREEN",
+          "homeFloor": {
+            "location": "ATHOME",
+            "positionIndex": 0,
+            "isColorPath": true,
+            "coord": {
+              "x": 1300,
+              "y": 1000
+            },
+            "floorColor": "GREEN",
+            "position": -4
+          },
+          "startFloor": {
+            "location": "START",
+            "positionIndex": 28,
+            "isColorPath": true,
+            "coord": {
+              "x": 800,
+              "y": 1300
+            },
+            "floorColor": "GREEN",
+            "position": 1
+          },
+          "currentFloor": {
+            "location": "ATHOME",
+            "positionIndex": 0,
+            "isColorPath": true,
+            "coord": {
+              "x": 1300,
+              "y": 1000
+            },
+            "floorColor": "GREEN",
+            "position": -4
+          },
+          "previousFloors": [
+            {
+              "location": "ATHOME",
+              "positionIndex": 0,
+              "isColorPath": true,
+              "coord": {
+                "x": 1300,
+                "y": 1000
+              },
+              "floorColor": "GREEN",
+              "position": -4
+            }
+          ],
+          "preFloor": {
+            "location": "SPACE",
+            "positionIndex": 44,
+            "isColorPath": false,
+            "coord": {
+              "x": 1000,
+              "y": 600
+            },
+            "floorColor": "BLUE",
+            "position": 4
+          },
+          "frontNumber": 1,
+          "colorId": 2,
+          "id": 4,
+          "playerId": 2
+        }
+      ],
+      "seedOut": [],
+      "iconId": 5,
+      "point": 0,
+      "lastPoint": 0,
+      "name": "SemiSmart",
+      "id": 2,
+      "gamecolorsId": [
+        2
+      ],
+      "isOnlineGame": false,
+      "bestSeed": null,
+      "bestDiceNo": 0,
+      "bestDiceIndex": -1,
+      "timer": 0,
+      "timeToStop": 0.4,
+      "bestValueDiceIndex": -1,
+      "bestValueSeed": -1,
+      "lastDiceIndex": 0,
+      "lastDiceNo": 0,
+      "isToss": false
+    }
+  ],
+  "gameController": {
+    "isActivate": true,
+    "playerId": 0,
+    "currentSeed": null,
+    "currentState": "TOSS",
+    "currentPlayerIndex": 0,
+    "currentDiceIndex": -1,
+    "currentDiceNo": 0,
+    "noSeedActivated": 0,
+    "animate": true,
+    "assistant": true,
+    "winnerMap": {},
+    "prevState": "TOSS",
+    "timer": 0,
+    "time": 1,
+    "seedToSend": null,
+    "sendCurrentPlayerIndex": -1,
+    "sendChooseDiceIndex": -1,
+    "sendDiceValue": null
+  },
+  "diceController": {
+    "tossDice": true,
+    "locArray": [
+      100,
+      200,
+      300,
+      400,
+      500,
+      600,
+      700,
+      800,
+      900,
+      1000,
+      1100,
+      1200,
+      1300
+    ],
+    "value": [
+      0,
+      0,
+      0
+    ],
+    "valueHolder": [
+      0,
+      0,
+      0
+    ]
+  }
+}

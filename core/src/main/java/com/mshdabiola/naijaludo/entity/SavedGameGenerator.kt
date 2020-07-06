@@ -11,11 +11,11 @@ import kotlin.random.Random
 
 class SavedGameGenerator {
     val pathArray = arrayOf(
-            "a", "fa", "prs", "rf", "sr",
+            "a", "fa", "prs", "rf", "p",
             "ap", "frp", "ps", "r", "sap",
             "apf", "fp", "psf", "rp", "sfa",
             "as", "far", "pa", "rps", "s",
-            "asr", "f", "p", "rpa", "sf"
+            "asr", "f", "sr", "rpa", "sf"
 
     )
 
@@ -44,11 +44,11 @@ class SavedGameGenerator {
 
 
     fun getGameLogic(level: Int): GameLogic {
-        val levelModule = level % 25
+        val levelModule = level % pathArray.size
         val stringNames = pathArray[levelModule]
         val playerNames = "h$stringNames"
         val numberOfPlayer = playerNames.length
-        val colors = getColors(numberOfPlayer)
+        val colors = getColors(numberOfPlayer, level)
         val pawnFloors = getRandomArray(numberOfPlayer, level)
 
         val arrayOfPlayer = Array(numberOfPlayer) {
@@ -130,7 +130,7 @@ class SavedGameGenerator {
         }
     }
 
-    fun getColors(playerSize: Int): Array<IntArray> {
+    fun getColors(playerSize: Int, level: Int): Array<IntArray> {
         return when (playerSize) {
             1 -> {
                 arrayOf(intArrayOf(0, 1, 2, 3))
@@ -141,7 +141,12 @@ class SavedGameGenerator {
 
             }
             3 -> {
-                arrayOf(intArrayOf(0), intArrayOf(1), intArrayOf(2))
+                if (level % 2 == 0) {
+                    arrayOf(intArrayOf(0), intArrayOf(1), intArrayOf(2))
+                } else {
+                    arrayOf(intArrayOf(0), intArrayOf(1), intArrayOf(3))
+                }
+
             }
             else -> {
                 arrayOf(intArrayOf(0), intArrayOf(1), intArrayOf(2), intArrayOf(3))
