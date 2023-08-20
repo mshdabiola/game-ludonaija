@@ -29,8 +29,8 @@ android {
         applicationId "com.mshdabiola.naijaludo"
         minSdkVersion 14
         targetSdkVersion 34
-        versionCode 1
-        versionName "1.0"
+        versionCode 8
+        versionName "2023.8.20"
     }
     buildTypes {
         release {
