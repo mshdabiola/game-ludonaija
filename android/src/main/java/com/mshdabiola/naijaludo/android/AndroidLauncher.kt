@@ -17,8 +17,8 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.badlogic.gdx.backends.android.AndroidApplication
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration
 import com.badlogic.gdx.files.FileHandle
-import com.google.android.gms.ads.*
-import com.google.android.gms.appinvite.AppInviteInvitation
+//import com.google.android.gms.ads.*
+//import com.google.android.gms.appinvite.AppInviteInvitation
 import com.mshdabiola.naijaludo.R
 import com.mshdabiola.naijaludo.android.wifipeer2peer.P2pServiceFinder
 import com.mshdabiola.naijaludo.entity.connection.*
@@ -206,7 +206,7 @@ class AndroidLauncher : AndroidApplication(), CoroutineScope by CoroutineScope(D
             log("time to setup ui is $timeSetupUi")
 
             launch { setConnection() }
-            launch { setUpAd() }
+           // launch { setUpAd() }
 
         }
 
@@ -243,15 +243,15 @@ class AndroidLauncher : AndroidApplication(), CoroutineScope by CoroutineScope(D
         val iconFile = FileHandle("icon.png")
 
 
-        val i = AppInviteInvitation.IntentBuilder("Install best game LUDONAIJA")
-                .setCallToActionText("INSTALL")
-                .setMessage("Install best Ludo game on Play store ")
+//        val i = AppInviteInvitation.IntentBuilder("Install best game LUDONAIJA")
+//                .setCallToActionText("INSTALL")
+//                .setMessage("Install best Ludo game on Play store ")
 
-        if (iconFile.exists()) {
-            log("iconfile exists")
-            i.setCustomImage(Uri.parse(iconFile.path()))
-        }
-        startActivityForResult(i.build(), 1000)
+//        if (iconFile.exists()) {
+//            log("iconfile exists")
+//            i.setCustomImage(Uri.parse(iconFile.path()))
+//        }
+//        startActivityForResult(i.build(), 1000)
 
 //        startActivity(i.build())
 
@@ -298,35 +298,35 @@ class AndroidLauncher : AndroidApplication(), CoroutineScope by CoroutineScope(D
         set.applyTo(layout.await())
     }
 
-    private suspend fun setUpAd() {
-        val testDevice = Arrays.asList("E5E6F4890A489D152144C2B40672C646")
-        MobileAds.initialize(this)
-        MobileAds.setRequestConfiguration(RequestConfiguration.Builder().setTestDeviceIds(testDevice).build())
-
-
-        val testBanner = "ca-app-pub-3940256099942544/6300978111"
-        val banner = AdView(this)
-        banner.id = R.id.banner
-        banner.adSize = AdSize.BANNER
-
-        banner.adUnitId = testBanner
-        val adRequest = AdRequest.Builder().build()
-        val isTest = adRequest.isTestDevice(this)
-        log("is this device test $isTest")
-
-        val paras = CoordinatorLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-        paras.gravity = Gravity.BOTTOM
-
-
-
-
-        withContext(Dispatchers.Main) {
-            coordinatorLayout.await().addView(banner, paras)
-            banner.loadAd(adRequest)
-        }
-
-
-    }
+//    private suspend fun setUpAd() {
+//        val testDevice = Arrays.asList("E5E6F4890A489D152144C2B40672C646")
+//        MobileAds.initialize(this)
+//        MobileAds.setRequestConfiguration(RequestConfiguration.Builder().setTestDeviceIds(testDevice).build())
+//
+//
+//        val testBanner = "ca-app-pub-3940256099942544/6300978111"
+//        val banner = AdView(this)
+//        banner.id = R.id.banner
+//        banner.adSize = AdSize.BANNER
+//
+//        banner.adUnitId = testBanner
+//        val adRequest = AdRequest.Builder().build()
+//        val isTest = adRequest.isTestDevice(this)
+//        log("is this device test $isTest")
+//
+//        val paras = CoordinatorLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+//        paras.gravity = Gravity.BOTTOM
+//
+//
+//
+//
+//        withContext(Dispatchers.Main) {
+//            coordinatorLayout.await().addView(banner, paras)
+//            banner.loadAd(adRequest)
+//        }
+//
+//
+//    }
 
     private fun setConnection() {
         connectInterface = naijaludo.connectInterface
